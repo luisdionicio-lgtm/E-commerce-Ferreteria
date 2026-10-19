@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+!.env.*.example
+playwright-report/
+test-results/
+coverage/
+*.tsbuildinfo
+backend/data/
+*.log
+.DS_Store
+# Archivo antiguo sin uso; las imágenes actuales son fotografías web referenciales.
+frontend/public/images/ferremax-drill-pro.png

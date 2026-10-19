@@ -1,0 +1,224 @@
+generator client {
+ provider = "prisma-client-js"
+}
+datasource db {
+ provider = "mysql"
+ url = env("DATABASE_URL")
+}
+
+model User {
+ id String @id
+ name String
+ email String @unique
+ passwordHash String
+ role String
+ active Boolean @default(true)
+ movements InventoryMovement[]
+ purchases Purchase[]
+ sales Sale[]
+ auditLogs AuditLog[]
+ sessions Session[]
+}
+
+model Category {
+ id String @id
+ name String
+ active Boolean @default(true)
+ products Product[]
+}
+
+model Product {
+ id String @id
+ sku String @unique
+ slug String @unique
+ name String
+ brand String
+ categoryId String
+ price Int
+ minStock Int
+ unit String
+ image String
+ description String @db.Text
+ active Boolean @default(true)
+ featured Boolean @default(false)
+ category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+ @@index([categoryId])
+ lots InventoryLot[]
+ movements InventoryMovement[]
+ purchaseItems PurchaseItem[]
+ saleItems SaleItem[]
+ orderItems OrderItem[]
+}
+
+model InventoryLot {
+ id String @id
+ productId String
+ code String
+ quantity Int
+ cost Int
+ expiresAt String?
+ product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+ @@index([productId])
+ movements InventoryMovement[]
+}
+
+model InventoryMovement {
+ id String @id
+ productId String
+ lotId String
+ type String
+ quantity Int
+ reason String
+ reference String
+ userId String
+ createdAt String
+ product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+ @@index([productId])
+ lot InventoryLot @relation(fields: [lotId], references: [id], onDelete: Restrict)
+ @@index([lotId])
+ user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+ @@index([userId])
+}
+
+model Supplier {
+ id String @id
+ name String
+ ruc String
+ contact String
+ phone String
+ email String
+ active Boolean @default(true)
+ purchases Purchase[]
+}
+
+model Customer {
+ id String @id
+ name String
+ document String
+ phone String
+ email String
+ active Boolean @default(true)
+ sales Sale[]
+}
+
+model Purchase {
+ id String @id
+ supplierId String
+ userId String
+ status String
+ total Int
+ createdAt String
+ supplier Supplier @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+ @@index([supplierId])
+ user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+ @@index([userId])
+ items PurchaseItem[]
+}
+
+model PurchaseItem {
+ id String @id
+ purchaseId String
+ productId String
+ quantity Int
+ cost Int
+ expiresAt String?
+ purchase Purchase @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+ @@index([purchaseId])
+ product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+ @@index([productId])
+}
+
+model Sale {
+ id String @id
+ customerId String?
+ orderId String? @unique
+ userId String
+ status String
+ total Int
+ payment String
+ createdAt String
+ customer Customer? @relation(fields: [customerId], references: [id], onDelete: Restrict)
+ @@index([customerId])
+ order Order? @relation(fields: [orderId], references: [id], onDelete: Restrict)
+ @@index([orderId])
+ user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+ @@index([userId])
+ items SaleItem[]
+}
+
+model SaleItem {
+ id String @id
+ saleId String
+ productId String
+ quantity Int
+ price Int
+ sale Sale @relation(fields: [saleId], references: [id], onDelete: Restrict)
+ @@index([saleId])
+ product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+ @@index([productId])
+}
+
+model Order {
+ id String @id
+ customerName String
+ phone String
+ email String
+ address String
+ status String
+ total Int
+ createdAt String
+ sale Sale?
+ items OrderItem[]
+}
+
+model OrderItem {
+ id String @id
+ orderId String
+ productId String
+ quantity Int
+ price Int
+ order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+ @@index([orderId])
+ product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+ @@index([productId])
+}
+
+model Renewal {
+ id String @id
+ name String
+ dueDate String
+ responsible String
+ status String
+ notes String @db.Text
+
+}
+
+model AuditLog {
+ id String @id
+ userId String
+ action String
+ entity String
+ entityId String
+ createdAt String
+ user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+ @@index([userId])
+}
+
+model Setting {
+ id String @id
+ name String
+ phone String
+ address String
+ email String
+ currency String
+
+}
+
+model Session {
+ id String @id
+ userId String
+ tokenHash String @unique
+ expiresAt String
+ user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+ @@index([userId])
+}

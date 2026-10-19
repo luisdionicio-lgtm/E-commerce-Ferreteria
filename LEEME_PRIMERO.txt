@@ -1,0 +1,22 @@
+FERREMAX · TIENDA + PANEL ADMINISTRATIVO
+
+1. Descomprime toda la carpeta ferremax. No ejecutes dentro del ZIP.
+2. Instala Node.js 22.12 o superior (Node 24 LTS también funciona).
+3. VS Code > Archivo > Abrir carpeta > ferremax.
+4. Terminal > Nueva terminal:
+   npm.cmd ci        (Windows PowerShell)
+   npm.cmd run dev
+   En Mac usa npm ci y npm run dev.
+5. Abre http://localhost:5173
+   Panel: http://localhost:5173/login
+
+Administrador: admin@ferremax.pe / FerreMax2026!
+Empleado: empleado@ferremax.pe / Empleado2026!
+
+Alternativa Windows: .\start-windows.bat
+Alternativa Mac: bash start-mac.sh
+
+Se incluyen datos ficticios, ilustraciones SVG originales y modo demo
+persistente sin MySQL. El catálogo, las compras, ventas y pedidos funcionan.
+Consulta README.md para activar MySQL, comandos y alcance de esta versión.
+No incluye cobros reales, comprobantes SUNAT ni despliegue público.

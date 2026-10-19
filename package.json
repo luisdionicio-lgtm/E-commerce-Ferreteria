@@ -1,0 +1,33 @@
+{
+  "name": "ferremax",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "postinstall": "npm run db:generate",
+    "dev": "concurrently -k -n API,WEB -c yellow,cyan \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "start": "npm run start -w backend",
+    "test": "npm run test -w backend",
+    "test:e2e": "playwright test",
+    "format": "prettier --write frontend/src backend/src backend/tests tests playwright.config.ts tokens.css",
+    "format:check": "prettier --check frontend/src backend/src backend/tests tests playwright.config.ts tokens.css",
+    "db:generate": "npm run db:generate -w backend",
+    "db:push": "npm run db:push -w backend",
+    "db:seed": "npm run db:seed -w backend"
+  },
+  "overrides": {
+    "@prisma/config": {
+      "deepmerge-ts": "^8.0.0",
+      "effect": "^3.20.0"
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "concurrently": "^9.2.1",
+    "prettier": "^3.9.10"
+  }
+}
