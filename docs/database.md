@@ -2,6 +2,8 @@
 
 El esquema completo está en `backend/prisma/schema.prisma`. El demo JSON tiene las mismas entidades con nombres de colección.
 
+Los usuarios registrados desde la tienda tienen rol `CUSTOMER`; las cuentas del personal usan `ADMIN` o `EMPLOYEE`. El modelo `Customer` representa contactos comerciales y no credenciales de acceso. No se almacenan contraseñas en texto plano. El seed MySQL incluye proveedores, compras y sus líneas además del catálogo y los lotes.
+
 | Modelo Prisma | Colección demo | Propósito |
 | --- | --- | --- |
 | User / Session | users / sessions | Usuarios, roles, hash y sesiones |

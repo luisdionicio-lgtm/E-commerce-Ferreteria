@@ -5,6 +5,7 @@ Base local: `http://localhost:3001/api`. Importes monetarios en céntimos. Rutas
 | Método | Ruta | Acceso |
 | --- | --- | --- |
 | GET | /health | Público |
+| POST | /auth/register | Público: name/email/password; crea CUSTOMER |
 | POST | /auth/login | Público: email/password |
 | POST | /auth/refresh, /auth/logout | Cookie de sesión |
 | GET | /catalog/products?q=&category= | Público |
@@ -28,6 +29,8 @@ Base local: `http://localhost:3001/api`. Importes monetarios en céntimos. Rutas
 | GET | /admin/audit | Admin |
 
 Confirmar pedido: `POST /admin/sales` con `{"orderId":"ID","items":[],"payment":"EFECTIVO"}`. Las líneas y el precio se obtienen en servidor.
+
+Registro público: nombre de 2 a 100 caracteres, correo válido de hasta 180 y contraseña de 10 a 72. No acepta un rol enviado por el cliente. Responde 201 con usuario público y token; el refresh se entrega como cookie HttpOnly. Correo duplicado: 409. El rol CUSTOMER no puede consultar ni modificar ninguna ruta `/admin`.
 
 Venta directa:
 
