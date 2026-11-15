@@ -1,5 +1,11 @@
 # Imágenes referenciales del catálogo
 
+## Ampliación de vistas y aplicaciones — 14 de noviembre de 2026
+
+Se añadieron ocho imágenes de las mismas fichas públicas de Promart ya documentadas: dos de pintura Vencedor (envase y ambiente), una de aplicación de Sikacryl-200, una de cemento Sol en obra y cuatro de la amoladora Bosch GWS 850 (vista frontal y tres aplicaciones). Se descartó una composición de pintura con exceso de espacio vacío tras la revisión visual.
+
+Las fuentes exactas permanecen en los dos archivos JSON del catálogo. Las escenas publicadas por la tienda son referencias comerciales; no representan obras propias de FerreMax. Se conservaron los precios existentes.
+
 ## Más vistas por tipo de producto — 14 de noviembre de 2026
 
 Se incorporaron 15 imágenes adicionales de Internet y se habilitó una fotografía Bosch de aplicación ya incluida. Las seis categorías del catálogo tienen ahora productos con varias vistas. No se cambiaron los precios en esta ampliación.

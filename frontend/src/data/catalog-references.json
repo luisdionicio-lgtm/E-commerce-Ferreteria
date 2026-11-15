@@ -4,12 +4,16 @@
     "imageSources": [
       "https://promart.vteximg.com.br/arquivos/ids/8887867/137293.jpg?v=638845948996570000",
       "https://promart.vteximg.com.br/arquivos/ids/8887868/137293_0.jpg?v=638845948999530000",
-      "https://promart.vteximg.com.br/arquivos/ids/8887869/137293_1.jpg?v=638845949002600000"
+      "https://promart.vteximg.com.br/arquivos/ids/8887869/137293_1.jpg?v=638845949002600000",
+      "https://promart.vteximg.com.br/arquivos/ids/8887870/137293_10.jpg?v=638845949005270000",
+      "https://promart.vteximg.com.br/arquivos/ids/8887872/137293_20.jpg?v=638845949010900000"
     ],
     "images": [
       "/images/reference/paint-vencedor-promart-1.jpg",
       "/images/reference/paint-vencedor-promart-2.jpg",
-      "/images/reference/paint-vencedor-promart-3.jpg"
+      "/images/reference/paint-vencedor-promart-3.jpg",
+      "/images/reference/paint-vencedor-web-4.jpg",
+      "/images/reference/paint-vencedor-web-6.jpg"
     ],
     "store": "Promart Perú",
     "checkedAt": "2026-11-14",
@@ -22,12 +26,14 @@
     "imageSources": [
       "https://promart.vteximg.com.br/arquivos/ids/8118308/96907.jpg?v=638611000293070000",
       "https://promart.vteximg.com.br/arquivos/ids/8118309/96907_20.jpg?v=638611000295400000",
-      "https://promart.vteximg.com.br/arquivos/ids/8118310/96907_21.jpg?v=638611000299470000"
+      "https://promart.vteximg.com.br/arquivos/ids/8118310/96907_21.jpg?v=638611000299470000",
+      "https://promart.vteximg.com.br/arquivos/ids/8118311/96907_60.jpg?v=638611000301630000"
     ],
     "images": [
       "/images/reference/sealant-sika-promart-1.jpg",
       "/images/reference/sealant-sika-promart-2.jpg",
-      "/images/reference/sealant-sika-promart-3.jpg"
+      "/images/reference/sealant-sika-promart-3.jpg",
+      "/images/reference/sealant-sika-web-4.jpg"
     ],
     "store": "Promart Perú",
     "checkedAt": "2026-11-14",
@@ -40,12 +46,14 @@
     "imageSources": [
       "https://promart.vteximg.com.br/arquivos/ids/9975675/22662.jpg?v=639121427573830000",
       "https://promart.vteximg.com.br/arquivos/ids/9975676/22662_0.jpg?v=639121427574130000",
-      "https://promart.vteximg.com.br/arquivos/ids/9975677/22662_1.jpg?v=639121427574170000"
+      "https://promart.vteximg.com.br/arquivos/ids/9975677/22662_1.jpg?v=639121427574170000",
+      "https://promart.vteximg.com.br/arquivos/ids/9975678/22662_20.jpg?v=639121427574230000"
     ],
     "images": [
       "/images/reference/cement-sol-promart-1.jpg",
       "/images/reference/cement-sol-promart-2.jpg",
-      "/images/reference/cement-sol-promart-3.jpg"
+      "/images/reference/cement-sol-promart-3.jpg",
+      "/images/reference/cement-sol-web-4.jpg"
     ],
     "store": "Promart Perú",
     "checkedAt": "2026-11-14",

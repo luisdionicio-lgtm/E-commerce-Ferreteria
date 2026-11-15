@@ -20,14 +20,22 @@
     "imageSources": [
       "https://promart.vteximg.com.br/arquivos/ids/6891891/118197.jpg?v=638160943992600000",
       "https://promart.vteximg.com.br/arquivos/ids/6891892/118197_1.jpg?v=638160943996670000",
-      "https://promart.vteximg.com.br/arquivos/ids/6891893/118197_10.jpg?v=638160943999930000"
+      "https://promart.vteximg.com.br/arquivos/ids/6891893/118197_10.jpg?v=638160943999930000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891894/118197_11.jpg?v=638160944003230000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891895/118197_20.jpg?v=638160944007600000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891896/118197_21.jpg?v=638160944011600000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891897/118197_22.jpg?v=638160944015370000"
     ],
     "store": "Promart Perú",
     "source": "https://www.promart.pe/amoladora-gws-850-850w-4-1-2-/p",
     "images": [
       "/images/reference/grinder-bosch-extra-1.jpg",
       "/images/reference/grinder-bosch-extra-2.jpg",
-      "/images/reference/grinder-bosch-extra-3.jpg"
+      "/images/reference/grinder-bosch-extra-3.jpg",
+      "/images/reference/grinder-bosch-web-4.jpg",
+      "/images/reference/grinder-bosch-web-5.jpg",
+      "/images/reference/grinder-bosch-web-6.jpg",
+      "/images/reference/grinder-bosch-web-7.jpg"
     ],
     "note": "Vistas del producto; accesorios a confirmar.",
     "name": "Amoladora Angular Bosch GWS 850 M14 850W",

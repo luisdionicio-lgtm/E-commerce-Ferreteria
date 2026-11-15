@@ -218,6 +218,10 @@ Las seis categorías tienen productos con varias vistas: herramientas, pinturas,
 
 ![Galería del set Stanley con vista de sus dados](docs/previews/09-galerias-productos.png)
 
+Se añadieron otras ocho imágenes de envases, ambientes y aplicaciones de Vencedor, Sika, Sol y Bosch. Las galerías ampliadas se comprobaron en móvil, incluyendo la selección de cada miniatura y la carga de su imagen.
+
+![Galería Bosch con fotografías de aplicación publicadas por Promart](docs/previews/10-mas-vistas-productos.png)
+
 Se añadieron nueve vistas de producto, características y aplicación procedentes de Promart Perú. Las fichas de pintura Vencedor, sellador Sikacryl-200 y cemento Sol muestran el enlace a la fuente y la fecha de consulta (14/11/2026).
 
 | Producto | Precio publicado consultado |
