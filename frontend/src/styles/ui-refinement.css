@@ -669,6 +669,7 @@ textarea::placeholder {
   font-size: 13px;
 }
 .admin-content .alert-products small,
+.admin-content .recent-sales small,
 .admin-content .top-products small,
 .admin-content .popular-products small {
   color: #4d5c50;

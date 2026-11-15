@@ -1,5 +1,9 @@
 # Verificación de esta entrega
 
+## Corrección del contraste detectado por GitHub Actions
+
+La ejecución de CI del commit `f2a3c5f` detectó contraste insuficiente (2,43:1) en las fechas y medios de pago de «Últimas ventas». El modo JSON de CI incluía ventas históricas; MySQL local tenía esa lista vacía. Se corrigió el texto a `#4d5c50` con tamaño de 13 px y la prueba de UI ahora garantiza dos ventas visibles mediante una respuesta interceptada solo en el navegador de prueba, sin modificar datos de la base. Se conserva la comprobación de contraste completa.
+
 ## Contraste, tipografía y organización de Mi cuenta
 
 - Fuentes locales Barlow Condensed y Source Sans 3 con sus licencias OFL; portada, catálogo y panel comparten criterios de lectura y acciones.

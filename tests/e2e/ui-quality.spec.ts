@@ -21,12 +21,36 @@ test('UI pública: fuentes locales y contraste en portada, catálogo e ingreso',
 test('Mi cuenta: perfil, compra y administración separados y cabecera sin recortes', async ({
   page,
 }) => {
+  // Garantiza que también se revise el estado con ventas cuando MySQL local está vacío.
+  // Solo modifica la respuesta en este navegador de prueba; no escribe en la base.
+  await page.route('**/api/admin/dashboard', async (route) => {
+    const response = await route.fetch();
+    const data = await response.json();
+    data.recentSales = [
+      {
+        id: 'contraste-venta-1',
+        createdAt: '2026-11-14T15:00:00.000Z',
+        payment: 'YAPE',
+        total: 3550,
+        status: 'CONFIRMADA',
+      },
+      {
+        id: 'contraste-venta-2',
+        createdAt: '2026-11-13T15:00:00.000Z',
+        payment: 'EFECTIVO',
+        total: 10500,
+        status: 'CONFIRMADA',
+      },
+    ];
+    await route.fulfill({ response, json: data });
+  });
   await page.goto('/login');
   await page.getByLabel('Correo electrónico').fill('admin@ferremax.pe');
   await page.getByLabel('Contraseña', { exact: true }).fill('FerreMax2026!');
   await page.getByRole('button', { name: 'Ingresar al panel', exact: true }).click();
   await expect(page).toHaveURL(/admin\/dashboard/);
   await expect(page.locator('.page-header h1')).toBeVisible();
+  await expect(page.locator('.recent-sales small')).toHaveCount(2);
   const dashboard = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
   expect(dashboard.violations).toEqual([]);
   for (const width of [1440, 768, 375, 320]) {
