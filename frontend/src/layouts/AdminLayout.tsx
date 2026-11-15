@@ -22,6 +22,7 @@ import {
   Search,
   Bell,
   X,
+  WalletCards,
 } from 'lucide-react';
 import { useApp } from '../state/context';
 import { Loading } from '../components/ui';
@@ -41,6 +42,7 @@ const groups = [
       ['compras', 'Compras', ShoppingCart],
       ['ventas', 'Ventas', Receipt],
       ['pedidos', 'Pedidos web', ShoppingBag],
+      ['pagos', 'Pagos de pedidos', WalletCards],
       ['proveedores', 'Proveedores', Truck],
       ['clientes', 'Clientes', Users],
     ],
@@ -95,7 +97,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               {g.items
                 .filter(
                   ([key]) =>
-                    user.role === 'ADMIN' || !['usuarios', 'configuracion'].includes(key as string),
+                    user.role === 'ADMIN' ||
+                    !['usuarios', 'configuracion', 'pagos'].includes(key as string),
                 )
                 .map(([key, label, Icon]: any) => (
                   <NavLink key={key} to={'/admin/' + key} onClick={() => setOpen(false)}>

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import QRCode from 'qrcode';
-import type { Row, Unit } from '../../shared/types.js';
+import type { Unit } from '../../shared/types.js';
 import { ensure } from '../../shared/errors.js';
 import { ownedOrder, orderView } from '../orders/orders.service.js';
 import { createSale } from '../operations/operations.service.js';
@@ -86,10 +86,22 @@ export async function paymentScreen(
     demo: payment.mode === 'demo',
   };
 }
-export async function reportPayment(u: Unit, orderId: string, userId: string, reference: string) {
+export async function reportPayment(
+  u: Unit,
+  orderId: string,
+  userId: string,
+  reference: string,
+  config: PaymentConfig,
+) {
+  reference = reference.toUpperCase();
   const order = await ownedOrder(u, orderId, userId);
   ensure(order.status === 'PENDIENTE', 'Pedido ya procesado', 409);
   const payment = await paymentForOrder(u, orderId);
+  ensure(
+    config.mode !== 'disabled' && (!config.production || payment?.mode !== 'demo'),
+    'Este pago no está habilitado',
+    403,
+  );
   ensure(
     payment && ['CREADO', 'RECHAZADO'].includes(payment.status),
     'Este pago ya está en revisión o fue procesado',
@@ -110,10 +122,17 @@ export async function reportPayment(u: Unit, orderId: string, userId: string, re
     updatedAt: new Date().toISOString(),
   });
 }
-export async function approvePayment(u: Unit, id: string, actorId: string, demo = false) {
+export async function approvePayment(
+  u: Unit,
+  id: string,
+  actorId: string,
+  demo = false,
+  note = '',
+) {
   const payment = await u.get('payments', id);
   ensure(payment, 'Pago no encontrado', 404);
   if (payment.status === 'APROBADO') return payment;
+  ensure(payment.mode === 'demo' || payment.reference, 'Falta la referencia de la operación', 409);
   ensure(
     demo
       ? ['CREADO', 'EN_REVISION', 'RECHAZADO'].includes(payment.status)
@@ -124,15 +143,22 @@ export async function approvePayment(u: Unit, id: string, actorId: string, demo 
   const order = await u.get('orders', payment.orderId);
   ensure(order && order.total === payment.amount, 'El importe del pedido no coincide', 409);
   // Pago, venta y salida de inventario se confirman en la misma transacción.
-  await createSale(u, { orderId: order.id, items: [], payment: 'YAPE' }, actorId, payment.id);
+  const sale = await createSale(
+    u,
+    { orderId: order.id, items: [], payment: 'YAPE' },
+    actorId,
+    payment.id,
+  );
+  ensure(sale.total === payment.amount, 'La venta no coincide con el importe del pago', 409);
   await audit(u, actorId, demo ? 'SIMULAR_PAGO_APROBADO' : 'VERIFICAR_PAGO', id);
   return u.update('payments', id, {
     status: 'APROBADO',
     reference: payment.reference || `DEMO-${randomUUID()}`,
     reviewedBy: actorId,
-    reviewNote: demo
-      ? 'Aprobación simulada. No se transfirió dinero.'
-      : 'Verificado manualmente por el personal.',
+    reviewNote:
+      payment.mode === 'demo'
+        ? `${note || 'Aprobación simulada.'} No se transfirió dinero.`
+        : note || 'Verificado manualmente por el personal.',
     updatedAt: new Date().toISOString(),
   });
 }
@@ -162,8 +188,15 @@ export async function reviewPayment(
   actorId: string,
   decision: 'approve' | 'reject',
   note: string,
+  production = false,
 ) {
-  if (decision === 'approve') return approvePayment(u, id, actorId);
+  const currentPayment = await u.get('payments', id);
+  ensure(
+    !production || currentPayment?.mode !== 'demo',
+    'Los pagos demo no se procesan en producción',
+    403,
+  );
+  if (decision === 'approve') return approvePayment(u, id, actorId, false, note);
   const payment = await u.get('payments', id);
   ensure(payment?.status === 'EN_REVISION', 'Este pago no está en revisión', 409);
   await audit(u, actorId, 'RECHAZAR_PAGO', id);

@@ -65,7 +65,9 @@ test('Mi cuenta: perfil, compra y administración separados y cabecera sin recor
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/mi-cuenta');
     await expect(page.getByRole('complementary', { name: 'Datos de tu cuenta' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Mi cuenta', exact: true })).toHaveClass(/active/);
+    await expect(
+      page.locator('.public-header').getByRole('link', { name: 'Mi cuenta', exact: true }),
+    ).toHaveClass(/active/);
     await expect(page.getByRole('link', { name: 'Abrir panel', exact: true })).toBeVisible();
     const button = page.getByRole('button', { name: 'Cerrar sesión', exact: true });
     await expect(button).toBeVisible();

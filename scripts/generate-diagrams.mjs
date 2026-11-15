@@ -31,7 +31,9 @@ const edges = [];
 for (const model of models) {
   const foreignKeys = new Set();
   for (const line of model.lines) {
-    const relation = line.match(/^\w+\s+(\w+)(\?)?\s+@relation\(fields:\s*\[(\w+)\]/);
+    const relation = line.match(
+      /^\w+\s+(\w+)(\?)?\s+@relation\((?:"[^"]+",\s*)?fields:\s*\[(\w+)\]/,
+    );
     if (!relation) continue;
     const [, parent, optional, field] = relation;
     foreignKeys.add(field);
@@ -63,6 +65,10 @@ const diagrams = [
   ['02-arquitectura', blocks[0]],
   ['03-flujo-cliente-servidor', blocks[1]],
 ];
+const paymentDocument = await readFile(resolve(root, 'docs/PAGOS_YAPE.md'), 'utf8');
+const paymentDiagram = paymentDocument.match(/```mermaid\s*\n([\s\S]*?)```/);
+if (!paymentDiagram) throw new Error('Falta el diagrama de pedidos y pagos');
+diagrams.push(['04-pedido-pago-demo', paymentDiagram[1].trim()]);
 const architectureSlide = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
 <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#52685b"/></marker></defs>
 <rect width="1600" height="900" fill="#fffdf8"/>

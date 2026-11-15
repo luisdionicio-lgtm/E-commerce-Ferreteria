@@ -189,7 +189,7 @@ test('QR manual: solo reportar no aprueba; revisión administrativa, rechazo y r
     assert.equal(
       (
         await f.call(`/me/orders/${other.id}/payment/report`, f.owner.accessToken, {
-          reference: 'OPERACION-123456',
+          reference: 'operacion-123456',
         })
       ).status,
       409,

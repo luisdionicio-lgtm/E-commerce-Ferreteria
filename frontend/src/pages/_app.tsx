@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 import { AppProvider } from '../state/context';
 import '../styles/global.css';
 import '../styles/ui-refinement.css';
+import '../styles/orders.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -32,7 +33,19 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
-      <Toaster position="bottom-right" richColors closeButton />
+      <Toaster
+        position="bottom-right"
+        richColors
+        closeButton
+        style={
+          {
+            '--success-text': '#27613e',
+            '--error-text': '#982d24',
+            '--warning-text': '#754600',
+            '--info-text': '#235b7a',
+          } as React.CSSProperties
+        }
+      />
     </AppProvider>
   );
 }

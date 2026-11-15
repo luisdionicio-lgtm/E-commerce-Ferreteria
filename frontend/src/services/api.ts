@@ -30,7 +30,11 @@ export async function api<T = any>(
       ...options.headers,
     },
   });
-  if (r.status === 401 && path.startsWith('/admin') && retry) {
+  if (
+    r.status === 401 &&
+    (path.startsWith('/admin') || path.startsWith('/me/') || path === '/orders') &&
+    retry
+  ) {
     refreshPromise ??= restoreSession().finally(() => {
       refreshPromise = null;
     });

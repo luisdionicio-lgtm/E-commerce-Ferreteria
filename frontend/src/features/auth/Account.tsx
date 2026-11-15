@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate } from '../../state/navigation';
+import { Link, Navigate, useNavigate, useSearchParams } from '../../state/navigation';
+import { CustomerTabs } from '../orders/CustomerOrders';
 import { useApp } from '../../state/context';
 import { Loading } from '../../components/ui';
 import { toast } from 'sonner';
@@ -17,9 +18,16 @@ export function CustomerAuth({ register = false }: { register?: boolean }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState('');
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const requested = params.get('volver');
+  const returnTo =
+    requested && /^\/(?:carrito|mis-pedidos(?:\/[A-Za-z0-9-]+(?:\/pago)?)?)$/.test(requested)
+      ? requested
+      : null;
+  const destination = (role: string) =>
+    returnTo || (role === 'CUSTOMER' ? '/mi-cuenta' : '/admin/dashboard');
   if (!ready) return <Loading />;
-  if (user)
-    return <Navigate to={user.role === 'CUSTOMER' ? '/mi-cuenta' : '/admin/dashboard'} replace />;
+  if (user) return <Navigate to={destination(user.role)} replace />;
   return (
     <section className="store-container customer-auth">
       <Link to="/">← Volver a la tienda</Link>
@@ -43,7 +51,7 @@ export function CustomerAuth({ register = false }: { register?: boolean }) {
                   String(fields.get('password')),
                 )
               : await signIn(String(fields.get('email')), String(fields.get('password')));
-            navigate(account.role === 'CUSTOMER' ? '/mi-cuenta' : '/admin/dashboard');
+            navigate(destination(account.role));
           } catch (err: any) {
             setError(err.message);
           } finally {
@@ -105,7 +113,12 @@ export function CustomerAuth({ register = false }: { register?: boolean }) {
         </button>
         <p>
           {register ? '¿Ya tienes cuenta?' : '¿Primera vez aquí?'}{' '}
-          <Link to={register ? '/ingresar' : '/registro'}>
+          <Link
+            to={
+              (register ? '/ingresar' : '/registro') +
+              (returnTo ? `?volver=${encodeURIComponent(returnTo)}` : '')
+            }
+          >
             {register ? 'Inicia sesión' : 'Crea una cuenta'}
           </Link>
         </p>
@@ -122,6 +135,7 @@ export function Account() {
   if (!user) return <Navigate to="/ingresar" replace />;
   return (
     <section className="store-container account-page">
+      <CustomerTabs current="profile" />
       <header className="account-heading">
         <div>
           <h1>Hola, {user.name}.</h1>
@@ -188,6 +202,9 @@ export function Account() {
               </Link>
               <Link className="btn secondary" to="/carrito">
                 Ver carrito
+              </Link>
+              <Link className="btn secondary" to="/mis-pedidos">
+                Ver mis pedidos
               </Link>
             </div>
           </section>

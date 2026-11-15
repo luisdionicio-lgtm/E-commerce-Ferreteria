@@ -45,7 +45,7 @@ export function customerPaymentRoutes(repo: Repository, config: PaymentConfig) {
       const input = z.object({ reference }).strict().parse(req.body);
       res.json(
         await repo.transaction((u) =>
-          reportPayment(u, req.params.id, res.locals.user.id, input.reference),
+          reportPayment(u, req.params.id, res.locals.user.id, input.reference, config),
         ),
       );
     }),
@@ -66,7 +66,7 @@ export function customerPaymentRoutes(repo: Repository, config: PaymentConfig) {
   );
   return router;
 }
-export function adminPaymentRoutes(repo: Repository) {
+export function adminPaymentRoutes(repo: Repository, config: PaymentConfig) {
   const router = Router();
   router.get(
     '/',
@@ -98,7 +98,14 @@ export function adminPaymentRoutes(repo: Repository) {
         .parse(req.body);
       res.json(
         await repo.transaction((u) =>
-          reviewPayment(u, req.params.id, res.locals.user.id, input.decision, input.note),
+          reviewPayment(
+            u,
+            req.params.id,
+            res.locals.user.id,
+            input.decision,
+            input.note,
+            config.production,
+          ),
         ),
       );
     }),
@@ -112,6 +119,11 @@ export function adminPaymentRoutes(repo: Repository) {
         await repo.transaction(async (u) => {
           const payment = await u.get('payments', req.params.id);
           ensure(payment?.status === 'REEMBOLSO_PENDIENTE', 'La devolución no está pendiente', 409);
+          ensure(
+            !config.production || payment.mode !== 'demo',
+            'Las devoluciones demo no se procesan en producción',
+            403,
+          );
           ensure(
             payment.mode === 'demo' || input.reference,
             'Registra la referencia de la devolución realizada fuera del sistema',
@@ -134,6 +146,10 @@ export function adminPaymentRoutes(repo: Repository) {
           });
           return u.update('payments', payment.id, {
             status: 'REEMBOLSADO',
+            reviewNote:
+              payment.mode === 'demo'
+                ? 'Devolución simulada. No se movió dinero.'
+                : 'Devolución realizada por la tienda y registrada con referencia.',
             refundReference,
             reviewedBy: res.locals.user.id,
             updatedAt: new Date().toISOString(),

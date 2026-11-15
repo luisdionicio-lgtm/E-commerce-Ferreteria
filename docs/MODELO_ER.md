@@ -13,6 +13,9 @@ Disponible también como [imagen PNG completa](diagramas/01-modelo-er.png) y [SV
 ```mermaid
 erDiagram
     User ||--o{ Session : inicia
+    User o|--o{ Order : realiza_con_sesion
+    Order ||--o| Payment : registra
+    User o|--o{ Payment : revisa
     User ||--o{ Purchase : registra
     User ||--o{ Sale : confirma
     User ||--o{ InventoryMovement : realiza
@@ -69,12 +72,15 @@ erDiagram
     }
     Order {
       string id PK
+      string userId FK "nullable"
       string customerName
       string email
       int total
       string status
     }
 ```
+
+Además de las entidades del resumen, `Payment` enlaza un pago único con cada pedido; incluye importe, modo, operación, revisión y devolución. El gráfico completo incorpora todos sus campos y el responsable de revisión.
 
 El esquema completo y definitivo, incluidos `Setting`, `Renewal`, campos secundarios e índices, está en `backend/prisma/schema.prisma`. La migración inicial está en `backend/prisma/migrations/20261114000000_initial`.
 
@@ -83,9 +89,10 @@ El esquema completo y definitivo, incluidos `Setting`, `Renewal`, campos secunda
 - Dinero en céntimos enteros: 47990 representa S/ 479.90. Se evita el redondeo de coma flotante.
 - El stock se obtiene de los lotes; no se mantiene un contador duplicado en Producto.
 - FEFO: se consumen primero los lotes válidos que antes vencen. Los vencidos no son vendibles.
-- Pedido pendiente no reserva stock. Al confirmar se recalculan precios y se vuelve a validar disponibilidad.
+- Pedido pendiente no reserva stock. Al confirmar se conservan los precios guardados en sus líneas y se vuelve a validar disponibilidad; una venta directa usa los precios actuales del catálogo.
 - El correo del usuario es único; el rol público siempre es CUSTOMER. Los contactos comerciales Customer no son credenciales de autenticación.
-- El pedido guarda sus datos de contacto y no tiene una relación automática con User. No se promete historial privado de pedidos ni verificación de correo.
+- `Order.userId` enlaza los pedidos creados con una sesión. Los pedidos de invitados o históricos siguen sin propietario; no se asignan por coincidencia de correo. El cliente solo consulta sus pedidos.
+- `Payment.orderId` es único: un ciclo de pago por pedido. Su modo distingue demo y QR manual, con estado, importe inmutable, operación, revisión y devolución. La restricción compuesta `(mode, reference)` evita reutilizar una operación; `reviewedBy` enlaza al responsable de revisión. No se promete verificación bancaria automática ni verificación de correo.
 - Una venta tiene `orderId` único para impedir confirmar dos veces el mismo pedido.
 - Desactivar productos conserva sus relaciones históricas.
 - Las fechas de vencimiento usan YYYY-MM-DD y las operaciones instantes UTC ISO.

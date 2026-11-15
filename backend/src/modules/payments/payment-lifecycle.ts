@@ -26,6 +26,10 @@ export async function cancelOrderPayment(u: Unit, orderId: string) {
   if (!payment || ['CANCELADO', 'REEMBOLSADO'].includes(payment.status)) return;
   await u.update('payments', payment.id, {
     status: payment.status === 'APROBADO' ? 'REEMBOLSO_PENDIENTE' : 'CANCELADO',
+    reviewNote:
+      payment.status === 'APROBADO'
+        ? 'La venta fue anulada. La tienda debe resolver la devolución.'
+        : 'El pedido se canceló antes de confirmar el pago.',
     updatedAt: new Date().toISOString(),
   });
 }

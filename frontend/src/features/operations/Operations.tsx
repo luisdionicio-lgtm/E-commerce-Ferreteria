@@ -1,5 +1,21 @@
 import { useState } from 'react';
-import { Plus, Trash2, Check, Eye, RotateCcw, PackageCheck, ShoppingBag } from 'lucide-react';
+import {
+  Plus,
+  Trash2,
+  Check,
+  Eye,
+  RotateCcw,
+  PackageCheck,
+  ShoppingBag,
+  Truck,
+} from 'lucide-react';
+import { Link } from '../../state/navigation';
+import {
+  fulfillmentLabels,
+  paymentLabels,
+  type FulfillmentStatus,
+  type Payment,
+} from '../orders/types';
 import { useApp, useResource, money, dateLabel } from '../../state/context';
 import {
   PageHeader,
@@ -36,6 +52,12 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
   if (loading) return <Loading />;
   if (error) return <ErrorBox message={error} />;
   const product = (id: string) => products?.find((p) => p.id === id);
+  const orderPayment = (id: string): Payment | undefined =>
+    d.payments?.find((payment: Payment & { orderId: string }) => payment.orderId === id);
+  const nextDelivery = (record: { fulfillmentStatus?: string }): FulfillmentStatus =>
+    (({ POR_PREPARAR: 'EN_PREPARACION', EN_PREPARACION: 'LISTO', LISTO: 'ENTREGADO' })[
+      record.fulfillmentStatus || 'POR_PREPARAR'
+    ] as FulfillmentStatus) || 'ENTREGADO';
   const rows = d.records.filter(
     (r: any) =>
       JSON.stringify(r).toLowerCase().includes(term.toLowerCase()) &&
@@ -87,6 +109,12 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
     try {
       if (action.type === 'confirm')
         await send('/admin/sales', { orderId: action.record.id, items: [], payment: 'EFECTIVO' });
+      else if (action.type === 'fulfillment')
+        await send(
+          `/admin/orders/${action.record.id}/fulfillment`,
+          { status: nextDelivery(action.record) },
+          'PATCH',
+        );
       else await send('/admin/' + kind + '/' + action.record.id + '/' + action.type, {});
       setAction(null);
       reload();
@@ -218,6 +246,31 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
             },
             { label: 'Total', render: (r: any) => <strong>{money(r.total)}</strong> },
             { label: 'Estado', render: (r: any) => <Status value={r.status} /> },
+            ...(module === 'pedidos'
+              ? [
+                  {
+                    label: 'Pago / entrega',
+                    render: (r: any) => (
+                      <div>
+                        <span className="cell-sub">
+                          {orderPayment(r.id)
+                            ? `${orderPayment(r.id)?.mode === 'demo' ? 'Demo · ' : ''}${paymentLabels[orderPayment(r.id)!.status]}`
+                            : 'A coordinar'}
+                        </span>
+                        {r.status === 'CONFIRMADO' && (
+                          <span className="cell-sub">
+                            {
+                              fulfillmentLabels[
+                                (r.fulfillmentStatus || 'POR_PREPARAR') as FulfillmentStatus
+                              ]
+                            }
+                          </span>
+                        )}
+                      </div>
+                    ),
+                  },
+                ]
+              : []),
             {
               label: 'Acciones',
               render: (r: any) => (
@@ -247,15 +300,31 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
                       <RotateCcw size={17} />
                     </button>
                   )}
-                  {module === 'pedidos' && r.status === 'PENDIENTE' && (
-                    <>
+                  {module === 'pedidos' &&
+                    r.status === 'CONFIRMADO' &&
+                    r.fulfillmentStatus !== 'ENTREGADO' && (
                       <button
                         className="btn tiny secondary"
-                        onClick={() => setAction({ record: r, type: 'confirm' })}
+                        onClick={() => setAction({ record: r, type: 'fulfillment' })}
                       >
-                        <Check size={15} />
-                        Confirmar
+                        <Truck size={15} /> {fulfillmentLabels[nextDelivery(r)]}
                       </button>
+                    )}
+                  {module === 'pedidos' && r.status === 'PENDIENTE' && (
+                    <>
+                      {orderPayment(r.id) && orderPayment(r.id)?.status !== 'CANCELADO' ? (
+                        <Link className="btn tiny secondary" to="/admin/pagos">
+                          Revisar pago
+                        </Link>
+                      ) : (
+                        <button
+                          className="btn tiny secondary"
+                          onClick={() => setAction({ record: r, type: 'confirm' })}
+                        >
+                          <Check size={15} />
+                          Confirmar
+                        </button>
+                      )}
                       <button
                         className="icon-button danger"
                         aria-label="Anular pedido"
@@ -486,7 +555,9 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
               ? 'Confirmar recepción'
               : action.type === 'confirm'
                 ? 'Confirmar venta del pedido'
-                : 'Anular operación'
+                : action.type === 'fulfillment'
+                  ? 'Actualizar preparación y entrega'
+                  : 'Anular operación'
           }
           onClose={() => !busy && setAction(null)}
         >
@@ -494,10 +565,12 @@ export default function Operations({ module }: { module: 'compras' | 'ventas' | 
             {action.type === 'receive'
               ? 'Los productos se ingresarán como nuevos lotes y aumentarán el stock.'
               : action.type === 'confirm'
-                ? 'Se creará una venta con precios actuales y se descontará el stock disponible. Registra la confirmación después de verificar el pago.'
-                : module === 'ventas'
-                  ? 'Se anulará la venta y se devolverán las unidades a sus lotes originales.'
-                  : 'Se anulará el pedido. No se modificará el stock.'}
+                ? 'Se creará una venta con los precios guardados del pedido y se descontará el stock disponible. Registra la confirmación después de verificar el pago.'
+                : action.type === 'fulfillment'
+                  ? `El cliente verá el nuevo estado: ${fulfillmentLabels[nextDelivery(action.record)]}. Confirma solo cuando se haya completado esta etapa.`
+                  : module === 'ventas'
+                    ? 'Se anulará la venta y se devolverán las unidades a sus lotes originales.'
+                    : 'Se anulará el pedido. No se modificará el stock.'}
           </p>
           <div className="operation-total">
             <span>Importe registrado</span>

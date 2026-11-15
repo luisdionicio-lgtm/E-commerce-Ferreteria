@@ -98,6 +98,7 @@ erDiagram
     }
     Order {
         string id PK
+        string userId FK "nullable"
         string customerName
         string phone
         string email
@@ -105,6 +106,22 @@ erDiagram
         string status
         int total
         string createdAt
+        string fulfillmentStatus
+    }
+    Payment {
+        string id PK
+        string orderId FK, UK
+        string method
+        string mode
+        string status
+        int amount
+        string currency
+        string reference "nullable"
+        string refundReference "nullable"
+        string reviewNote
+        string reviewedBy FK "nullable"
+        string createdAt
+        string updatedAt
     }
     OrderItem {
         string id PK
@@ -112,6 +129,8 @@ erDiagram
         string productId FK
         int quantity
         int price
+        string productName "nullable"
+        string productImage "nullable"
     }
     Renewal {
         string id PK
@@ -157,6 +176,9 @@ erDiagram
     User ||--o{ Sale : userId
     Sale ||--o{ SaleItem : saleId
     Product ||--o{ SaleItem : productId
+    User o|--o{ Order : userId
+    Order ||--o| Payment : orderId
+    User o|--o{ Payment : reviewedBy
     Order ||--o{ OrderItem : orderId
     Product ||--o{ OrderItem : productId
     User ||--o{ AuditLog : userId

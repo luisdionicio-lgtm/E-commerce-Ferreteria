@@ -1,5 +1,15 @@
 # Verificación de esta entrega
 
+## Mis pedidos, Yape demo y preparación — 15/11/2026
+
+- Historial y detalle privados vinculados a la sesión. La prueba verifica aislamiento entre cuentas, rechazo de propiedad enviada por el cliente y conservación de nombre/precio tras editar el catálogo.
+- QR demo descargable, rechazo/reintento, reporte sin aprobación automática, revisión de administrador y devoluciones simuladas. El logo de Yape procede de su web oficial.
+- Aprobación, venta y stock en una transacción; pruebas de repetición/concurrencia, referencias duplicadas y rollback por falta de stock. El modo demo está bloqueado en producción.
+- Prueba MySQL real aprobada en base aislada: nuevas migraciones, pago concurrente, una sola venta y restauración de inventario tras anular.
+- Diez recorridos de navegador, incluidos dos nuevos: pago–entrega–devolución y reporte–rechazo–reintento–aprobación. Quince pruebas backend aprobadas; una integración MySQL se omite en el comando genérico y se ejecuta aparte.
+- Nueve capturas de pedidos y pagos inspeccionadas en escritorio/móvil, con informe de contraste sin incidencias en `docs/previews/orders-contrast-report.json`. Los mensajes Sonner forman parte de la comprobación.
+- MER actualizado con propietario y pago; cuarto diagrama dedicado al flujo de pago demo. La base local existente se comparó con el esquema inicial antes de registrar su baseline y aplicar las migraciones, sin borrar datos.
+
 ## Corrección del contraste detectado por GitHub Actions
 
 La ejecución de CI del commit `f2a3c5f` detectó contraste insuficiente (2,43:1) en las fechas y medios de pago de «Últimas ventas». El modo JSON de CI incluía ventas históricas; MySQL local tenía esa lista vacía. Se corrigió el texto a `#4d5c50` con tamaño de 13 px y la prueba de UI ahora garantiza dos ventas visibles mediante una respuesta interceptada solo en el navegador de prueba, sin modificar datos de la base. Se conserva la comprobación de contraste completa.

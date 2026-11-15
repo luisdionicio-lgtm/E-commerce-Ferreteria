@@ -1,0 +1,45 @@
+sequenceDiagram
+    participant C as Cliente autenticado
+    participant N as Next.js
+    participant E as Express
+    participant D as MySQL / Prisma
+    participant A as Administrador
+    C->>N: Crear pedido con sesión
+    N->>E: POST /api/orders + Bearer
+    E->>D: Guardar propietario, líneas e importe
+    D-->>E: Pedido privado pendiente
+    E-->>N: Identificador del pedido
+    N-->>C: Abrir pago del pedido
+    C->>N: Iniciar pago propio y consultar QR
+    N->>E: Reenviar petición autenticada
+    E->>D: Crear Payment único por pedido
+    E-->>N: QR, importe y modo configurado
+    N-->>C: Pantalla de pago
+    Note over C,E: En demo el QR no mueve dinero ni se comunica con Yape
+    alt Aprobación simulada en desarrollo
+      C->>N: Simular aprobación de pago demo
+      N->>E: Reenviar simulación autenticada
+    else Operación enviada a revisión
+      C->>N: Reportar referencia de operación
+      N->>E: Reenviar reporte autenticado
+      E->>D: Pago EN_REVISION, sin aprobar
+      A->>N: Revisar y aprobar el pago
+      N->>E: Reenviar decisión del administrador
+    end
+    E->>D: Transacción: validar stock, venta, lotes y pago
+    alt Stock suficiente
+      D-->>E: Una venta, stock descontado, pago APROBADO
+      E-->>N: Pedido confirmado
+      N-->>C: Mostrar resultado
+      A->>N: Preparar, marcar listo y entregar
+      N->>E: Reenviar siguiente etapa
+      E->>D: Guardar etapa de entrega
+      C->>N: Consultar seguimiento propio
+      N->>E: Reenviar consulta privada
+      E-->>N: Estado actualizado del pedido
+      N-->>C: Mostrar seguimiento
+    else Sin stock o conflicto no recuperable
+      D-->>E: Rollback de toda la transacción
+      E-->>N: No se confirmó pago ni venta
+      N-->>C: Mostrar error recuperable
+    end

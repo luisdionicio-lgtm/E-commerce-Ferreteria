@@ -16,6 +16,8 @@ Una configuración lista para desplegar no equivale a una aplicación ya despleg
 
 ## Opción propuesta
 
+Los pagos demo están prohibidos en producción. Antes de publicar, usa `PAYMENT_MODE=disabled`, o configura el modo `manual` con el QR comercial auténtico y el procedimiento de revisión descrito en [PAGOS_YAPE.md](PAGOS_YAPE.md). No publiques credenciales ni declares una confirmación bancaria automática: no existe esa integración en esta entrega.
+
 Frontend en Vercel, API en Render y MySQL administrado accesible desde la API, por ejemplo Railway. Se pueden usar otros proveedores Node.js/MySQL. No se exige contratar servicios ni se asume disponibilidad gratuita: revisar las condiciones de la cuenta antes de crear recursos.
 
 ### 1. Base de datos vacía

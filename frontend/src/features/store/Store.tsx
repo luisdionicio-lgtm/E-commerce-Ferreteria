@@ -19,7 +19,7 @@ import {
   HardHat,
   Wrench,
 } from 'lucide-react';
-import { useApp, money, type Product } from '../../state/context';
+import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
 import { send } from '../../services/api';
 import { toast } from 'sonner';
@@ -412,6 +412,10 @@ export function Cart() {
   const go = useNavigate();
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<any>(null);
+  const [paymentChoice, setPaymentChoice] = useState<'coordinate' | 'yape'>('coordinate');
+  const { data: paymentOptions } = useResource<{ enabled: boolean; mode: string }>(
+    '/payment-options',
+  );
   const lines = cart.map((c: any) => ({
     p: products.find((p: Product) => p.id === c.productId),
     quantity: c.quantity,
@@ -426,13 +430,23 @@ export function Cart() {
     );
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = Object.fromEntries(new FormData(e.currentTarget));
+    const fields = new FormData(e.currentTarget);
+    fields.delete('paymentChoice');
+    const form = Object.fromEntries(fields);
     setBusy(true);
     try {
       const order = await send('/orders', { ...form, items: cart });
       setDone(order);
       setCart([]);
       toast.success('Pedido enviado');
+      if (paymentChoice === 'yape' && user) {
+        try {
+          await send(`/me/orders/${order.id}/payment`, {});
+          await go(`/mis-pedidos/${order.id}/pago`);
+        } catch {
+          toast.error('Tu pedido está guardado. Continúa el pago desde Mis pedidos.');
+        }
+      }
     } catch (e: any) {
       toast.error(e.message);
     } finally {
@@ -453,6 +467,11 @@ export function Cart() {
           {money(done.total)}.<br />
           La tienda debe confirmar disponibilidad y coordinar contigo. Todavía no se ha cobrado.
         </p>
+        {user && (
+          <Link className="btn secondary" to={`/mis-pedidos/${done.id}`}>
+            Ver mi pedido <ArrowRight size={17} />
+          </Link>
+        )}
         <button className="btn primary" onClick={() => go('/catalogo')}>
           Seguir explorando
           <ArrowRight size={18} />
@@ -584,13 +603,69 @@ export function Cart() {
                 maxLength={500}
               />
             </label>
-            <button className="btn primary" disabled={busy || invalid}>
-              {busy ? 'Enviando…' : 'Enviar pedido'}
+            <fieldset className="checkout-payment-choice">
+              <legend>¿Cómo prefieres pagar?</legend>
+              <label>
+                <input
+                  type="radio"
+                  name="paymentChoice"
+                  value="coordinate"
+                  checked={paymentChoice === 'coordinate'}
+                  onChange={() => setPaymentChoice('coordinate')}
+                />
+                <span>
+                  <strong>Coordinar con la tienda</strong>
+                  <small>Revisamos tu pedido y acordamos el pago.</small>
+                </span>
+              </label>
+              {paymentOptions?.enabled && (
+                <label>
+                  <input
+                    type="radio"
+                    name="paymentChoice"
+                    value="yape"
+                    checked={paymentChoice === 'yape'}
+                    onChange={() => setPaymentChoice('yape')}
+                    disabled={!user}
+                  />
+                  <img src="/images/payments/yape.png" alt="Yape" width={32} height={32} />
+                  <span>
+                    <strong>
+                      {paymentOptions.mode === 'demo'
+                        ? 'Yape · demostración'
+                        : 'Yape · QR del comercio'}
+                    </strong>
+                    <small>
+                      {paymentOptions.mode === 'demo'
+                        ? 'Prueba el flujo sin enviar dinero.'
+                        : 'La tienda verifica el abono manualmente.'}
+                    </small>
+                  </span>
+                </label>
+              )}
+              {!user && (
+                <p>
+                  <Link to="/ingresar?volver=/carrito">Inicia sesión</Link> para guardar tus pedidos
+                  y continuar con Yape. Tu carrito se conserva.
+                </p>
+              )}
+            </fieldset>
+            <button
+              className="btn primary"
+              disabled={busy || invalid || (paymentChoice === 'yape' && !user)}
+            >
+              {busy
+                ? 'Enviando…'
+                : paymentChoice === 'yape'
+                  ? 'Crear pedido y continuar'
+                  : 'Enviar pedido'}
               <ArrowRight size={18} />
             </button>
             <p className="checkout-note">
               <ShieldCheck size={15} />
-              Este paso registra una solicitud. El pago y la entrega se coordinan al confirmar.
+              {paymentChoice === 'yape'
+                ? 'El pedido se guarda antes de abrir el QR. En demo no se transfiere dinero.'
+                : 'Este paso registra una solicitud. El pago y la entrega se coordinan al confirmar.'}
             </p>
           </form>
         </div>

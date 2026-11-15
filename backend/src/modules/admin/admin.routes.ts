@@ -17,6 +17,7 @@ import { randomUUID } from 'node:crypto';
 import { hash } from 'bcryptjs';
 import { adminPaymentRoutes } from '../payments/payments.routes.js';
 import { cancelOrderPayment } from '../payments/payment-lifecycle.js';
+import type { PaymentConfig } from '../payments/payment.config.js';
 import { wrap } from '../../shared/http.js';
 export { wrap } from '../../shared/http.js';
 async function audit(u: Unit, userId: string, action: string, entity: string, entityId: string) {
@@ -29,7 +30,7 @@ async function audit(u: Unit, userId: string, action: string, entity: string, en
     createdAt: new Date().toISOString(),
   });
 }
-export function adminRoutes(repo: Repository) {
+export function adminRoutes(repo: Repository, config: PaymentConfig) {
   const r = Router();
   r.use(authenticate(repo));
   r.use((_q, s, next) => {
@@ -44,7 +45,7 @@ export function adminRoutes(repo: Repository) {
       next(e);
     }
   });
-  r.use('/payments', adminPaymentRoutes(repo));
+  r.use('/payments', adminPaymentRoutes(repo, config));
   r.get(
     '/dashboard',
     wrap(async (_q: any, s: any) => s.json(await repo.read(dashboard))),
@@ -209,6 +210,7 @@ export function adminRoutes(repo: Repository) {
                   ? 'saleItems'
                   : 'orderItems',
             ),
+            ...(table === 'orders' ? { payments: await u.all('payments') } : {}),
           })),
         ),
       ),

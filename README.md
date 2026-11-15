@@ -36,7 +36,29 @@ Consulta del catálogo, registro del pedido y confirmación de la venta por pers
 
 [Ampliar en SVG](docs/diagramas/03-flujo-cliente-servidor.svg) · [Fuente Mermaid](docs/diagramas/03-flujo-cliente-servidor.mmd)
 
-El flujo comercial es **pedido sujeto a confirmación**: permite seleccionar productos y enviar una solicitud; el personal confirma stock, pago y entrega. No incorpora una pasarela de pago, cobros online, recuperación de contraseña ni verificación de correo. Los precios, existencias, proveedores y fotografías son referenciales.
+El flujo comercial es **pedido sujeto a confirmación**, con historial privado y seguimiento para cuentas registradas. Incluye un **pago QR Yape en modo demo**, sin cobros reales, y configuración posterior para un QR comercial con verificación manual. No integra una pasarela bancaria automática, recuperación de contraseña ni verificación de correo. Los precios, existencias, proveedores y fotografías son referenciales.
+
+## Mis pedidos y pago QR de demostración
+
+- Cada cliente consulta únicamente sus pedidos, productos, importes guardados, pago y preparación/entrega.
+- El checkout permite coordinar el pago o continuar con Yape demo. El QR de prueba se puede descargar; no es un QR bancario ni transfiere dinero.
+- La demo permite aprobar, rechazar y probar revisión administrativa. Aprobar confirma pago, venta e inventario en una sola transacción; los reintentos no duplican ventas.
+- El panel incorpora **Pagos de pedidos**, revisión de operaciones y devoluciones. Pedidos web permite avanzar preparación, listo y entregado.
+
+Consulta la [guía de pagos, configuración y límites](docs/PAGOS_YAPE.md) y el [diagrama del flujo](docs/diagramas/04-pedido-pago-demo.png). Los pedidos históricos o de invitados no se asignan automáticamente a una cuenta por su correo.
+
+<details>
+<summary>Ver pantallas funcionales de pedidos y pago QR</summary>
+
+![Historial privado de pedidos](docs/previews/20-mis-pedidos.png)
+
+![Detalle de productos y seguimiento](docs/previews/21-detalle-pedido.png)
+
+![Pago QR de demostración](docs/previews/22-pago-qr-demo.png)
+
+![Revisión administrativa del pago](docs/previews/24-admin-pagos.png)
+
+</details>
 
 ## Probar el proyecto desde GitHub
 
@@ -55,7 +77,7 @@ Consulta la [prueba manual paso a paso](docs/PRUEBA_MANUAL.md). Ejecuta `npm tes
 
 El demo usa almacenamiento JSON persistente para probarlo sin servicios externos. El esquema relacional MySQL, sus relaciones y las instrucciones de Prisma se incluyen más abajo. `backend/data/`, sesiones locales, secretos y `node_modules/` no se publican; el seed recrea los datos de muestra.
 
-Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 8 recorridos Playwright, incluyendo las 36 referencias adicionales, carrito con las seis categorías, contraste y cuenta adaptable. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
+Verificación de la adaptación: 15 pruebas API/dominio/CRUD/pagos, 1 integración real MySQL en base aislada y 10 recorridos Playwright, incluyendo el catálogo ampliado, carrito, cuenta adaptable, historial privado, pago demo, entrega, devolución y contraste. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
 
 ![Tienda Next.js, captura local](docs/previews/07-next-tienda.png)
 
@@ -138,7 +160,7 @@ Consulta el [inventario de las 36 referencias y sus fuentes](docs/CATALOGO_AMPLI
 - Inventario: existencias totales y vendibles, lotes, movimientos y ajustes con responsable y motivo.
 - Compras: una o varias líneas, proveedor, cantidad, costo y vencimiento opcional; recibir una sola vez genera lotes y entradas.
 - Ventas: una o varias líneas, cliente opcional y medio de pago manual; precios recalculados en servidor; descuento de lotes FEFO (primero vence, primero sale). Anulación devuelve las unidades a los lotes originales.
-- Pedidos web: detalle, confirmación como venta y anulación. Carrito/pedido pendiente no descuentan ni reservan stock. Al confirmar se valida el stock nuevamente y se aplican los precios vigentes.
+- Pedidos web: historial privado, detalle, seguimiento, confirmación como venta y anulación. Carrito/pedido pendiente no descuentan ni reservan stock. Al confirmar se valida el stock nuevamente y se conservan los precios guardados en las líneas del pedido.
 - Vencimientos: lotes vencidos o que vencen en 60 días. Los vencidos se excluyen de las ventas.
 - Renovaciones: fecha, responsable, notas y estado pendiente/completado.
 - Reportes: rango de fechas, ingresos, ticket promedio, productos más vendidos y CSV; tablas con paginación.
@@ -280,7 +302,7 @@ Se aplicaron [emil-design-eng](https://github.com/emilkowalski/skills), `fronten
 
 ## Alcance de esta entrega
 
-Es una **primera versión funcional local**, con frontend y backend reales y datos ficticios. No incluye pasarela de pago, subida de archivos, correo/SMS/WhatsApp automático, SUNAT, múltiples sucursales, reservas de stock, pruebas de carga, integración contable ni despliegue. Registrar Yape/tarjeta solo almacena el medio elegido; no valida el pago. No expone ni inventa una conexión con Figma.
+Es una **versión funcional local**, con frontend y backend reales y datos ficticios. Incluye pago QR demo y revisión manual configurable, sin integración bancaria automática. No incluye subida de archivos, correo/SMS/WhatsApp automático, SUNAT, múltiples sucursales, reservas de stock, pruebas de carga, integración contable ni despliegue. En ventas directas, elegir Yape/tarjeta solo registra el medio; en pedidos, los pagos siguen el flujo documentado de simulación o verificación manual. No se realizan cobros reales en el modo demo.
 
 Antes de publicar: configura MySQL, HTTPS, secretos, respaldos y cuentas propias; retira las credenciales demo visibles del login; agrega tus datos comerciales, fotografías, políticas y procesos de pago/comprobantes. `NODE_ENV=production` exige MySQL, un secreto fuerte y `FRONTEND_URL` HTTPS. `npm start` inicia Express; `npm run start:web` inicia Next. Son servicios separados y Next reenvía `/api` al backend configurado en `API_ORIGIN`. En nube utiliza `npm run db:migrate` para aplicar las migraciones versionadas; la guía de despliegue explica bases vacías y bases existentes.
 

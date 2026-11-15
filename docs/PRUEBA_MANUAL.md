@@ -13,7 +13,20 @@ En una terminal dentro de la carpeta del proyecto: `npm ci`, luego `npm run dev`
 5. Envía un pedido con datos ficticios. Debe aparecer el número de pedido y vaciarse el carrito. No se efectúan cobros ni se reserva inventario antes de confirmar.
 6. Con una cuenta de cliente, visita `/admin/dashboard`. Debes volver a Mi cuenta. La API administrativa también rechaza el acceso.
 
-## Personal
+## Mis pedidos y Yape de demostración
+
+1. Registra o ingresa con una cuenta de cliente y agrega productos al carrito.
+2. Completa celular, elige **Yape · demostración** y pulsa **Crear pedido y continuar**. Debe abrirse el QR con el importe del pedido. No envíes dinero ni lo escanees en Yape: el QR demo no es bancario.
+3. Descarga el QR, prueba **Simular rechazo** y luego **Simular pago aprobado**. El importe no cambia, el pedido se confirma y se genera una sola venta con salida de inventario.
+4. Abre **Mi cuenta → Mis pedidos → Ver pedido**. Revisa productos, importes guardados y seguimiento. Con otra cuenta, ese identificador debe devolver pedido no encontrado.
+5. En otro pedido prueba **Probar revisión manual**. Debe quedar en revisión, sin aprobar. Como administrador, abre **Pagos de pedidos**, localiza la operación, registra nota y confirmación explícita; prueba rechazo y reintento o aprobación.
+6. En **Pedidos web**, avanza **En preparación → Listo para entregar → Entregado**. El cliente ve los cambios sin volver a iniciar sesión.
+7. Para probar devolución, anula la venta como administrador. El stock vuelve a sus lotes y el pago queda con devolución pendiente. En **Pagos de pedidos**, usa **Simular devolución**. El cliente debe ver **Devuelto**. No se mueve dinero.
+8. Los pedidos anteriores o creados como invitado no aparecen en la cuenta por compartir correo. Esa separación es intencional.
+
+La configuración futura del QR comercial está en [PAGOS_YAPE.md](PAGOS_YAPE.md).
+
+## Administración de inventario
 
 1. En `/login`, usa `admin@ferremax.pe` / `FerreMax2026!` (solo demo).
 2. Crea y edita un producto; verifica SKU, imagen, precio y categoría. El stock se carga por Compras, no al crear el producto.

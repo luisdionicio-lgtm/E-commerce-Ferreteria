@@ -4,6 +4,8 @@ Este archivo conserva la referencia de las skills aplicadas al proyecto para fut
 
 ## Skills principales
 
+Actualización del 15/11/2026: se aplicaron `impeccable` y `emil-design-eng` al historial privado, seguimiento, QR demo y revisión de pagos, conservando el sistema visual. Se utilizó `ask-sonner` para ajustar las variables de color de las notificaciones y verificar su contraste con axe, incluyendo los mensajes visibles durante el checkout. El icono de Yape procede de su web oficial; el QR se genera con código, sin imágenes de IA.
+
 | Skill             | Uso en FerreMax                                                               | Instalación persistente                             |
 | ----------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
 | `emil-design-eng` | Criterios de pulido visual, jerarquía, componentes y microinteracciones.      | `C:\Users\Luis Angel\.codex\skills\emil-design-eng` |

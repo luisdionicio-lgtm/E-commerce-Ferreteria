@@ -188,7 +188,7 @@ model Payment {
  currency String @default("PEN")
  reference String?
  refundReference String?
- reviewNote String @default("") @db.Text
+ reviewNote String @db.Text
  reviewedBy String?
  createdAt String
  updatedAt String

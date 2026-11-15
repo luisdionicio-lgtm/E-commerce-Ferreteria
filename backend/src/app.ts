@@ -151,7 +151,7 @@ export function createApp(repo: Repository, options: { payments?: PaymentConfig 
       .json({ mode: payments.mode, enabled: payments.mode !== 'disabled', method: 'YAPE' }),
   );
   app.use('/api/me/orders', customerOrderRoutes(repo, payments));
-  app.use('/api/admin', adminRoutes(repo));
+  app.use('/api/admin', adminRoutes(repo, payments));
   app.use('/api', (_q, s) => s.status(404).json({ message: 'Ruta no encontrada' }));
   app.use((err: any, _q: any, s: any, _n: any) => {
     if (err instanceof ZodError)

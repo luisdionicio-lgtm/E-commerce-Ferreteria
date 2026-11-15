@@ -20,6 +20,9 @@ test(
     const { catalog } = await import('../src/modules/catalog/catalog.service.js');
     const { createPurchase, receivePurchase, createOrder, createSale, cancelSale } =
       await import('../src/modules/operations/operations.service.js');
+    const { startPayment, simulatePayment } =
+      await import('../src/modules/payments/payments.service.js');
+    const { orderView } = await import('../src/modules/orders/orders.service.js');
     const repo = await createRepository();
     const id = 'verify-' + randomUUID();
     const server = createApp(repo).listen(0, '127.0.0.1');
@@ -81,6 +84,40 @@ test(
         ),
       );
       await repo.transaction((u) => cancelSale(u, sale.id, 'admin'));
+      assert.equal(await stock(), 3);
+      const paymentConfig = {
+        mode: 'demo' as const,
+        merchantName: 'Prueba MySQL',
+        merchantPhone: '',
+        qrPayload: '',
+        origin: 'http://localhost:5173',
+        production: false,
+      };
+      const owned = await repo.transaction((u) =>
+        createOrder(
+          u,
+          {
+            customerName: 'Pago de prueba MySQL',
+            phone: '999123456',
+            items: [{ productId: id, quantity: 1 }],
+          },
+          'admin',
+        ),
+      );
+      await repo.transaction((u) => startPayment(u, owned.id, 'admin', paymentConfig));
+      await Promise.all(
+        [1, 2].map(() =>
+          repo.transaction((u) => simulatePayment(u, owned.id, 'admin', 'approved', paymentConfig)),
+        ),
+      );
+      assert.equal(await stock(), 2);
+      const paid = await repo.read(async (u) => orderView(u, (await u.get('orders', owned.id))!));
+      assert.equal(paid.payment?.status, 'APROBADO');
+      const paymentSales = await repo.read(async (u) =>
+        (await u.all('sales')).filter((row) => row.orderId === owned.id),
+      );
+      assert.equal(paymentSales.length, 1);
+      await repo.transaction((u) => cancelSale(u, paymentSales[0].id, 'admin'));
       assert.equal(await stock(), 3);
       const base = `http://127.0.0.1:${(server.address() as any).port}/api`;
       const response = await fetch(base + '/auth/register', {

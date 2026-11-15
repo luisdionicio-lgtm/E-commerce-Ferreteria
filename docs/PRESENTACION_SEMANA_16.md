@@ -17,6 +17,7 @@ Curso: Desarrollo Web Avanzado. Profesor: Arévalo. Tema: e-commerce básico de 
 | Backend Express | `backend/src/app.ts`, módulos y servicios |
 | Productos, carrito, pedidos, usuarios | Catálogo, filtros, detalle, galería, carrito persistente, pedido, login/registro |
 | Usuarios y roles | CUSTOMER, EMPLOYEE y ADMIN; controles en Express y frontend |
+| Historial privado y pago demo | Usuario–Pedido–Pago, QR demo, revisión administrativa, entrega y devoluciones simuladas; `docs/PAGOS_YAPE.md` |
 | Variables y buenas prácticas | `.env.example`, `.gitignore`, validaciones, contraseñas bcrypt, cookies HttpOnly |
 | Base relacional o documental | MySQL/Prisma; JSON solo como alternativa de demostración local |
 | Modelo E-R | `docs/MODELO_ER.md` y esquema Prisma |
@@ -31,8 +32,8 @@ Curso: Desarrollo Web Avanzado. Profesor: Arévalo. Tema: e-commerce básico de 
 
 1. **Problema y alcance (1 min).** Ferretería que necesita publicar productos y centralizar pedidos, proveedores e inventario por lotes. Explicar que se coordinan pago y entrega; no hay cobro online ni comprobantes SUNAT.
 2. **Arquitectura y DB (2 min).** Mostrar los dos diagramas. Elegir dos relaciones para explicar: Proveedor–Compra–Lote y Pedido–Venta. Mostrar una petición en la pestaña Network del navegador.
-3. **Cliente (2 min).** Registrar cuenta ficticia, cerrar y abrir sesión, buscar Bosch, filtrar por categoría/precio, abrir galería, añadir al carrito, recargar y enviar pedido.
-4. **Personal (2 min).** Entrar al panel, localizar pedido, confirmar como venta, ver stock y movimientos. Mostrar un proveedor y la fecha de vencimiento de pintura o sellador. Explicar que los lotes vencidos no se venden.
+3. **Cliente (2 min).** Registrar cuenta ficticia, buscar y filtrar, abrir galería, añadir al carrito y recargar. Elegir Yape demo, crear pedido, mostrar el QR de prueba y simular aprobación. Abrir Mis pedidos y su seguimiento. Aclarar que no se transfiere dinero real.
+4. **Personal (2 min).** Localizar el pedido confirmado y avanzar preparación/entrega; comprobar stock y movimientos. Como variante, probar reporte y revisión de pago en Pagos de pedidos. Mostrar proveedor y vencimiento de un lote. Explicar que los lotes vencidos no se venden.
 5. **Seguridad y pruebas (1–2 min).** Demostrar que un cliente no accede a `/admin/dashboard`; ejecutar `npm test` y mostrar el resultado de `npm run test:e2e` y GitHub Actions.
 6. **Cierre (1 min).** Mostrar repositorio, URLs públicas si ya están desplegadas, limitaciones y siguientes pasos.
 
@@ -48,6 +49,9 @@ Curso: Desarrollo Web Avanzado. Profesor: Arévalo. Tema: e-commerce básico de 
 | Reproducir datos sin servicios externos | Repositorio JSON local y seed de MySQL sin sobrescribir usuarios existentes |
 | Desplegar sobre una base existente | Migraciones versionadas y procedimiento de baseline, sin borrar datos |
 | Fotos de productos con variantes | Fuentes documentadas y galería marcada como referencial |
+| Historial sin exponer pedidos ajenos | Propietario desde sesión, comprobación por pedido y 404 para otra cuenta |
+| No duplicar venta al repetir pago | Un pago por pedido, referencias únicas y transacción de pago/venta/stock |
+| QR demo frente a cobro bancario real | Modo explícito sin transferencias; QR comercial manual configurable, sin fingir validación bancaria |
 
 ## Preparación antes de exponer
 

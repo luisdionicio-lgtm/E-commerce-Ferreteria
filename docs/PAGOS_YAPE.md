@@ -44,7 +44,73 @@ Pago: `CREADO → EN_REVISION → APROBADO` o `RECHAZADO` con reintento. La demo
 
 Entrega: `POR_PREPARAR → EN_PREPARACION → LISTO → ENTREGADO`. Solo el personal cambia estas etapas; el cliente las consulta.
 
-## API
+## Flujo del pedido y su pago
+
+```mermaid
+sequenceDiagram
+    participant C as Cliente autenticado
+    participant N as Next.js
+    participant E as Express
+    participant D as MySQL / Prisma
+    participant A as Administrador
+    C->>N: Crear pedido con sesión
+    N->>E: POST /api/orders + Bearer
+    E->>D: Guardar propietario, líneas e importe
+    D-->>E: Pedido privado pendiente
+    E-->>N: Identificador del pedido
+    N-->>C: Abrir pago del pedido
+    C->>N: Iniciar pago propio y consultar QR
+    N->>E: Reenviar petición autenticada
+    E->>D: Crear Payment único por pedido
+    E-->>N: QR, importe y modo configurado
+    N-->>C: Pantalla de pago
+    Note over C,E: En demo el QR no mueve dinero ni se comunica con Yape
+    alt Aprobación simulada en desarrollo
+      C->>N: Simular aprobación de pago demo
+      N->>E: Reenviar simulación autenticada
+    else Operación enviada a revisión
+      C->>N: Reportar referencia de operación
+      N->>E: Reenviar reporte autenticado
+      E->>D: Pago EN_REVISION, sin aprobar
+      A->>N: Revisar y aprobar el pago
+      N->>E: Reenviar decisión del administrador
+    end
+    E->>D: Transacción: validar stock, venta, lotes y pago
+    alt Stock suficiente
+      D-->>E: Una venta, stock descontado, pago APROBADO
+      E-->>N: Pedido confirmado
+      N-->>C: Mostrar resultado
+      A->>N: Preparar, marcar listo y entregar
+      N->>E: Reenviar siguiente etapa
+      E->>D: Guardar etapa de entrega
+      C->>N: Consultar seguimiento propio
+      N->>E: Reenviar consulta privada
+      E-->>N: Estado actualizado del pedido
+      N-->>C: Mostrar seguimiento
+    else Sin stock o conflicto no recuperable
+      D-->>E: Rollback de toda la transacción
+      E-->>N: No se confirmó pago ni venta
+      N-->>C: Mostrar error recuperable
+    end
+```
+
+### Evidencia de las pantallas
+
+| Pantalla | Captura |
+| --- | --- |
+| Historial privado | [Mis pedidos](previews/20-mis-pedidos.png) |
+| Detalle y seguimiento | [Pedido en preparación](previews/21-detalle-pedido.png) |
+| QR de demostración | [Pago QR](previews/22-pago-qr-demo.png) |
+| Pago aprobado | [Resultado](previews/23-pago-aprobado.png) |
+| Revisión de pagos | [Panel](previews/24-admin-pagos.png) |
+| QR móvil | [Vista móvil](previews/25-pago-qr-movil.png) |
+| Historial móvil | [Vista móvil](previews/26-mis-pedidos-movil.png) |
+| Operación en revisión | [Estado pendiente](previews/27-pago-revision.png) |
+| Revisión administrativa | [Confirmación explícita](previews/28-revision-admin.png) |
+
+Las capturas usan pedidos ficticios. `scripts/capture-orders.mjs` solo opera si la API está en demo, registra la evidencia y al terminar anula su venta y simula la devolución para restaurar el stock. Conserva los registros de prueba y su auditoría. El [informe de contraste](previews/orders-contrast-report.json) registra las vistas comprobadas, no una certificación completa de accesibilidad.
+
+## Endpoints
 
 - `GET /api/me/orders?page=1` y `GET /api/me/orders/:id`: historial y detalle propios.
 - `POST /api/me/orders/:id/cancel`: cancelar un pedido pendiente sin pago por resolver.
