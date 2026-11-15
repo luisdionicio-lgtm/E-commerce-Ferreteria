@@ -1,4 +1,4 @@
-import { Link } from '../../app/navigation';
+import { Link } from '../../state/navigation';
 import {
   AreaChart,
   Area,
@@ -21,7 +21,7 @@ import {
   Receipt,
   ArrowDownLeft,
 } from 'lucide-react';
-import { useApp, useResource, money, dateLabel } from '../../app/context';
+import { useApp, useResource, money, dateLabel } from '../../state/context';
 import { PageHeader, Loading, ErrorBox, Empty, Status } from '../../components/ui';
 export default function Dashboard() {
   const { user } = useApp();

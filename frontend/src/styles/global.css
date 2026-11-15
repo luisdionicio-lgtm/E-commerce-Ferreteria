@@ -4948,6 +4948,50 @@ td {
 }
 
 /* Final craft polish: calmer headline tracking and native surface details. */
+.product-gallery {
+  min-width: 0;
+}
+.product-gallery .detail-picture img {
+  width: 100%;
+  height: 440px;
+  object-fit: contain;
+  background: var(--color-surface);
+  border-radius: 12px;
+}
+.gallery-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.gallery-thumbnails button {
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--color-rule);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 4px;
+}
+.gallery-thumbnails button[aria-pressed='true'] {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.gallery-thumbnails img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.gallery-caption {
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+@media (max-width: 760px) {
+  .product-gallery .detail-picture img {
+    height: 320px;
+  }
+}
 .customer-auth {
   padding-block: 48px 72px;
   min-height: 65dvh;

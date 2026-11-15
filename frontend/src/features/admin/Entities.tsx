@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   Clock,
 } from 'lucide-react';
-import { useApp, useResource, money, dateLabel } from '../../app/context';
+import { useApp, useResource, money, dateLabel } from '../../state/context';
 import {
   PageHeader,
   DataTable,

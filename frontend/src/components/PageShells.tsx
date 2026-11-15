@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import PublicLayout from '../layouts/PublicLayout';
 import AdminLayout from '../layouts/AdminLayout';
-import { Navigate } from '../app/navigation';
-import { useApp } from '../app/context';
+import { Navigate } from '../state/navigation';
+import { useApp } from '../state/context';
 import { Loading } from './ui';
 export function StorePage({ children }: { children: ReactNode }) {
   return <PublicLayout>{children}</PublicLayout>;

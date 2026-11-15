@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate, Navigate } from '../../app/navigation';
+import { Link, useNavigate, Navigate } from '../../state/navigation';
 import { ArrowRight, LockKeyhole, Eye, EyeOff, ShieldCheck, ArrowUpRight } from 'lucide-react';
-import { useApp } from '../../app/context';
+import { useApp } from '../../state/context';
 export default function Login() {
   const { user, signIn } = useApp();
   const [email, setEmail] = useState('admin@ferremax.pe');

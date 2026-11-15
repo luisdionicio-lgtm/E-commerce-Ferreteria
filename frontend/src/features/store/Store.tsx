@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams, useNavigate } from '../../app/navigation';
+import { Link, useParams, useSearchParams, useNavigate } from '../../state/navigation';
 import { useState, useMemo } from 'react';
 import {
   ArrowUpRight,
@@ -19,10 +19,11 @@ import {
   HardHat,
   Wrench,
 } from 'lucide-react';
-import { useApp, money, type Product } from '../../app/context';
+import { useApp, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
 import { send } from '../../services/api';
 import { toast } from 'sonner';
+import ProductGallery from '../../components/ProductGallery';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
 export function ProductCard({ p }: { p: Product }) {
   const { addToCart } = useApp();
@@ -342,10 +343,7 @@ export function ProductDetail() {
         {p.category}
       </div>
       <div className="detail-layout">
-        <div className="detail-picture">
-          <img src={p.image} alt={p.name} />
-          <span>Fotografía referencial</span>
-        </div>
+        <ProductGallery key={p.id} image={p.image} name={p.name} />
         <div className="detail-copy">
           <span className="eyebrow">
             {p.brand} · {p.sku}

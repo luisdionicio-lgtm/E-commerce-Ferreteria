@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, type ComponentProps } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ComponentProps } from 'react';
 
 /** Compatibility helpers backed by Next.js, not a second client router. */
 type LinkProps = Omit<ComponentProps<typeof NextLink>, 'href'> & { to: string };
@@ -14,7 +14,7 @@ export function NavLink({
   ...props
 }: LinkProps & { end?: boolean }) {
   const router = useRouter();
-  const pathname = router.asPath.split('?')[0];
+  const pathname = router.pathname;
   const active = end ? pathname === to : pathname === to || pathname.startsWith(to + '/');
   return (
     <Link
@@ -41,10 +41,11 @@ export function useParams() {
 }
 export function useSearchParams(): [URLSearchParams, (params: URLSearchParams) => void] {
   const router = useRouter();
-  const params = useMemo(
-    () => new URLSearchParams(router.asPath.split('?')[1]?.split('#')[0] || ''),
-    [router.asPath],
-  );
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    if (router.isReady) setSearch(router.asPath.split('?')[1]?.split('#')[0] || '');
+  }, [router.isReady, router.asPath]);
+  const params = useMemo(() => new URLSearchParams(search), [search]);
   const setParams = useCallback(
     (next: URLSearchParams) => {
       void router.replace(

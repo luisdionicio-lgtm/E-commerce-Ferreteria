@@ -25,6 +25,7 @@ export interface Unit {
   remove(table: Table, id: string): Promise<void>;
 }
 export interface Repository {
+  close?(): Promise<void>;
   read<T>(fn: (unit: Unit) => Promise<T>): Promise<T>;
   transaction<T>(fn: (unit: Unit) => Promise<T>): Promise<T>;
 }

@@ -1,6 +1,6 @@
 # Arquitectura
 
-Monolito modular con dos aplicaciones de desarrollo. Vite sirve el frontend; Express expone `/api`. El proxy de Vite evita cambiar URLs entre cliente y servidor. El navegador nunca accede directamente a MySQL.
+Dos aplicaciones con responsabilidades separadas: Next.js 16 (Pages Router) sirve el frontend; Express expone `/api`. Las reglas rewrites de Next reenvían esa ruta al backend. El navegador nunca accede directamente a MySQL. Los diagramas para la exposición están en `ARQUITECTURA_CURSO.md` y `MODELO_ER.md`.
 
 Flujo: vista React → cliente HTTP → ruta Express → validación Zod / autenticación / autorización → servicio de dominio → repositorio → almacenamiento.
 

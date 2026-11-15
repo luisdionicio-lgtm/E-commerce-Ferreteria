@@ -16,4 +16,10 @@ Se añadió una migración inicial versionada en `backend/prisma/migrations`. Pa
 
 ## Evidencia inicial
 
+## Hito 2: compatibilidad, galería y pruebas
+
+Se movió el estado a `src/state` porque el nombre `src/app` activaba la detección de App Router y alteraba la página 404. Las consultas de filtro se leen tras `router.isReady` para que servidor y primer render del cliente coincidan. Se excluyen validadores de `.next/dev` de la compilación de producción, evitando identificadores duplicados entre salidas dev y build.
+
+La galería de producto incorpora dos recursos oficiales adicionales de Bosch, además de las fotografías existentes. Se amplían las pruebas a cuatro recorridos de navegador y a CRUD administrativo e integración MySQL real. La prueba de pedido espera la respuesta de autenticación antes de verificar la navegación; los tiempos permiten arranque en frío de Next y DB.
+
 `npm run build`: backend TypeScript y frontend Next compilan; se generan las rutas de tienda, autenticación y administración. Las pruebas posteriores y el estado del despliegue se registran en `VERIFICACION.md`.

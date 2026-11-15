@@ -7,7 +7,7 @@ import {
   CalendarClock,
   TriangleAlert,
 } from 'lucide-react';
-import { useResource, useApp, money, dateLabel } from '../../app/context';
+import { useResource, useApp, money, dateLabel } from '../../state/context';
 import {
   PageHeader,
   DataTable,

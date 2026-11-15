@@ -110,6 +110,7 @@ export async function createRepository(): Promise<Repository> {
   const db = new PrismaClient();
   await db.$connect();
   return {
+    close: () => db.$disconnect(),
     read: (fn) => fn(new PrismaUnit(db)),
     transaction: async (fn) => {
       for (let i = 0; i < 3; i++) {

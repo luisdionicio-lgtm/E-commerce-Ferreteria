@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate } from '../../app/navigation';
-import { useApp } from '../../app/context';
+import { Link, Navigate, useNavigate } from '../../state/navigation';
+import { useApp } from '../../state/context';
 import { Loading } from '../../components/ui';
 
 export function CustomerAuth({ register = false }: { register?: boolean }) {

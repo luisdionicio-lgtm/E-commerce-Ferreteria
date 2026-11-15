@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Save, Store, ShieldCheck, Database } from 'lucide-react';
-import { useResource, useApp } from '../../app/context';
+import { useResource, useApp } from '../../state/context';
 import { Fields } from '../admin/Entities';
 import { PageHeader, Loading, ErrorBox, DataTable } from '../../components/ui';
 import { send } from '../../services/api';

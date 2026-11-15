@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, Link, useNavigate, Navigate } from '../app/navigation';
+import { NavLink, Link, useNavigate, Navigate } from '../state/navigation';
 import {
   LayoutDashboard,
   Package,
@@ -23,7 +23,7 @@ import {
   Bell,
   X,
 } from 'lucide-react';
-import { useApp } from '../app/context';
+import { useApp } from '../state/context';
 import { Loading } from '../components/ui';
 const groups = [
   {

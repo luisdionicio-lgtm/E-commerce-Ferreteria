@@ -1,4 +1,4 @@
-import { Link } from '../app/navigation';
+import { Link } from '../state/navigation';
 import { StorePage } from '../components/PageShells';
 export default function NotFound() {
   return (

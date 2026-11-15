@@ -1,5 +1,9 @@
 FERREMAX · TIENDA + PANEL ADMINISTRATIVO
 
+Versión del curso: frontend Next.js 16 + backend Express + MySQL/Prisma.
+Presentación: docs/PRESENTACION_SEMANA_16.md
+Despliegue: docs/DESPLIEGUE.md (nube pendiente de cuenta y URL verificadas).
+
 1. Descomprime toda la carpeta ferremax. No ejecutes dentro del ZIP.
 2. Instala Node.js 22.12 o superior (Node 24 LTS también funciona).
 3. VS Code > Archivo > Abrir carpeta > ferremax.

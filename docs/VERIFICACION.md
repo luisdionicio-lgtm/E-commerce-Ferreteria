@@ -1,5 +1,21 @@
 # Verificación de esta entrega
 
+## Versión del curso — 14 de noviembre de 2026
+
+- Frontend Next.js 16.4.6 con Pages Router real; React Router y Vite retirados.
+- Backend Express separado y proxy `/api` desde Next, con variables de servidor.
+- Compilación Next y TypeScript correcta; rutas públicas y administrativas generadas.
+- 10 pruebas de API/dominio/CRUD aprobadas; la prueba de MySQL se omite en el comando genérico si falta MYSQL_TEST_URL.
+- Prueba MySQL real aprobada por separado en `ferremax_course_verify_20261114`: migración versionada, seed, recepción de compra, venta, rollback, anulación y roles.
+- 4 recorridos Playwright aprobados en Edge/Chromium: filtros por URL, galería, registro/login, carrito persistente, pedido-confirmación-anulación, panel y 404. Comprobación responsive a 320, 375, 414, 768 y 1280px sin desbordamiento; sin errores de hidratación en el recorrido instrumentado.
+- Los cuatro recorridos también se repitieron con la API local conectada a MySQL; resultado 4/4. `/api/health` devolvió `driver: mysql`. Para repetir la prueba aislada usar `npm run test:mysql` con MYSQL_TEST_URL; las pruebas conservan sus registros ficticios y restauran el stock de sus ventas.
+- Auditoría npm: cero vulnerabilidades al verificar. Formato Prettier y detector Impeccable sin incidencias.
+- Capturas actuales Next: `docs/previews/07-next-tienda.png` y `08-next-movil.png`. Las anteriores corresponden a versiones históricas.
+- Material del curso: E-R, arquitectura, secuencia Next–Express, justificación de MySQL, guía de exposición y configuración de despliegue.
+- Nube pospuesta expresamente por el estudiante; no se afirma una URL pública ni una prueba cloud.
+
+Se probaron los flujos descritos; esto no constituye una auditoría exhaustiva de seguridad, prueba de carga o certificación. Los pagos online, correos de recuperación y comprobantes fiscales no forman parte del alcance implementado.
+
 ## Actualización del 18 de octubre de 2026
 
 - Registro e inicio de sesión de clientes, cuenta y cierre de sesión.

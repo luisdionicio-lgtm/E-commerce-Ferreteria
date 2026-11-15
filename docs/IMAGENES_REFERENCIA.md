@@ -1,5 +1,12 @@
 # Imágenes referenciales del catálogo
 
+## Galería añadida el 14 de noviembre de 2026
+
+- `drill-kit-bosch.png`: fotografía oficial del conjunto GSB 185-LI; medio `363999-54/scope-of-supply-image`.
+- `drill-dimensions-bosch.jpg`: imagen técnica de dimensiones; medio `371206-117/dimensional-drawing-image`.
+
+Fuente: [Bosch Professional Perú](https://www.bosch-professional.com/pe/es/products/gsb-185-li-06019K31E4). Descargadas de la página oficial e inspeccionadas visualmente. La galería permite alternar producto, conjunto, dimensiones y aplicación. Son referencias de una variante; la tienda debe confirmar las características del producto real. No se generaron imágenes con IA.
+
 ## Fotografías de aplicación añadidas el 12 de octubre de 2026
 
 - `drill-workshop.jpg`: profesional perforando ladrillo, medio Bosch `370217-117`.

@@ -2,7 +2,9 @@
 
 [![Verify FerreMax](https://github.com/luisdionicio-lgtm/E-commerce-Ferreteria/actions/workflows/ci.yml/badge.svg)](https://github.com/luisdionicio-lgtm/E-commerce-Ferreteria/actions/workflows/ci.yml)
 
-Proyecto full stack de portafolio de Luis Dionicio: e-commerce de ferretería con catálogo, búsqueda y filtros, carrito persistente, registro e inicio de sesión de clientes, pedidos y panel administrativo con inventario por lotes. React 19, TypeScript, Vite, Express, MySQL y Prisma.
+Proyecto full stack de portafolio de Luis Dionicio, adaptado al curso de Desarrollo Web Avanzado del profesor Arévalo: e-commerce de ferretería con catálogo, búsqueda y filtros, galería, carrito persistente, registro e inicio de sesión de clientes, pedidos y panel administrativo con inventario por lotes. Next.js 16 (Pages Router), React 19, TypeScript, Express, MySQL y Prisma.
+
+Material para la entrega: [presentación Semana 16](docs/PRESENTACION_SEMANA_16.md), [arquitectura Next–Express](docs/ARQUITECTURA_CURSO.md), [modelo E-R y elección de MySQL](docs/MODELO_ER.md), [despliegue](docs/DESPLIEGUE.md), [migración desde Vite](docs/MIGRACION_NEXT.md) y [verificación](docs/VERIFICACION.md). Las URLs públicas permanecen pendientes hasta completar el despliegue en una cuenta de hosting.
 
 El flujo comercial es **pedido sujeto a confirmación**: permite seleccionar productos y enviar una solicitud; el personal confirma stock, pago y entrega. No incorpora una pasarela de pago, cobros online, recuperación de contraseña ni verificación de correo. Los precios, existencias, proveedores y fotografías son referenciales.
 
@@ -23,7 +25,11 @@ Consulta la [prueba manual paso a paso](docs/PRUEBA_MANUAL.md). Ejecuta `npm tes
 
 El demo usa almacenamiento JSON persistente para probarlo sin servicios externos. El esquema relacional MySQL, sus relaciones y las instrucciones de Prisma se incluyen más abajo. `backend/data/`, sesiones locales, secretos y `node_modules/` no se publican; el seed recrea los datos de muestra.
 
-Tienda web y sistema de gestión para una ferretería. React + TypeScript + Vite, Node.js + Express, repositorios intercambiables JSON/MySQL y Prisma. Interfaz en español con identidad industrial, fotografías referenciales, diseño adaptable y formularios conectados a la API.
+Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 4 recorridos Playwright. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
+
+![Tienda Next.js, captura local](docs/previews/07-next-tienda.png)
+
+Tienda web y sistema de gestión para una ferretería. Next.js sirve las páginas por archivos y reenvía `/api` a Express. Los repositorios intercambiables JSON/MySQL mantienen la misma lógica de dominio. Interfaz en español, fotografías referenciales, diseño adaptable y formularios conectados a la API.
 
 ## Abrir en Visual Studio Code
 
@@ -184,14 +190,14 @@ Se aplicaron [emil-design-eng](https://github.com/emilkowalski/skills), `fronten
 
 Es una **primera versión funcional local**, con frontend y backend reales y datos ficticios. No incluye pasarela de pago, subida de archivos, correo/SMS/WhatsApp automático, SUNAT, múltiples sucursales, reservas de stock, pruebas de carga, integración contable ni despliegue. Registrar Yape/tarjeta solo almacena el medio elegido; no valida el pago. No expone ni inventa una conexión con Figma.
 
-Antes de publicar: configura MySQL, HTTPS, secretos, respaldos y cuentas propias; retira las credenciales demo visibles del login; agrega tus datos comerciales, fotografías, políticas y procesos de pago/comprobantes. `NODE_ENV=production` exige MySQL, un secreto fuerte y `FRONTEND_URL` HTTPS. El backend puede servir el frontend compilado con `npm start`; usa un proxy HTTPS del mismo origen.
+Antes de publicar: configura MySQL, HTTPS, secretos, respaldos y cuentas propias; retira las credenciales demo visibles del login; agrega tus datos comerciales, fotografías, políticas y procesos de pago/comprobantes. `NODE_ENV=production` exige MySQL, un secreto fuerte y `FRONTEND_URL` HTTPS. `npm start` inicia Express; `npm run start:web` inicia Next. Son servicios separados y Next reenvía `/api` al backend configurado en `API_ORIGIN`. En nube utiliza `npm run db:migrate` para aplicar las migraciones versionadas; la guía de despliegue explica bases vacías y bases existentes.
 
 ## Solución rápida de problemas
 
 - `npm no se reconoce`: instala Node.js y vuelve a abrir VS Code.
 - PowerShell bloquea `npm.ps1`: usa `npm.cmd`.
 - `start-windows.bat no reconocido`: ejecuta ` .\start-windows.bat` dentro de la carpeta extraída.
-- Puertos ocupados: detén la aplicación que usa 3001/5173. Si cambias el puerto API, actualiza el proxy en `frontend/vite.config.ts`.
+- Puertos ocupados: usa puertos libres para 3001/5173. Si cambias el puerto API, configura `API_ORIGIN` en `frontend/.env.local` y reinicia Next. No cierres procesos ajenos al proyecto.
 - Vista con error de conexión: comprueba la terminal del backend y `/api/health`.
 - Contraseña demo no coincide: si cambiaste usuarios, usa la nueva contraseña; no se restablecen al reiniciar.
 - MySQL falla: revisa Docker, la URL y el secreto; ejecuta `db:generate` después de cambios en el esquema.

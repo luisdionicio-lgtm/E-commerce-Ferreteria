@@ -1,5 +1,107 @@
 import { test, expect } from '@playwright/test';
 
+test('Next: enlaces directos, filtros por URL, galería y responsive', async ({
+  page,
+}, testInfo) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (/hydration|hydrated|server rendered HTML/.test(message.text())) errors.push(message.text());
+  });
+  await page.goto('/catalogo?categoria=cat-1&q=Bosch');
+  await expect(page.locator('.product-card')).toHaveCount(2);
+  await page.reload();
+  await expect(page.locator('.product-card')).toHaveCount(2);
+  await page.goto('/productos/producto-1');
+  await expect(
+    page.getByRole('heading', { name: 'Taladro percutor Bosch GSB 185-LI 18V', exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', {
+      name: 'Ver vista 2 de Taladro percutor Bosch GSB 185-LI 18V',
+      exact: true,
+    })
+    .click();
+  await expect(page.locator('.product-gallery .detail-picture img')).toHaveAttribute(
+    'src',
+    '/images/reference/drill-kit-bosch.png',
+  );
+  await page
+    .getByRole('button', {
+      name: 'Ver vista 3 de Taladro percutor Bosch GSB 185-LI 18V',
+      exact: true,
+    })
+    .click();
+  await expect(page.locator('.product-gallery .detail-picture img')).toHaveAttribute(
+    'src',
+    '/images/reference/drill-dimensions-bosch.jpg',
+  );
+  await page.goto('/');
+  for (const width of [320, 375, 414, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect(
+      page.getByRole('heading', { name: 'Tu proyecto. Bien equipado.', exact: true }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+      `overflow at ${width}`,
+    ).toBe(true);
+    if (width === 375 || width === 1280)
+      await page.screenshot({ path: testInfo.outputPath(`home-${width}.png`), fullPage: true });
+  }
+  await page.goto('/ruta-inexistente-del-curso');
+  await expect(
+    page.getByRole('heading', { name: 'Esta página no existe.', exact: true }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('Pedido web: envío, confirmación de venta y devolución de stock', async ({
+  page,
+  request,
+}) => {
+  const name = `Curso-${Date.now()}`;
+  await page.goto('/productos/producto-1');
+  await page.getByRole('button', { name: 'Agregar al carrito', exact: true }).click();
+  await page.getByRole('link', { name: 'Ver carrito', exact: true }).click();
+  await page.getByLabel('Nombre completo').fill(name);
+  await page.getByLabel('Celular').fill('999123456');
+  const created = page.waitForResponse(
+    (r) => r.url().endsWith('/api/orders') && r.request().method() === 'POST',
+  );
+  await page.getByRole('button', { name: 'Enviar pedido', exact: true }).click();
+  const response = await created;
+  expect(response.status()).toBe(201);
+  const order = await response.json();
+  await expect(
+    page.getByRole('heading', { name: 'Tu proyecto ya está en marcha.', exact: true }),
+  ).toBeVisible();
+  await page.goto('/login');
+  await page.getByLabel('Contraseña', { exact: true }).fill('FerreMax2026!');
+  const signedIn = page.waitForResponse(
+    (r) => r.url().endsWith('/api/auth/login') && r.request().method() === 'POST',
+  );
+  await page.getByRole('button', { name: 'Ingresar al panel', exact: true }).click();
+  expect((await signedIn).status()).toBe(200);
+  await expect(page).toHaveURL(/admin\/dashboard/);
+  await page.goto('/admin/pedidos');
+  await page.getByRole('textbox', { name: 'Buscar código o cliente…', exact: true }).fill(name);
+  await page.getByRole('button', { name: 'Confirmar', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirmar operación', exact: true }).click();
+  await expect(page.locator('tbody')).toContainText('confirmado');
+  // Restore only the sale this test created; preserve all other demo records.
+  const login = await request.post('/api/auth/login', {
+    data: { email: 'admin@ferremax.pe', password: 'FerreMax2026!' },
+  });
+  const session = await login.json();
+  const headers = { Authorization: `Bearer ${session.accessToken}` };
+  const sales = await (await request.get('/api/admin/sales', { headers })).json();
+  const sale = sales.records.find((row: { orderId: string }) => row.orderId === order.id);
+  expect(sale).toBeTruthy();
+  const cancelled = await request.post(`/api/admin/sales/${sale.id}/cancel`, { headers, data: {} });
+  expect(cancelled.ok()).toBeTruthy();
+});
+
 test('Cliente: registro, protección de admin, búsqueda, filtros y carrito persistente', async ({
   page,
 }) => {

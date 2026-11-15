@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Plus, Trash2, Check, Eye, RotateCcw, PackageCheck, ShoppingBag } from 'lucide-react';
-import { useApp, useResource, money, dateLabel } from '../../app/context';
+import { useApp, useResource, money, dateLabel } from '../../state/context';
 import {
   PageHeader,
   DataTable,

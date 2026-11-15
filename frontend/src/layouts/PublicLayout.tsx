@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from '../app/navigation';
+import { Link, NavLink, useNavigate } from '../state/navigation';
 import {
   ShoppingBag,
   Search,
@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import { useState } from 'react';
-import { useApp } from '../app/context';
+import { useApp } from '../state/context';
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { cart, settings, user } = useApp();
   const [term, setTerm] = useState('');

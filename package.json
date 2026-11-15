@@ -13,6 +13,7 @@
     "start": "npm run start -w backend",
     "test": "npm run test -w backend",
     "test:e2e": "playwright test",
+    "test:mysql": "npm run test:mysql -w backend",
     "format": "prettier --write frontend/src backend/src backend/tests tests playwright.config.ts tokens.css",
     "format:check": "prettier --check frontend/src backend/src backend/tests tests playwright.config.ts tokens.css",
     "db:generate": "npm run db:generate -w backend",

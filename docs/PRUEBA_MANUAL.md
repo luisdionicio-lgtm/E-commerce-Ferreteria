@@ -25,6 +25,10 @@ En una terminal dentro de la carpeta del proyecto: `npm ci`, luego `npm run dev`
 
 ## Comprobaciones automáticas
 
+Versión Next.js del curso: se amplían los recorridos con galería, enlace directo con filtros, 404, responsive a 320/375/414/768/1280px y envío/confirmación/anulación de pedido. La prueba MySQL usa una base aislada cuyo nombre empieza por `ferremax_course_verify_` y requiere `MYSQL_TEST_URL`; sin esa variable se omite, no se declara aprobada.
+
+Ejemplo PowerShell local (solo después de migrar y sembrar esa base): `$env:MYSQL_TEST_URL='mysql://ferremax:ferremax_local@127.0.0.1:3307/ferremax_course_verify_20261114'`, luego `npm run test:mysql`. No apuntar pruebas a la base de producción.
+
 `npm test` verifica API, registro, permisos, sesiones y operaciones de inventario. `npm run build` verifica TypeScript y genera el frontend de producción. No uses datos personales reales para las pruebas del demo.
 
 Para repetir las pruebas de navegador: `npx playwright install chromium` y `npm run test:e2e`. Las pruebas crean cuentas ficticias en el demo local. Si ya tienes Chrome o Edge, en PowerShell puedes usar `$env:PLAYWRIGHT_CHANNEL='chrome'` (o `'msedge'`) antes de ejecutar las pruebas, sin descargar Chromium.
