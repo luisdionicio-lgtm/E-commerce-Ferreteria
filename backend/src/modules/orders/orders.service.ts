@@ -1,5 +1,10 @@
 import type { Row, Unit } from '../../shared/types.js';
 import { ensure } from '../../shared/errors.js';
+import {
+  paymentForOrder,
+  paymentSummary,
+  cancelOrderPayment,
+} from '../payments/payment-lifecycle.js';
 
 export async function ownedOrder(u: Unit, id: string, userId: string) {
   const order = await u.get('orders', id);
@@ -29,9 +34,23 @@ export async function orderView(u: Unit, order: Row) {
     status: order.status,
     fulfillmentStatus: order.fulfillmentStatus || 'POR_PREPARAR',
     total: order.total,
+    payment: paymentSummary(await paymentForOrder(u, order.id)),
     createdAt: order.createdAt,
     items,
   };
+}
+
+export async function cancelCustomerOrder(u: Unit, id: string, userId: string) {
+  const order = await ownedOrder(u, id, userId);
+  ensure(order.status === 'PENDIENTE', 'Solo puedes cancelar pedidos pendientes', 409);
+  const payment = await paymentForOrder(u, id);
+  ensure(
+    !payment || !['EN_REVISION', 'APROBADO', 'REEMBOLSO_PENDIENTE'].includes(payment.status),
+    'El pago requiere revisión de la tienda antes de cancelar',
+    409,
+  );
+  await cancelOrderPayment(u, id);
+  return u.update('orders', id, { status: 'ANULADO' });
 }
 
 export async function customerOrders(u: Unit, userId: string, page: number) {

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import type { Unit } from '../../shared/types.js';
 import { ensure } from '../../shared/errors.js';
 import { deduct, movement } from '../inventory/inventory.service.js';
+import { paymentForOrder, cancelOrderPayment } from '../payments/payment-lifecycle.js';
 export async function createOrder(u: Unit, input: any, userId: string | null = null) {
   const quantities = new Map<string, number>();
   for (const item of input.items)
@@ -48,7 +49,7 @@ export async function createOrder(u: Unit, input: any, userId: string | null = n
   for (const item of items) await u.create('orderItems', item);
   return order;
 }
-export async function createSale(u: Unit, input: any, userId: string) {
+export async function createSale(u: Unit, input: any, userId: string, settlingPaymentId?: string) {
   const id = randomUUID();
   let total = 0;
   const items = [];
@@ -59,24 +60,31 @@ export async function createSale(u: Unit, input: any, userId: string) {
     ensure(order && order.status === 'PENDIENTE', 'El pedido ya fue procesado', 409);
     const existing = await u.all('sales');
     ensure(!existing.some((s) => s.orderId === input.orderId), 'Pedido ya vendido', 409);
+    const payment = await paymentForOrder(u, input.orderId);
+    ensure(
+      !payment || payment.status === 'CANCELADO' || payment.id === settlingPaymentId,
+      'Revisa el pago asociado antes de confirmar este pedido',
+      409,
+    );
     input = {
       ...input,
       items: (await u.all('orderItems'))
         .filter((i) => i.orderId === input.orderId)
-        .map((i) => ({ productId: i.productId, quantity: i.quantity })),
+        .map((i) => ({ productId: i.productId, quantity: i.quantity, price: i.price })),
     };
   }
   for (const item of input.items) {
     const p = await u.get('products', item.productId);
     ensure(p?.active, 'Producto no disponible');
     await deduct(u, p.id, item.quantity, userId, id);
-    total += p.price * item.quantity;
+    const price = input.orderId ? item.price : p.price;
+    total += price * item.quantity;
     items.push({
       id: randomUUID(),
       saleId: id,
       productId: p.id,
       quantity: item.quantity,
-      price: p.price,
+      price,
     });
   }
   ensure(Number.isSafeInteger(total) && total <= 2000000000, 'El total supera el límite permitido');
@@ -115,7 +123,10 @@ export async function cancelSale(u: Unit, id: string, userId: string) {
     );
   }
   await u.update('sales', id, { status: 'ANULADA' });
-  if (sale.orderId) await u.update('orders', sale.orderId, { status: 'ANULADO' });
+  if (sale.orderId) {
+    await u.update('orders', sale.orderId, { status: 'ANULADO' });
+    await cancelOrderPayment(u, sale.orderId);
+  }
   return { message: 'Venta anulada y stock devuelto' };
 }
 export async function createPurchase(u: Unit, input: any, userId: string) {

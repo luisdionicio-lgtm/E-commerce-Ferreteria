@@ -19,6 +19,7 @@ model User {
  auditLogs AuditLog[]
  sessions Session[]
  orders Order[]
+ reviewedPayments Payment[] @relation("PaymentReviewer")
 }
 
 model Category {
@@ -174,6 +175,28 @@ model Order {
  @@index([userId, createdAt])
  sale Sale?
  items OrderItem[]
+ payment Payment?
+}
+
+model Payment {
+ id String @id
+ orderId String @unique
+ method String
+ mode String
+ status String
+ amount Int
+ currency String @default("PEN")
+ reference String?
+ refundReference String?
+ reviewNote String @default("") @db.Text
+ reviewedBy String?
+ createdAt String
+ updatedAt String
+ order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+ reviewer User? @relation("PaymentReviewer", fields: [reviewedBy], references: [id], onDelete: Restrict)
+ @@unique([mode, reference])
+ @@index([status, createdAt])
+ @@index([reviewedBy])
 }
 
 model OrderItem {

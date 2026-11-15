@@ -19,6 +19,7 @@ export const tables: Table[] = [
   'auditLogs',
   'settings',
   'sessions',
+  'payments',
 ];
 export async function seedData(): Promise<Record<Table, Row[]>> {
   const data = Object.fromEntries(tables.map((t) => [t, []])) as unknown as Record<Table, Row[]>;

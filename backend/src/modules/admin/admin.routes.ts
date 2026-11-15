@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { z } from 'zod';
 import type { Repository, Table, Unit } from '../../shared/types.js';
 import { schemas, adjustmentSchema, saleSchema, purchaseSchema } from './admin.schemas.js';
 import { authenticate, admin } from '../../middlewares/security.js';
@@ -14,8 +15,10 @@ import {
 import { ensure } from '../../shared/errors.js';
 import { randomUUID } from 'node:crypto';
 import { hash } from 'bcryptjs';
-export const wrap = (fn: any) => (req: any, res: any, next: any) =>
-  Promise.resolve(fn(req, res)).catch(next);
+import { adminPaymentRoutes } from '../payments/payments.routes.js';
+import { cancelOrderPayment } from '../payments/payment-lifecycle.js';
+import { wrap } from '../../shared/http.js';
+export { wrap } from '../../shared/http.js';
 async function audit(u: Unit, userId: string, action: string, entity: string, entityId: string) {
   await u.create('auditLogs', {
     id: randomUUID(),
@@ -41,6 +44,7 @@ export function adminRoutes(repo: Repository) {
       next(e);
     }
   });
+  r.use('/payments', adminPaymentRoutes(repo));
   r.get(
     '/dashboard',
     wrap(async (_q: any, s: any) => s.json(await repo.read(dashboard))),
@@ -251,10 +255,46 @@ export function adminRoutes(repo: Repository) {
         await repo.transaction(async (u) => {
           const o = await u.get('orders', q.params.id);
           ensure(o?.status === 'PENDIENTE', 'Pedido ya procesado', 409);
+          const payment = (await u.all('payments')).find((row) => row.orderId === q.params.id);
+          ensure(
+            !payment || payment.status !== 'EN_REVISION',
+            'Revisa el pago reportado antes de anular el pedido',
+            409,
+          );
+          await cancelOrderPayment(u, q.params.id);
           return u.update('orders', q.params.id, { status: 'ANULADO' });
         }),
       ),
     ),
+  );
+  r.patch(
+    '/orders/:id/fulfillment',
+    wrap(async (q: any, s: any) => {
+      const input = z
+        .object({ status: z.enum(['EN_PREPARACION', 'LISTO', 'ENTREGADO']) })
+        .strict()
+        .parse(q.body);
+      s.json(
+        await repo.transaction(async (u) => {
+          const order = await u.get('orders', q.params.id);
+          ensure(
+            order?.status === 'CONFIRMADO',
+            'Confirma el pedido antes de preparar su entrega',
+            409,
+          );
+          const states = ['POR_PREPARAR', 'EN_PREPARACION', 'LISTO', 'ENTREGADO'];
+          const current = order.fulfillmentStatus || 'POR_PREPARAR';
+          ensure(
+            input.status === current ||
+              states.indexOf(input.status) === states.indexOf(current) + 1,
+            'Avanza la entrega de una etapa a la vez',
+            409,
+          );
+          await audit(u, s.locals.user.id, `ENTREGA_${input.status}`, 'orders', order.id);
+          return u.update('orders', order.id, { fulfillmentStatus: input.status });
+        }),
+      );
+    }),
   );
   r.get(
     '/settings',

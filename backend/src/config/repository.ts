@@ -39,6 +39,8 @@ export class JsonRepository implements Repository {
     let data: Data;
     try {
       data = JSON.parse(await readFile(path, 'utf8'));
+      // Nuevas tablas se incorporan sin borrar demos JSON anteriores.
+      for (const table of tables) data[table] ??= [];
     } catch (e: any) {
       if (e.code !== 'ENOENT') throw e;
       data = await seedData();
@@ -85,6 +87,7 @@ const model: Record<Table, string> = {
   auditLogs: 'auditLog',
   settings: 'setting',
   sessions: 'session',
+  payments: 'payment',
 };
 class PrismaUnit implements Unit {
   constructor(private db: any) {}

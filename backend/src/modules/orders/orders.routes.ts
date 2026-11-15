@@ -2,10 +2,12 @@ import { Router } from 'express';
 import { z } from 'zod';
 import type { Repository } from '../../shared/types.js';
 import { authenticate } from '../../middlewares/security.js';
-import { wrap } from '../admin/admin.routes.js';
-import { customerOrders, orderView, ownedOrder } from './orders.service.js';
+import { wrap } from '../../shared/http.js';
+import { customerOrders, orderView, ownedOrder, cancelCustomerOrder } from './orders.service.js';
+import { customerPaymentRoutes } from '../payments/payments.routes.js';
+import type { PaymentConfig } from '../payments/payment.config.js';
 
-export function customerOrderRoutes(repo: Repository) {
+export function customerOrderRoutes(repo: Repository, config: PaymentConfig) {
   const router = Router();
   router.use(authenticate(repo));
   router.use((_q, res, next) => {
@@ -29,5 +31,15 @@ export function customerOrderRoutes(repo: Repository) {
       );
     }),
   );
+  router.post(
+    '/:id/cancel',
+    wrap(async (req: any, res: any) => {
+      z.object({}).strict().parse(req.body);
+      res.json(
+        await repo.transaction((u) => cancelCustomerOrder(u, req.params.id, res.locals.user.id)),
+      );
+    }),
+  );
+  router.use('/:id/payment', customerPaymentRoutes(repo, config));
   return router;
 }

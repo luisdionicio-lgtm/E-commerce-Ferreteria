@@ -9,12 +9,15 @@ import { env } from './config/env.js';
 import { AppError, ensure } from './shared/errors.js';
 import { sameOrigin, optionalAuthenticate } from './middlewares/security.js';
 import { customerOrderRoutes } from './modules/orders/orders.routes.js';
-import { adminRoutes, wrap } from './modules/admin/admin.routes.js';
+import { paymentConfig, type PaymentConfig } from './modules/payments/payment.config.js';
+import { adminRoutes } from './modules/admin/admin.routes.js';
+import { wrap } from './shared/http.js';
 import { catalog } from './modules/catalog/catalog.service.js';
 import { createOrder } from './modules/operations/operations.service.js';
 import { orderSchema } from './modules/admin/admin.schemas.js';
 import { login, refresh, logout, register } from './modules/auth/auth.service.js';
-export function createApp(repo: Repository) {
+export function createApp(repo: Repository, options: { payments?: PaymentConfig } = {}) {
+  const payments = options.payments || paymentConfig();
   const app = express();
   app.disable('x-powered-by');
   if (process.env.TRUST_PROXY === '1') app.set('trust proxy', 1);
@@ -142,7 +145,12 @@ export function createApp(repo: Repository) {
         ),
     ),
   );
-  app.use('/api/me/orders', customerOrderRoutes(repo));
+  app.get('/api/payment-options', (_q, res) =>
+    res
+      .set('Cache-Control', 'no-store')
+      .json({ mode: payments.mode, enabled: payments.mode !== 'disabled', method: 'YAPE' }),
+  );
+  app.use('/api/me/orders', customerOrderRoutes(repo, payments));
   app.use('/api/admin', adminRoutes(repo));
   app.use('/api', (_q, s) => s.status(404).json({ message: 'Ruta no encontrada' }));
   app.use((err: any, _q: any, s: any, _n: any) => {

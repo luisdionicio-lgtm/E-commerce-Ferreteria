@@ -15,7 +15,8 @@ export type Table =
   | 'renewals'
   | 'auditLogs'
   | 'settings'
-  | 'sessions';
+  | 'sessions'
+  | 'payments';
 export type Row = Record<string, any> & { id: string };
 export interface Unit {
   all(table: Table): Promise<Row[]>;
