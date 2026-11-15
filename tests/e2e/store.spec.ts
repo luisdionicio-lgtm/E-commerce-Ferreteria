@@ -1,5 +1,27 @@
 import { test, expect } from '@playwright/test';
 
+test('Accesibilidad y recuperación: salto de teclado, menú móvil y catálogo vacío', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Saltar al contenido', exact: true })).toBeFocused();
+  const menu = page.getByRole('button', { name: 'Mostrar menú', exact: true });
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await menu.click();
+  await expect(menu).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('navigation', { name: 'Navegación de la tienda' })).toBeVisible();
+  await page.route('**/api/catalog/products', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }),
+  );
+  await page.goto('/productos/no-existe');
+  await expect(
+    page.getByRole('heading', { name: 'Producto no encontrado', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('status')).toHaveCount(0);
+});
+
 test('Next: enlaces directos, filtros por URL, galería y responsive', async ({
   page,
 }, testInfo) => {

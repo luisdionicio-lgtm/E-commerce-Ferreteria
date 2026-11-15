@@ -27,16 +27,21 @@ sequenceDiagram
     N->>E: GET /api/catalog/products
     E->>D: Leer productos, categorías y lotes
     D-->>E: Datos persistidos
-    E-->>C: JSON con precio y stock vendible vía Next
+    E-->>N: JSON con precio y stock vendible
+    N-->>C: Respuesta del mismo origen
     C->>N: POST /api/orders con artículos y contacto
     N->>E: Reenviar petición
     E->>D: Transacción: validar y crear pedido e ítems
-    E-->>C: 201 + id del pedido vía Next
+    D-->>E: Pedido persistido
+    E-->>N: 201 + id del pedido
+    N-->>C: Pedido registrado
     Note over C,D: El pedido no cobra ni reserva stock
     C->>N: Personal: POST /api/admin/sales + Bearer
     N->>E: Reenviar petición
     E->>D: Validar rol, stock FEFO, venta y movimientos
-    E-->>C: Venta confirmada vía Next
+    D-->>E: Venta y movimientos confirmados
+    E-->>N: Venta confirmada
+    N-->>C: Resultado de la operación
 ```
 
 ## Autenticación

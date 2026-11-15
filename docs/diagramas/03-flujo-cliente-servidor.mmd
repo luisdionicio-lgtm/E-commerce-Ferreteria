@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant C as Navegador
+    participant N as Next.js
+    participant E as Express
+    participant D as MySQL/Prisma
+    C->>N: GET /catalogo
+    N-->>C: HTML + JavaScript de la página
+    C->>N: GET /api/catalog/products
+    N->>E: GET /api/catalog/products
+    E->>D: Leer productos, categorías y lotes
+    D-->>E: Datos persistidos
+    E-->>N: JSON con precio y stock vendible
+    N-->>C: Respuesta del mismo origen
+    C->>N: POST /api/orders con artículos y contacto
+    N->>E: Reenviar petición
+    E->>D: Transacción: validar y crear pedido e ítems
+    D-->>E: Pedido persistido
+    E-->>N: 201 + id del pedido
+    N-->>C: Pedido registrado
+    Note over C,D: El pedido no cobra ni reserva stock
+    C->>N: Personal: POST /api/admin/sales + Bearer
+    N->>E: Reenviar petición
+    E->>D: Validar rol, stock FEFO, venta y movimientos
+    D-->>E: Venta y movimientos confirmados
+    E-->>N: Venta confirmada
+    N-->>C: Resultado de la operación

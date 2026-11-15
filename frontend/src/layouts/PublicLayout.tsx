@@ -20,6 +20,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const go = useNavigate();
   return (
     <div className="public-shell">
+      <a className="skip-content" href="#store-content">
+        Saltar al contenido
+      </a>
       <div className="announcement">
         <span>Herramientas para grandes ideas.</span>
         <span>
@@ -35,7 +38,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <span className="brand-icon">F</span>Ferre<span>Max</span>
           <span className="brand-period">.</span>
         </Link>
-        <nav className={open ? 'open' : ''}>
+        <nav
+          id="store-navigation"
+          aria-label="Navegación de la tienda"
+          className={open ? 'open' : ''}
+        >
           <NavLink to="/" end onClick={() => setOpen(false)}>
             Inicio
           </NavLink>
@@ -76,12 +83,16 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             className="icon-button public-menu"
             onClick={() => setOpen(!open)}
             aria-label="Mostrar menú"
+            aria-expanded={open}
+            aria-controls="store-navigation"
           >
             {open ? <X /> : <Menu />}
           </button>
         </div>
       </header>
-      <main>{children}</main>
+      <main id="store-content" tabIndex={-1}>
+        {children}
+      </main>
       <section className="trust-strip">
         <div>
           <ShieldCheck />

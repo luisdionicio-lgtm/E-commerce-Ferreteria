@@ -6,6 +6,8 @@ Proyecto full stack de portafolio de Luis Dionicio, adaptado al curso de Desarro
 
 Material para la entrega: [presentación Semana 16](docs/PRESENTACION_SEMANA_16.md), [arquitectura Next–Express](docs/ARQUITECTURA_CURSO.md), [modelo E-R y elección de MySQL](docs/MODELO_ER.md), [despliegue](docs/DESPLIEGUE.md), [migración desde Vite](docs/MIGRACION_NEXT.md) y [verificación](docs/VERIFICACION.md). Las URLs públicas permanecen pendientes hasta completar el despliegue en una cuenta de hosting.
 
+También se incluyen [imágenes PNG/SVG de los diagramas solicitados](docs/diagramas/README.md), listas para la exposición. Se regeneran con `npm run docs:diagrams`.
+
 El flujo comercial es **pedido sujeto a confirmación**: permite seleccionar productos y enviar una solicitud; el personal confirma stock, pago y entrega. No incorpora una pasarela de pago, cobros online, recuperación de contraseña ni verificación de correo. Los precios, existencias, proveedores y fotografías son referenciales.
 
 ## Probar el proyecto desde GitHub

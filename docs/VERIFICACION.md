@@ -1,5 +1,13 @@
 # Verificación de esta entrega
 
+## Pulido funcional y diagramas exportados
+
+- Se evita el estado de carga indefinido en fichas cuando el catálogo está vacío.
+- El carrito espera a que se restauren sus datos y termine la consulta del catálogo; la cantidad añadida se limita al stock.
+- Enlace para saltar al contenido, navegación móvil con aria-expanded y datos de pedido autocompletados desde la cuenta.
+- Cinco recorridos E2E aprobados, incluyendo teclado, menú móvil y catálogo vacío, además de los flujos anteriores.
+- Tres diagramas exportados a PNG y SVG, inspeccionados visualmente; E-R generado desde el esquema Prisma y arquitectura compuesta para diapositiva 16:9.
+
 ## Versión del curso — 14 de noviembre de 2026
 
 - Frontend Next.js 16.4.6 con Pages Router real; React Router y Vite retirados.

@@ -2,6 +2,13 @@
 
 Curso: Desarrollo Web Avanzado. Profesor: Arévalo. Tema: e-commerce básico de ferretería. Esta guía adapta los requisitos de las tres capturas proporcionadas por el estudiante; no reproduce una guía adicional del curso que no haya sido suministrada.
 
+## Imágenes listas para utilizar
+
+- [Modelo E-R completo en PNG](diagramas/01-modelo-er.png).
+- [Arquitectura Next.js + Express + MySQL en PNG](diagramas/02-arquitectura.png).
+- [Comunicación cliente-servidor en PNG](diagramas/03-flujo-cliente-servidor.png).
+- [Archivos SVG ampliables, fuentes y regeneración](diagramas/README.md).
+
 ## Matriz de cumplimiento
 
 | Requisito de las capturas | Implementación o evidencia |

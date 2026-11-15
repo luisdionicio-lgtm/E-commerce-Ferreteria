@@ -330,10 +330,10 @@ export function Catalog() {
 }
 export function ProductDetail() {
   const { slug } = useParams();
-  const { products, addToCart, catalogError } = useApp();
+  const { products, addToCart, catalogError, catalogLoading } = useApp();
   const p = products.find((x: Product) => x.slug === slug);
   if (catalogError) return <ErrorBox message={catalogError} />;
-  if (!products.length) return <Loading />;
+  if (catalogLoading) return <Loading />;
   if (!p) return <Empty title="Producto no encontrado" />;
   return (
     <div className="store-container detail-page">
@@ -403,7 +403,7 @@ export function ProductDetail() {
   );
 }
 export function Cart() {
-  const { products, cart, setCart, catalogError } = useApp();
+  const { products, cart, setCart, catalogError, catalogLoading, cartReady, user } = useApp();
   const go = useNavigate();
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<any>(null);
@@ -434,6 +434,7 @@ export function Cart() {
       setBusy(false);
     }
   };
+  if (!cartReady || catalogLoading) return <Loading />;
   if (done)
     return (
       <div className="store-container order-success">
@@ -541,6 +542,8 @@ export function Cart() {
               Nombre completo
               <input
                 name="customerName"
+                autoComplete="name"
+                defaultValue={user?.name || ''}
                 required
                 maxLength={180}
                 placeholder="Tu nombre y apellido"
@@ -548,15 +551,33 @@ export function Cart() {
             </label>
             <label>
               Celular
-              <input name="phone" required pattern="[+0-9 ]{9,16}" placeholder="999 123 456" />
+              <input
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                required
+                pattern="[+0-9 ]{9,16}"
+                placeholder="999 123 456"
+              />
             </label>
             <label>
               Correo (opcional)
-              <input name="email" type="email" placeholder="tu@correo.com" />
+              <input
+                name="email"
+                type="email"
+                autoComplete="email"
+                defaultValue={user?.email || ''}
+                placeholder="tu@correo.com"
+              />
             </label>
             <label>
               Dirección (opcional)
-              <input name="address" placeholder="Para coordinar tu entrega" maxLength={500} />
+              <input
+                name="address"
+                autoComplete="street-address"
+                placeholder="Para coordinar tu entrega"
+                maxLength={500}
+              />
             </label>
             <button className="btn primary" disabled={busy || invalid}>
               {busy ? 'Enviando…' : 'Enviar pedido'}

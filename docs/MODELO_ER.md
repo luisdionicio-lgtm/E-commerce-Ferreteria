@@ -8,6 +8,8 @@ El modo JSON es un repositorio alternativo para demostración local: serializa l
 
 ## Diagrama
 
+Disponible también como [imagen PNG completa](diagramas/01-modelo-er.png) y [SVG vectorial](diagramas/01-modelo-er.svg), generados desde el esquema real. El Mermaid de esta sección resume el núcleo transaccional para explicarlo con menos detalle.
+
 ```mermaid
 erDiagram
     User ||--o{ Session : inicia

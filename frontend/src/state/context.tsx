@@ -30,6 +30,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [categories, setCategories] = useState<any[]>([]);
   const [settings, setSettings] = useState<any>(null);
   const [catalogError, setCatalogError] = useState('');
+  const [catalogLoading, setCatalogLoading] = useState(true);
   const [version, setVersion] = useState(0);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartReady, setCartReady] = useState(false);
@@ -69,6 +70,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
   useEffect(() => {
     let live = true;
+    setCatalogLoading(true);
     Promise.all([
       api<Product[]>('/catalog/products'),
       api('/catalog/categories'),
@@ -82,7 +84,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           setCatalogError('');
         }
       })
-      .catch((e) => live && setCatalogError(e.message));
+      .catch((e) => live && setCatalogError(e.message))
+      .finally(() => live && setCatalogLoading(false));
     return () => {
       live = false;
     };
@@ -103,7 +106,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
     setCart((old) =>
       old.some((c) => c.productId === p.id)
-        ? old.map((c) => (c.productId === p.id ? { ...c, quantity: c.quantity + 1 } : c))
+        ? old.map((c) =>
+            c.productId === p.id
+              ? { ...c, quantity: Math.min(p.availableStock, c.quantity + 1) }
+              : c,
+          )
         : [...old, { productId: p.id, quantity: 1 }],
     );
     toast.success('Producto agregado al carrito');
@@ -139,6 +146,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         categories,
         settings,
         catalogError,
+        catalogLoading,
+        cartReady,
         cart,
         setCart,
         addToCart,
