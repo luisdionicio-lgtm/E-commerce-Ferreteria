@@ -11,7 +11,15 @@ test('UI pública: fuentes locales y contraste en portada, catálogo e ingreso',
     expect(audit.violations, `${route}: contraste de texto`).toEqual([]);
   }
   await page.goto('/');
-  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator('.hero h1')).toHaveCSS('font-family', /Barlow Condensed/);
+  const loadedFaces = await page.evaluate(async () => {
+    const faces = await Promise.all([
+      document.fonts.load('700 64px "Barlow Condensed"'),
+      document.fonts.load('400 16px "Source Sans 3"'),
+    ]);
+    return faces.map((group) => group.filter((face) => face.status === 'loaded').length);
+  });
+  expect(loadedFaces.every((count) => count > 0)).toBeTruthy();
   expect(
     await page.evaluate(() => document.fonts.check('700 64px "Barlow Condensed"')),
   ).toBeTruthy();
