@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate deploy",
-    "db:seed": "node --import tsx prisma/seed.ts"
+    "db:seed": "node --import tsx prisma/seed.ts",
+    "db:extend-catalog": "node --import tsx prisma/extend-catalog.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.0",

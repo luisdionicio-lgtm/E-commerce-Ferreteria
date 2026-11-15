@@ -55,7 +55,7 @@ Consulta la [prueba manual paso a paso](docs/PRUEBA_MANUAL.md). Ejecuta `npm tes
 
 El demo usa almacenamiento JSON persistente para probarlo sin servicios externos. El esquema relacional MySQL, sus relaciones y las instrucciones de Prisma se incluyen más abajo. `backend/data/`, sesiones locales, secretos y `node_modules/` no se publican; el seed recrea los datos de muestra.
 
-Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 4 recorridos Playwright. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
+Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 6 recorridos Playwright, incluyendo las 36 referencias adicionales y el carrito con las seis categorías. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
 
 ![Tienda Next.js, captura local](docs/previews/07-next-tienda.png)
 
@@ -96,6 +96,41 @@ Las contraseñas son exclusivamente para demo. Se guardan como hashes bcrypt. Pu
 
 ## Funciones implementadas
 
+### Catálogo ampliado: seis productos más por categoría
+
+Se incorporaron **36 imágenes de Internet y 36 fichas adicionales**, seis por categoría. El catálogo de demostración tiene 48 productos de herramientas, pinturas, electricidad, gasfitería, construcción y seguridad. Las nuevas fichas incluyen precio publicado en Promart Perú consultado el 14/11/2026, enlace de origen, búsqueda, filtro, detalle y carrito. Las existencias, costos y lotes son ficticios; las fechas de vencimiento no se deducen de una fotografía.
+
+Consulta el [inventario de las 36 referencias y sus fuentes](docs/CATALOGO_AMPLIADO.md). Para añadirlas a una instalación MySQL existente, ejecuta `npm run db:extend-catalog`; la importación es transaccional, no duplica productos y conserva el historial. Los nuevos seeds JSON y MySQL ya las incluyen.
+
+<details>
+<summary>Ver las seis imágenes por categoría</summary>
+
+**Herramientas**
+
+![Seis referencias nuevas de herramientas](docs/previews/11-categoria-1.png)
+
+**Pinturas**
+
+![Seis referencias nuevas de pinturas](docs/previews/11-categoria-2.png)
+
+**Electricidad**
+
+![Seis referencias nuevas de electricidad](docs/previews/11-categoria-3.png)
+
+**Gasfitería**
+
+![Seis referencias nuevas de gasfitería](docs/previews/11-categoria-4.png)
+
+**Construcción**
+
+![Seis referencias nuevas de construcción](docs/previews/11-categoria-5.png)
+
+**Seguridad**
+
+![Seis referencias nuevas de seguridad](docs/previews/11-categoria-6.png)
+
+</details>
+
 - Tienda: portada, catálogo, categorías, búsqueda por nombre/marca/SKU, orden por precio, disponibilidad, detalle, carrito persistente y envío de pedido.
 - Dashboard: ventas confirmadas, productos activos, costo de inventario, pedidos pendientes, últimos 7 días y alertas.
 - Productos: crear, editar, destacar, desactivar, elegir una foto referencial y definir precio en soles. Desactivar conserva el historial. El stock se añade con compras recibidas, no al crear un producto.
@@ -125,7 +160,7 @@ Administrador: todos los módulos. Empleado: leer catálogo y contactos, registr
 
 ## Dónde se guardan los datos de demo
 
-El primer inicio crea `backend/data/store.json` con 12 productos de alta rotación, 6 categorías, 3 proveedores, lotes, compras, usuarios y 7 ventas ficticias coherentes con sus movimientos. Pintura y sellador incluyen vencimientos próximos para demostrar las alertas. Los cambios se conservan al reiniciar. Haz copia de seguridad antes de borrar el archivo; borrarlo genera otra demo en el próximo inicio. Cambiar variables de contraseña no modifica usuarios existentes.
+El primer inicio crea `backend/data/store.json` con 48 productos (12 originales y 36 referencias adicionales), 6 categorías, 3 proveedores, lotes, compras, usuarios y 7 ventas ficticias coherentes con sus movimientos. Los productos originales de pintura y sellador incluyen fechas de vencimiento de muestra para demostrar las alertas; las nuevas referencias no inventan fechas de lote. Los cambios se conservan al reiniciar. Haz copia de seguridad antes de borrar el archivo; borrarlo genera otra demo en el próximo inicio. Cambiar variables de contraseña no modifica usuarios existentes.
 
 El driver JSON serializa transacciones dentro de **un único proceso** y escribe a un archivo temporal antes de reemplazar el archivo anterior. Está pensado para uso local, no para varios servidores.
 
@@ -185,7 +220,8 @@ ferremax/
   frontend/
     public/images/       # recursos gráficos y fotos referenciales locales
     src/
-      app/               # router, contexto, carrito y sesión
+      pages/             # rutas de Next.js
+      state/             # contexto, carrito y sesión
       components/        # tablas, formularios, modal accesible
       features/          # store, auth, dashboard, admin, inventory,
                          # operations, reports, settings

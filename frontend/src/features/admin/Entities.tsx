@@ -23,6 +23,7 @@ import {
 } from '../../components/ui';
 import { api, send } from '../../services/api';
 import { toast } from 'sonner';
+import catalogReferences from '../../data/catalog-references.json';
 type Field = {
   key: string;
   label: string;
@@ -157,6 +158,9 @@ const productPhotos = [
   ['breaker-schneider', 'Interruptor Schneider'],
   ['pipe-pavco', 'Tubo Pavco'],
   ['gloves-steelpro', 'Guantes Steelpro'],
+  ...catalogReferences
+    .filter((item) => item.image.includes('/catalogo-'))
+    .map((item) => [item.image.split('/').pop()!.replace('.jpg', ''), item.name]),
 ];
 export function Fields({
   fields,
@@ -197,6 +201,7 @@ export function Fields({
                 />
               ) : f.options ? (
                 <select
+                  aria-label={f.label}
                   value={form[f.key] || ''}
                   onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
                   required

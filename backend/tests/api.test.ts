@@ -14,7 +14,7 @@ test('API: login, roles, validación, cookie rotativa y catálogo público', asy
     assert.equal(response.status, 401);
     response = await fetch(url + '/catalog/products');
     assert.equal(response.status, 200);
-    assert.ok((await response.json()).length >= 12);
+    assert.ok((await response.json()).length >= 48);
     response = await fetch(url + '/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

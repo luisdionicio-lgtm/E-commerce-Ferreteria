@@ -147,7 +147,7 @@ test('Cliente: registro, protección de admin, búsqueda, filtros y carrito pers
   await expect(page.getByText('No encontramos productos', { exact: true })).toBeVisible();
   await page.getByRole('textbox', { name: 'Buscar producto, marca o código' }).fill('');
   await page.getByRole('button', { name: /^Pinturas/ }).click();
-  await expect(page.locator('.product-card')).toHaveCount(2);
+  await expect(page.locator('.product-card')).toHaveCount(8);
   await page.getByRole('button', { name: /^Todos los productos/ }).click();
   await page.getByLabel('Ordenar por').selectOption('low');
   await page.getByRole('checkbox', { name: 'Solo productos con stock' }).check();
@@ -180,6 +180,17 @@ test('Administrador: acceso al dashboard, productos, proveedores y vencimientos'
   await page.goto('/admin/productos');
   await expect(page.getByRole('heading', { name: 'Productos', exact: true })).toBeVisible();
   await expect(page.locator('tbody tr').first()).toBeVisible();
+  await page.getByRole('textbox', { name: /Buscar productos/ }).fill('Crimpeadora');
+  await page
+    .getByRole('button', { name: 'Editar Crimpeadora pelacables 195mm Dexter', exact: true })
+    .click();
+  await expect(page.getByLabel('Foto referencial', { exact: true })).toHaveValue(
+    '/images/reference/catalogo-139183.jpg',
+  );
+  await expect(page.getByLabel('Foto referencial', { exact: true }).locator('option')).toHaveCount(
+    49,
+  );
+  await page.getByRole('button', { name: 'Cancelar', exact: true }).click();
   await page.goto('/admin/proveedores');
   await expect(page.getByRole('heading', { name: 'Proveedores', exact: true })).toBeVisible();
   await page.goto('/admin/vencimientos');

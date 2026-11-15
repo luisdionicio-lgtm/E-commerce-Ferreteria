@@ -1,5 +1,11 @@
 # Imágenes referenciales del catálogo
 
+## Seis imágenes nuevas por categoría: 36 en total
+
+Se añadieron 36 fichas de producto con una imagen nueva cada una: seis de herramientas, seis de pinturas, seis de electricidad, seis de gasfitería, seis de construcción y seis de seguridad. Proceden de las fichas públicas de Promart Perú consultadas el 14/11/2026. Se inspeccionaron visualmente las seis hojas de imágenes; no se generaron archivos con IA.
+
+El [catálogo ampliado](CATALOGO_AMPLIADO.md) incluye las 36 referencias, precios consultados y enlaces. `backend/src/config/catalog-additions.json` conserva la URL exacta de cada imagen; los archivos locales usan el prefijo `catalogo-`. Las referencias funcionan como productos con detalle, filtros, búsqueda, carrito y edición administrativa. Las existencias y costos de demostración no proceden de Promart.
+
 ## Ampliación de vistas y aplicaciones — 14 de noviembre de 2026
 
 Se añadieron ocho imágenes de las mismas fichas públicas de Promart ya documentadas: dos de pintura Vencedor (envase y ambiente), una de aplicación de Sikacryl-200, una de cemento Sol en obra y cuatro de la amoladora Bosch GWS 850 (vista frontal y tres aplicaciones). Se descartó una composición de pintura con exceso de espacio vacío tras la revisión visual.

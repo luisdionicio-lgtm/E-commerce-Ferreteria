@@ -60,5 +60,437 @@
     "image": "/images/reference/cement-sol.jpg",
     "source": "https://www.promart.pe/cemento-portland-tipo-i-x42-5kg-sol/p",
     "name": "Cemento Sol Portland Tipo I 42.5 kg"
+  },
+  {
+    "images": [],
+    "name": "Crimpeadora pelacables 195mm Dexter",
+    "price": 890,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/crimpeadora-pelacables-195mm/p",
+    "image": "/images/reference/catalogo-139183.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/2770298/139183.jpg?v=637715697244700000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Set de herramientas 143 piezas Werken",
+    "price": 12990,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/set-de-herramientas-143-piezas-werken-170343/p",
+    "image": "/images/reference/catalogo-170343.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11157640/set-de-herramientas-143-piezas-werken-170343_170343_1.jpg?v=639202493128530000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Caja de Herramientas Plástica Stanley Modelo STST19331",
+    "price": 7490,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/caja-de-herramientas-con-broche-plastico-19-stanley/p",
+    "image": "/images/reference/catalogo-112403.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9115624/112403.jpg?v=638882941148570000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Prensa Esquinera de 3\" Profesional Truper",
+    "price": 2390,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/prensa-esquinera-de-3--profesional-truper-173311/p",
+    "image": "/images/reference/catalogo-173311.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11351051/prensa-esquinera-de-3-profesional-truper-173311_173311_1.jpg?v=639225919006100000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Caja de herramientas #12 Werken",
+    "price": 1590,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/caja-de-herramientas-12-werken-172249/p",
+    "image": "/images/reference/catalogo-172249.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10979766/caja-de-herramientas-12-werken-172249_172249_1.jpg?v=639180071878330000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Cuchillo Retráctil Werken",
+    "price": 100,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/cuchillo-retractil-werken-166497/p",
+    "image": "/images/reference/catalogo-166497.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10596649/166497.jpg?v=639126747555300000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura Látex Pato CPP Blanco Mate 4 Galones Interiores y Exteriores",
+    "price": 13800,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/latex-pato-cpp-blanco-4-galones/p",
+    "image": "/images/reference/catalogo-135939.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8887565/135939.jpg?v=638845946105000000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura American Colors Mate Blanco Humo 1 galón",
+    "price": 10350,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/pintura-anerican-colors-mate-blanco-humo-1gl/p",
+    "image": "/images/reference/catalogo-140578.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8887950/140578.jpg?v=638845950044300000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura Látex Duralatex CPP Blanco Mate 4 Galones Interiores y Exteriores",
+    "price": 26600,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/duralatex-cpp-blanco-4-galones/p",
+    "image": "/images/reference/catalogo-135992.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9443508/135992.jpg?v=638961508861370000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura Látex Vencedor Supermate Antibacterial Nuevo Blanco Decora 1 galón",
+    "price": 9600,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/supermate-antibacterial-nuevo-blanco-decora-1-galon/p",
+    "image": "/images/reference/catalogo-135989.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8887810/135989.jpg?v=638845948470630000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura Látex Pato CPP Blanco Humo 1 Galón",
+    "price": 3800,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/latex-pato-cpp-blanco-humo-1-galon/p",
+    "image": "/images/reference/catalogo-135960.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10280646/135960.jpg?v=639075468730500000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Pintura Látex Satinado CPP Blanco 1 galón",
+    "price": 9800,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/satinado-cpp-blanco-1-galon/p",
+    "image": "/images/reference/catalogo-135929.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9974946/135929.jpg?v=639037960482000000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tomacorriente Doble Universal Lt Blanco Dplus Bticino",
+    "price": 2450,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tomacorriente-doble-univ-lt-blanco-dplus-bticino-166430/p",
+    "image": "/images/reference/catalogo-166430.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11309498/tomacorriente-doble-univ-lt-blanco-dplus-bticino-166430_166430_1.jpg?v=639220598180330000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tomacorriente Doble Universal Blanco Dplus Bticino",
+    "price": 1800,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tomacorriente-doble-universal-blanco-dplus-bticino-166437/p",
+    "image": "/images/reference/catalogo-166437.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9547306/166437.jpg?v=638969457492200000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tomacorriente Doble Universal Orange Vitro Lt USB + C 20w",
+    "price": 894,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tomacorriente-doble-universal-orange-vitro-lt-usb-c-20w-155129/p",
+    "image": "/images/reference/catalogo-155129.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8833744/155129.jpg?v=638829548296530000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tomacorriente Essential Doble Universal Blanco Orange",
+    "price": 590,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tomacorriente-essential-doble-universal-blanco/p",
+    "image": "/images/reference/catalogo-141273.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/7926714/141273.jpg?v=638484432669930000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Interruptor Simple Bticino Dplus Blanco 10A 250V",
+    "price": 1230,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/interruptor-simple-blanco-dplus-bticino-166453/p",
+    "image": "/images/reference/catalogo-166453.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9547284/166453.jpg?v=638969457357000000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Enchufe Inteligente Werken",
+    "price": 2390,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/enchufe-werken-smart-164573/p",
+    "image": "/images/reference/catalogo-164573.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11557091/enchufe-werken-smart-164573_164573_1.jpg?v=639257332883870000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Adaptador Unión 1/2\" Agua Fría Mixto Pavco",
+    "price": 90,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/adaptador-pr-1-2/p",
+    "image": "/images/reference/catalogo-127086.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377471/127086.jpg?v=639090335651370000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Codo 90° 2\" Desagüe Agua Fría Pavco",
+    "price": 250,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/codo-90--sal-2-go/p",
+    "image": "/images/reference/catalogo-89731.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377317/89731.jpg?v=639090334397300000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tubo 3/4\"*5M con Rosca Agua Fría Pavco",
+    "price": 3090,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tubo-presion-c-10-r-3-4-go/p",
+    "image": "/images/reference/catalogo-89822.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377167/89822.jpg?v=639090333274230000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Codo 90° 1/2\" Agua Fría sin Rosca Pavco",
+    "price": 180,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/codo-pvc-90--sp-1-2-go/p",
+    "image": "/images/reference/catalogo-89751.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377202/89751.jpg?v=639090333520430000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Codo 90° 1/2\" Agua Fría con Rosca Pavco",
+    "price": 190,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/codo-pvc-90--r-1-2-go/p",
+    "image": "/images/reference/catalogo-89745.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377261/89745.jpg?v=639090333978100000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Tee 1/2\" sin Rosca Agua Fría Pavco",
+    "price": 300,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/tee-pvc-sp-1-2-go/p",
+    "image": "/images/reference/catalogo-89832.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/10377229/89832.jpg?v=639090333670630000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Cemento Apu Portland GU x 42.5 kg",
+    "price": 2860,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/cemento-portland-gu-x-42-5-kg/p",
+    "image": "/images/reference/catalogo-94610.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/7350760/94610.jpg?v=638255830615170000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Cemento Sika Blanco x 1 kg",
+    "price": 750,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/cemento-blanco-x-1-kg/p",
+    "image": "/images/reference/catalogo-17874.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9025314/17874.jpg?v=638874444984230000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Cemento Portland tipo HS 42.5kg Andino Ultra",
+    "price": 3350,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/cemento-portland-tipo-hs-42-5kg-andino-ultra/p",
+    "image": "/images/reference/catalogo-109015.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9975672/109015.jpg?v=639037965239200000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Concreto 210 40kg Weber",
+    "price": 1350,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/concreto-210-40kg-weber-174451/p",
+    "image": "/images/reference/catalogo-174451.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11760116/concreto-210-40kg-weber-174451_174451_1.jpg?v=639289100301130000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Plancha de Drywall Gyplac Standard 3/8” (9.5 mm) 1.22m x 2.44m",
+    "price": 2860,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/plancha-de-yeso-reg-3-8-1-22x2-44-m-30101/p",
+    "image": "/images/reference/catalogo-30101.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8549300/30101.jpg?v=638727477406570000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Ladrillo Techo Hueco 12x30x30 Pirámide",
+    "price": 290,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/ladrillo-techo-hueco-12x30x30cm-raya-piramide/p",
+    "image": "/images/reference/catalogo-17703.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9720272/17703.jpg?v=638996025515170000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Guante Poly Naranja con palma de latex Werken",
+    "price": 240,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/guante-poly-naranja-con-palma-de-latex-werken-159991/p",
+    "image": "/images/reference/catalogo-159991.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9306189/159991.jpg?v=638931378658000000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Lentes de seguridad Werken Antraya Antifog Marco Negro Luna Transparente",
+    "price": 350,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/lentes-de-seguridad-werken-antraya-antifog-marco-negro-luna-transparente-161367/p",
+    "image": "/images/reference/catalogo-161367.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/11689886/lentes-de-seguridad-werken-antraya-antifog-marco-negro-luna-transparente-161367_161367_1.jpg?v=639281293122730000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Traje de protección impermeable 55 G/m2 Blanco Talla L",
+    "price": 1300,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/traje-de-proteccion-impermeable-55-g-m2-blanco-talla-l/p",
+    "image": "/images/reference/catalogo-159206.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8117555/159206.jpg?v=638610803375100000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Casco de Seguridad Bellcox Jockey D/4Puntas con Rachet Blanco",
+    "price": 1490,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/casco-jockey-de-4-puntas-c-rachet-blanco-49279/p",
+    "image": "/images/reference/catalogo-49279.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/3206844/49279.jpg?v=637739978837800000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Chaleco Reflectivo Clute XL Naranja con Doble Cinta Reflectiva",
+    "price": 990,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/chaleco-reflectivo-pesado-2-bandas-naranja-t--xl/p",
+    "image": "/images/reference/catalogo-24123.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/504973/24123.jpg?v=637327722226830000"
+    ]
+  },
+  {
+    "images": [],
+    "name": "Barbiquejo de Seguridad Bellsafe con Mentonera Ajustable en PVC Negro",
+    "price": 390,
+    "checkedAt": "2026-11-14",
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/barbiquejo-c-mentonera-para-casco-bellsafe-12709/p",
+    "image": "/images/reference/catalogo-12709.jpg",
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/497330/12709.jpg?v=639180945454670000"
+    ]
   }
 ]

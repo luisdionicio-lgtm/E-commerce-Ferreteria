@@ -1,5 +1,6 @@
 import { hash } from 'bcryptjs';
 import type { Table, Row } from '../shared/types.js';
+import { catalogAdditionRows } from './catalog-additions.js';
 export const tables: Table[] = [
   'users',
   'categories',
@@ -423,5 +424,8 @@ export async function seedData(): Promise<Record<Table, Row[]>> {
       currency: 'PEN',
     },
   ];
+  for (const [table, rows] of Object.entries(catalogAdditionRows())) {
+    data[table as Table].push(...rows);
+  }
   return data;
 }

@@ -21,7 +21,8 @@
     "db:push": "npm run db:push -w backend",
     "db:migrate": "npm run db:migrate -w backend",
     "start:web": "npm run start -w frontend",
-    "db:seed": "npm run db:seed -w backend"
+    "db:seed": "npm run db:seed -w backend",
+    "db:extend-catalog": "npm run db:extend-catalog -w backend"
   },
   "overrides": {
     "@prisma/config": {

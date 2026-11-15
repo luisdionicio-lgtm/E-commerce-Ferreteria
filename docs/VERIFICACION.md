@@ -1,5 +1,13 @@
 # Verificación de esta entrega
 
+## Catálogo ampliado: seis referencias por categoría
+
+- 36 imágenes nuevas descargadas de Promart e inspeccionadas en seis hojas visuales; catálogo base de 48 productos.
+- Seis pruebas E2E aprobadas: la nueva verifica las 36 imágenes en filtros de categoría, precios contra la referencia guardada, detalle, enlaces de fuente y carrito persistente con un producto de cada categoría en móvil.
+- Diez pruebas de backend aprobadas; la prueba MySQL del comando genérico se omite sin MYSQL_TEST_URL. Compilación backend y Next.js correcta.
+- La importación MySQL crea productos, lotes y movimientos en una transacción; no modifica los productos existentes. Las nuevas imágenes están disponibles en el selector del panel administrativo.
+- Precios publicados consultados el 14/11/2026; stock y costos ficticios, sin fechas de vencimiento inventadas para estas referencias.
+
 ## Pulido funcional y diagramas exportados
 
 - Se evita el estado de carga indefinido en fichas cuando el catálogo está vacío.
