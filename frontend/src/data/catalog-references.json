@@ -1,0 +1,56 @@
+[
+  {
+    "price": 10500,
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8887867/137293.jpg?v=638845948996570000",
+      "https://promart.vteximg.com.br/arquivos/ids/8887868/137293_0.jpg?v=638845948999530000",
+      "https://promart.vteximg.com.br/arquivos/ids/8887869/137293_1.jpg?v=638845949002600000"
+    ],
+    "images": [
+      "/images/reference/paint-vencedor-promart-1.jpg",
+      "/images/reference/paint-vencedor-promart-2.jpg",
+      "/images/reference/paint-vencedor-promart-3.jpg"
+    ],
+    "store": "Promart Perú",
+    "checkedAt": "2026-11-14",
+    "image": "/images/reference/paint-vencedor.jpg",
+    "source": "https://www.promart.pe/vencedor-satinado-blanco-1-galon/p",
+    "name": "Pintura Látex Vencedor Supersatinado Blanco Decorativo 1 galón"
+  },
+  {
+    "price": 3550,
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/8118308/96907.jpg?v=638611000293070000",
+      "https://promart.vteximg.com.br/arquivos/ids/8118309/96907_20.jpg?v=638611000295400000",
+      "https://promart.vteximg.com.br/arquivos/ids/8118310/96907_21.jpg?v=638611000299470000"
+    ],
+    "images": [
+      "/images/reference/sealant-sika-promart-1.jpg",
+      "/images/reference/sealant-sika-promart-2.jpg",
+      "/images/reference/sealant-sika-promart-3.jpg"
+    ],
+    "store": "Promart Perú",
+    "checkedAt": "2026-11-14",
+    "image": "/images/reference/sealant-sika.jpg",
+    "source": "https://www.promart.pe/sellante-acrilico-sikacryl-200-x-300-ml/p",
+    "name": "Sellante acrílico para fisuras y juntas Sikacryl-200 300ml"
+  },
+  {
+    "price": 3090,
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9975675/22662.jpg?v=639121427573830000",
+      "https://promart.vteximg.com.br/arquivos/ids/9975676/22662_0.jpg?v=639121427574130000",
+      "https://promart.vteximg.com.br/arquivos/ids/9975677/22662_1.jpg?v=639121427574170000"
+    ],
+    "images": [
+      "/images/reference/cement-sol-promart-1.jpg",
+      "/images/reference/cement-sol-promart-2.jpg",
+      "/images/reference/cement-sol-promart-3.jpg"
+    ],
+    "store": "Promart Perú",
+    "checkedAt": "2026-11-14",
+    "image": "/images/reference/cement-sol.jpg",
+    "source": "https://www.promart.pe/cemento-portland-tipo-i-x42-5kg-sol/p",
+    "name": "Cemento Sol Portland Tipo I 42.5 kg"
+  }
+]

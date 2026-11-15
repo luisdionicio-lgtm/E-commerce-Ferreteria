@@ -212,6 +212,20 @@ ferremax/
 
 ## Diseño
 
+### Galerías y precios de referencia publicados
+
+Se añadieron nueve vistas de producto, características y aplicación procedentes de Promart Perú. Las fichas de pintura Vencedor, sellador Sikacryl-200 y cemento Sol muestran el enlace a la fuente y la fecha de consulta (14/11/2026).
+
+| Producto | Precio publicado consultado |
+| --- | --- |
+| Vencedor Supersatinado blanco, 1 galón | S/ 105,00 |
+| Sikacryl-200, 300 ml | S/ 35,50 |
+| Cemento Sol Tipo I, 42,5 kg | S/ 30,90 |
+
+Los precios pueden variar por ubicación y promoción; no incluyen envío. Los demás importes continúan siendo referenciales. Las fuentes y URLs de imágenes están en [Imágenes y precios de referencia](docs/IMAGENES_REFERENCIA.md).
+
+![Pintura Vencedor, imagen de catálogo de Promart](frontend/public/images/reference/paint-vencedor-promart-1.jpg)
+
 Componentes comunes, jerarquía tipográfica, acentos naranja, superficies cálidas y grafito; estados de carga/error/vacío; modales con foco, Escape y retorno al control anterior; navegación móvil y respeto por `prefers-reduced-motion`. Las fotografías se almacenan localmente para que el demo no dependa de hotlinks. Sus fuentes se detallan en [`docs/IMAGENES_REFERENCIA.md`](docs/IMAGENES_REFERENCIA.md); reemplázalas por fotografías autorizadas antes de publicar.
 
 Se aplicaron [emil-design-eng](https://github.com/emilkowalski/skills), `frontend-design` e [Impeccable](https://github.com/pbakaus/impeccable) para las decisiones de movimiento, jerarquía y calidad visual. Las skills quedan instaladas globalmente en Codex; su contenido no se redistribuye con FerreMax. El registro completo está en [`docs/SKILLS_UTILIZADAS.md`](docs/SKILLS_UTILIZADAS.md). Google Fonts se carga si hay internet; sin conexión se usa Arial.

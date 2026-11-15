@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import catalogReferences from '../data/catalog-references.json';
 
 const referenceGallery: Record<string, string[]> = {
   '/images/reference/drill-bosch.jpg': [
@@ -10,7 +11,8 @@ const referenceGallery: Record<string, string[]> = {
 };
 
 export default function ProductGallery({ image, name }: { image: string; name: string }) {
-  const images = referenceGallery[image] || [image];
+  const reference = catalogReferences.find((item) => item.image === image);
+  const images = reference ? [image, ...reference.images] : referenceGallery[image] || [image];
   const [selected, setSelected] = useState(0);
   return (
     <div className="product-gallery">
@@ -41,6 +43,19 @@ export default function ProductGallery({ image, name }: { image: string; name: s
       <p className="gallery-caption">
         Imágenes referenciales. Presentación, accesorios y medidas se confirman con la tienda.
       </p>
+      {reference && (
+        <p className="gallery-caption">
+          Precio publicado en{' '}
+          <a href={reference.source} target="_blank" rel="noopener noreferrer">
+            {reference.store}
+          </a>
+          :{' '}
+          {new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(
+            reference.price / 100,
+          )}
+          . Consultado el 14/11/2026. Puede variar según ubicación y promoción; no incluye envío.
+        </p>
+      )}
     </div>
   );
 }

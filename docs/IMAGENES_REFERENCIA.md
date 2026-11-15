@@ -1,5 +1,21 @@
 # Imágenes referenciales del catálogo
 
+## Galerías y precios consultados el 14 de noviembre de 2026
+
+Se añadieron nueve imágenes de las fichas de Promart Perú: producto, características y aplicación. Son archivos publicados por la tienda, no imágenes generadas por FerreMax. Algunas vistas de aplicación son ilustraciones comerciales de la fuente.
+
+| Producto y presentación | Precio publicado consultado | Fuente |
+| --- | --- | --- |
+| Vencedor Supersatinado Blanco Decorativo, 1 galón | S/ 105,00 | [Promart](https://www.promart.pe/vencedor-satinado-blanco-1-galon/p) |
+| Sikacryl-200, 300 ml | S/ 35,50 | [Promart](https://www.promart.pe/sellante-acrilico-sikacryl-200-x-300-ml/p) |
+| Cemento Sol Portland Tipo I, 42,5 kg | S/ 30,90 | [Promart](https://www.promart.pe/cemento-portland-tipo-i-x42-5kg-sol/p) |
+
+Precios obtenidos del campo público `commertialOffer.Price` de la API de catálogo de Promart, sin aplicar tarjetas ni cupones. Pueden cambiar según ubicación, promoción y disponibilidad; no incluyen envío. No se asegura vigencia futura. Los demás precios del demo continúan siendo referenciales.
+
+Las URLs exactas de las nueve imágenes, las fichas y los importes en céntimos quedan registradas en `frontend/src/data/catalog-references.json`. Los archivos locales usan los prefijos `paint-vencedor-promart-`, `sealant-sika-promart-` y `cement-sol-promart-`. Las fichas de FerreMax muestran la referencia externa separada del precio administrable de venta.
+
+Los nuevos seeds incorporan estos importes. Para actualizar una instalación MySQL existente: `node scripts/apply-reference-prices.mjs`. El script solo sustituye los precios originales del demo de esos productos; conserva precios personalizados y todo el historial. En JSON existente, actualizar los precios desde Productos en el panel.
+
 ## Galería añadida el 14 de noviembre de 2026
 
 - `drill-kit-bosch.png`: fotografía oficial del conjunto GSB 185-LI; medio `363999-54/scope-of-supply-image`.
