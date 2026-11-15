@@ -214,6 +214,10 @@ ferremax/
 
 ### Galerías y precios de referencia publicados
 
+Las seis categorías tienen productos con varias vistas: herramientas, pinturas, electricidad, gasfitería, construcción y seguridad. La ampliación incorpora 15 imágenes de Internet para Stanley, Bosch, Indeco, Vainsa, Pavco y Steelpro, con enlaces de origen en las fichas. Se verificaron las miniaturas y la carga de imágenes en móvil.
+
+![Galería del set Stanley con vista de sus dados](docs/previews/09-galerias-productos.png)
+
 Se añadieron nueve vistas de producto, características y aplicación procedentes de Promart Perú. Las fichas de pintura Vencedor, sellador Sikacryl-200 y cemento Sol muestran el enlace a la fuente y la fecha de consulta (14/11/2026).
 
 | Producto | Precio publicado consultado |

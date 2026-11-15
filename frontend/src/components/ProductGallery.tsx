@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import catalogReferences from '../data/catalog-references.json';
+import galleryReferences from '../data/gallery-references.json';
 
 const referenceGallery: Record<string, string[]> = {
   '/images/reference/drill-bosch.jpg': [
@@ -7,12 +8,18 @@ const referenceGallery: Record<string, string[]> = {
     '/images/reference/drill-kit-bosch.png',
     '/images/reference/drill-dimensions-bosch.jpg',
     '/images/reference/drill-workshop.jpg',
+    '/images/reference/drill-masonry.jpg',
   ],
 };
 
 export default function ProductGallery({ image, name }: { image: string; name: string }) {
   const reference = catalogReferences.find((item) => item.image === image);
-  const images = reference ? [image, ...reference.images] : referenceGallery[image] || [image];
+  const gallery = galleryReferences.find((item) => item.image === image);
+  const images = reference
+    ? [image, ...reference.images]
+    : gallery
+      ? [image, ...gallery.images]
+      : referenceGallery[image] || [image];
   const [selected, setSelected] = useState(0);
   return (
     <div className="product-gallery">
@@ -43,6 +50,15 @@ export default function ProductGallery({ image, name }: { image: string; name: s
       <p className="gallery-caption">
         Imágenes referenciales. Presentación, accesorios y medidas se confirman con la tienda.
       </p>
+      {gallery && (
+        <p className="gallery-caption">
+          {gallery.note} Fuente:{' '}
+          <a href={gallery.source} target="_blank" rel="noopener noreferrer">
+            {gallery.store}
+          </a>
+          .
+        </p>
+      )}
       {reference && (
         <p className="gallery-caption">
           Precio publicado en{' '}

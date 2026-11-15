@@ -1,5 +1,21 @@
 # Imágenes referenciales del catálogo
 
+## Más vistas por tipo de producto — 14 de noviembre de 2026
+
+Se incorporaron 15 imágenes adicionales de Internet y se habilitó una fotografía Bosch de aplicación ya incluida. Las seis categorías del catálogo tienen ahora productos con varias vistas. No se cambiaron los precios en esta ampliación.
+
+| Tipo | Producto | Imágenes adicionales | Fuente |
+| --- | --- | --- | --- |
+| Herramientas | Set Stanley 120 piezas | 3: conjunto, dados y maletín | [Promart](https://www.promart.pe/juego-de-herramientas-mecanicas-x120-piezas-98535/p) |
+| Herramientas | Amoladora Bosch GWS 850 | 3: producto, medidas y lateral | [Promart](https://www.promart.pe/amoladora-gws-850-850w-4-1-2-/p) |
+| Electricidad | Cable Indeco NH90 2,5 mm² × 100 m | 2, variante amarillo/verde identificada en la ficha | [Promart](https://www.promart.pe/cable-freetox-pc-nh90-450-750v-2-5mm2-a-v-r100-indeco/p) |
+| Gasfitería | Llave Vainsa especializada | 2: producto y detalle | [Sodimac](https://www.sodimac.com.pe/sodimac-pe/articulo/113521543/Llave-para-Lavatorio-al-Mueble-Especializada/113521545) |
+| Gasfitería | Tubo Pavco ½ pulgada | 2: tubo y conjunto ilustrativo | [Sodimac](https://www.sodimac.com.pe/sodimac-pe/articulo/113531542/Tubo-PVC-1-2-SP-Agua-Fria/113531547) |
+| Seguridad | Guantes Steelpro de nitrilo | 1: par de guantes | [Sodimac](https://www.sodimac.com.pe/sodimac-pe/articulo/153863726/guante-de-nitrilo-puno-tejido-talla-l-steelpro/153863727) |
+| Seguridad | Casco Steelpro Mountain MTA | 2: lateral y suspensión interior | [Rojas Safety](https://rojassafety.com/productos/casco-mountain-mta-steelpro) |
+
+Las URLs de los archivos quedan en `frontend/src/data/gallery-references.json`. Se conservaron las marcas de agua originales. Se descartó un logotipo de Vainsa que la fuente incluía entre las vistas para mostrar únicamente imágenes útiles del producto. Las imágenes de conjuntos no cambian la unidad de venta ni garantizan accesorios incluidos. Pinturas y construcción conservan las galerías documentadas a continuación.
+
 ## Galerías y precios consultados el 14 de noviembre de 2026
 
 Se añadieron nueve imágenes de las fichas de Promart Perú: producto, características y aplicación. Son archivos publicados por la tienda, no imágenes generadas por FerreMax. Algunas vistas de aplicación son ilustraciones comerciales de la fuente.
