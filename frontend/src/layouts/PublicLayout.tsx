@@ -10,6 +10,7 @@ import {
   Headphones,
   Menu,
   X,
+  UserRound,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../state/context';
@@ -57,9 +58,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </Link>
         </nav>
         <div className="public-tools">
-          <Link className="account-link" to={user ? '/mi-cuenta' : '/ingresar'}>
-            {user ? 'Mi cuenta' : 'Ingresar'}
-          </Link>
           <form
             className="public-search"
             onSubmit={(e) => {
@@ -75,6 +73,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               onChange={(e) => setTerm(e.target.value)}
             />
           </form>
+          <NavLink className="account-link" to={user ? '/mi-cuenta' : '/ingresar'}>
+            <UserRound size={18} aria-hidden="true" />
+            <span>{user ? 'Mi cuenta' : 'Ingresar'}</span>
+          </NavLink>
           <Link className="cart-link" to="/carrito" aria-label="Ver carrito">
             <ShoppingBag size={22} />
             <span>{cart.reduce((n: number, c: any) => n + c.quantity, 0)}</span>

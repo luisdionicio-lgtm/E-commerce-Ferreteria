@@ -1,5 +1,14 @@
 # Verificación de esta entrega
 
+## Contraste, tipografía y organización de Mi cuenta
+
+- Fuentes locales Barlow Condensed y Source Sans 3 con sus licencias OFL; portada, catálogo y panel comparten criterios de lectura y acciones.
+- Cuenta dividida en perfil, acciones de compra y acceso administrativo según rol. Cierre de sesión separado, con estado de salida que evita redirecciones simultáneas.
+- Cabecera comprobada en 320, 375, 768 y 1440 px; cuenta móvil sin recortes de controles ni palabras forzadas en la fila administrativa.
+- Regla axe `color-contrast` sin incidencias en las siete vistas del informe `docs/previews/ui-contrast-report.json`; esto no certifica todos los criterios WCAG.
+- Naranja de acción sobre blanco: 5,46:1; texto secundario sobre fondo claro: 5,97:1; acento claro sobre grafito: 8,74:1.
+- Ocho recorridos E2E cubren los flujos existentes y las pruebas nuevas de contraste, fuentes, cuenta, roles y salida. Capturas y fuentes en `docs/UI_REFINAMIENTO.md`.
+
 ## Catálogo ampliado: seis referencias por categoría
 
 - 36 imágenes nuevas descargadas de Promart e inspeccionadas en seis hojas visuales; catálogo base de 48 productos.

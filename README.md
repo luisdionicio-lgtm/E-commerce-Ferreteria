@@ -55,7 +55,7 @@ Consulta la [prueba manual paso a paso](docs/PRUEBA_MANUAL.md). Ejecuta `npm tes
 
 El demo usa almacenamiento JSON persistente para probarlo sin servicios externos. El esquema relacional MySQL, sus relaciones y las instrucciones de Prisma se incluyen más abajo. `backend/data/`, sesiones locales, secretos y `node_modules/` no se publican; el seed recrea los datos de muestra.
 
-Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 6 recorridos Playwright, incluyendo las 36 referencias adicionales y el carrito con las seis categorías. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
+Verificación de la adaptación: 10 pruebas API/dominio/CRUD, 1 integración real MySQL en base aislada y 8 recorridos Playwright, incluyendo las 36 referencias adicionales, carrito con las seis categorías, contraste y cuenta adaptable. El comando genérico omite MySQL cuando no hay MYSQL_TEST_URL; ver [cómo repetir las pruebas](docs/PRUEBA_MANUAL.md). El despliegue en nube se pospuso por decisión del estudiante.
 
 ![Tienda Next.js, captura local](docs/previews/07-next-tienda.png)
 
@@ -248,6 +248,10 @@ ferremax/
 
 ## Diseño
 
+La [mejora de UI, contraste y tipografía](docs/UI_REFINAMIENTO.md) incluye portada, catálogo, cuenta y panel. **Mi cuenta** separa perfil, compra, acceso administrativo y cierre de sesión, con una distribución adaptable.
+
+![Cuenta de usuario organizada](docs/previews/16-ui-cuenta.png)
+
 ### Galerías y precios de referencia publicados
 
 Las seis categorías tienen productos con varias vistas: herramientas, pinturas, electricidad, gasfitería, construcción y seguridad. La ampliación incorpora 15 imágenes de Internet para Stanley, Bosch, Indeco, Vainsa, Pavco y Steelpro, con enlaces de origen en las fichas. Se verificaron las miniaturas y la carga de imágenes en móvil.
@@ -272,7 +276,7 @@ Los precios pueden variar por ubicación y promoción; no incluyen envío. Los d
 
 Componentes comunes, jerarquía tipográfica, acentos naranja, superficies cálidas y grafito; estados de carga/error/vacío; modales con foco, Escape y retorno al control anterior; navegación móvil y respeto por `prefers-reduced-motion`. Las fotografías se almacenan localmente para que el demo no dependa de hotlinks. Sus fuentes se detallan en [`docs/IMAGENES_REFERENCIA.md`](docs/IMAGENES_REFERENCIA.md); reemplázalas por fotografías autorizadas antes de publicar.
 
-Se aplicaron [emil-design-eng](https://github.com/emilkowalski/skills), `frontend-design` e [Impeccable](https://github.com/pbakaus/impeccable) para las decisiones de movimiento, jerarquía y calidad visual. Las skills quedan instaladas globalmente en Codex; su contenido no se redistribuye con FerreMax. El registro completo está en [`docs/SKILLS_UTILIZADAS.md`](docs/SKILLS_UTILIZADAS.md). Google Fonts se carga si hay internet; sin conexión se usa Arial.
+Se aplicaron [emil-design-eng](https://github.com/emilkowalski/skills), `frontend-design` e [Impeccable](https://github.com/pbakaus/impeccable) para las decisiones de movimiento, jerarquía y calidad visual. Las skills quedan instaladas globalmente en Codex; su contenido no se redistribuye con FerreMax. El registro completo está en [`docs/SKILLS_UTILIZADAS.md`](docs/SKILLS_UTILIZADAS.md). Barlow Condensed y Source Sans 3 se sirven desde archivos locales con sus licencias OFL; Arial es la alternativa si no se cargan.
 
 ## Alcance de esta entrega
 

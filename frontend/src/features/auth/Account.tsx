@@ -2,6 +2,15 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from '../../state/navigation';
 import { useApp } from '../../state/context';
 import { Loading } from '../../components/ui';
+import { toast } from 'sonner';
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  LayoutDashboard,
+  LogOut,
+  ShoppingBag,
+  UserRound,
+} from 'lucide-react';
 
 export function CustomerAuth({ register = false }: { register?: boolean }) {
   const { user, ready, signIn, signUp } = useApp();
@@ -108,48 +117,94 @@ export function CustomerAuth({ register = false }: { register?: boolean }) {
 export function Account() {
   const { user, ready, signOut } = useApp();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
-  if (!ready) return <Loading />;
+  const [signingOut, setSigningOut] = useState(false);
+  if (!ready || signingOut) return <Loading />;
   if (!user) return <Navigate to="/ingresar" replace />;
   return (
-    <section className="store-container customer-auth">
-      <h1>Hola, {user.name}.</h1>
-      <p>Tu cuenta está activa.</p>
-      <dl>
-        <dt>Correo</dt>
-        <dd>{user.email}</dd>
-      </dl>
-      <p>
-        Explora el catálogo, prepara tu carrito y envía tu pedido. La tienda confirma
-        disponibilidad, pago y entrega.
-      </p>
-      <div className="account-actions">
-        <Link className="btn primary" to="/catalogo">
-          Explorar productos
-        </Link>
-        <Link className="btn secondary" to="/carrito">
-          Ver carrito
-        </Link>
-        {user.role !== 'CUSTOMER' && (
-          <Link className="btn secondary" to="/admin/dashboard">
-            Abrir panel
-          </Link>
-        )}
-        <button
-          className="btn secondary"
-          onClick={async () => {
-            try {
-              await signOut();
-              navigate('/');
-            } catch {
-              setError('La sesión local se cerró, pero no pudimos contactar al servidor.');
-            }
-          }}
-        >
-          Cerrar sesión
-        </button>
+    <section className="store-container account-page">
+      <header className="account-heading">
+        <div>
+          <h1>Hola, {user.name}.</h1>
+          <p>Este es tu espacio en FerreMax.</p>
+        </div>
+        <span className="account-status">
+          <CheckCircle2 size={17} /> Tu cuenta está activa.
+        </span>
+      </header>
+      <div className="account-layout">
+        <aside className="account-profile" aria-label="Datos de tu cuenta">
+          <div className="account-profile-title">
+            <UserRound size={22} />
+            <h2>Mi perfil</h2>
+          </div>
+          <dl>
+            <div>
+              <dt>Nombre</dt>
+              <dd>{user.name}</dd>
+            </div>
+            <div>
+              <dt>Correo</dt>
+              <dd>{user.email}</dd>
+            </div>
+            <div>
+              <dt>Tipo de cuenta</dt>
+              <dd>
+                {user.role === 'ADMIN'
+                  ? 'Administrador'
+                  : user.role === 'EMPLOYEE'
+                    ? 'Empleado'
+                    : 'Cliente'}
+              </dd>
+            </div>
+          </dl>
+          <button
+            className="account-signout"
+            disabled={signingOut}
+            onClick={async () => {
+              setSigningOut(true);
+              try {
+                await signOut();
+              } catch {
+                toast.error('La sesión local se cerró, pero no pudimos contactar al servidor.');
+              } finally {
+                await navigate('/');
+              }
+            }}
+          >
+            <LogOut size={18} /> Cerrar sesión
+          </button>
+        </aside>
+        <div className="account-main">
+          <section className="account-shopping" aria-labelledby="account-shopping-title">
+            <ShoppingBag size={28} strokeWidth={1.6} />
+            <h2 id="account-shopping-title">Tu próximo proyecto empieza aquí.</h2>
+            <p>
+              Explora el catálogo, prepara tu carrito y envía tu pedido. La tienda confirma
+              disponibilidad, pago y entrega.
+            </p>
+            <div className="account-actions">
+              <Link className="btn primary" to="/catalogo">
+                Explorar productos <ArrowUpRight size={18} />
+              </Link>
+              <Link className="btn secondary" to="/carrito">
+                Ver carrito
+              </Link>
+            </div>
+          </section>
+          {user.role !== 'CUSTOMER' && (
+            <section className="account-admin-access" aria-label="Acceso del personal">
+              <LayoutDashboard size={24} />
+              <div>
+                <h2>Administración de la tienda</h2>
+                <p>Gestiona productos, inventario y pedidos desde el panel.</p>
+              </div>
+              <Link className="btn secondary" to="/admin/dashboard">
+                Abrir panel <ArrowUpRight size={17} />
+              </Link>
+            </section>
+          )}
+        </div>
       </div>
-      {error && <p role="alert">{error}</p>}
     </section>
   );
 }

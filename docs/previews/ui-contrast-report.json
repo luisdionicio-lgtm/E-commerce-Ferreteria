@@ -1,0 +1,65 @@
+[
+  {
+    "route": "/",
+    "viewport": {
+      "width": 1440,
+      "height": 1100
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/catalogo",
+    "viewport": {
+      "width": 1440,
+      "height": 1100
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/ingresar",
+    "viewport": {
+      "width": 1440,
+      "height": 1100
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/mi-cuenta",
+    "viewport": {
+      "width": 1440,
+      "height": 1100
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/admin/dashboard",
+    "viewport": {
+      "width": 1440,
+      "height": 1100
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/",
+    "viewport": {
+      "width": 375,
+      "height": 1000
+    },
+    "issues": [],
+    "overflow": false
+  },
+  {
+    "route": "/mi-cuenta",
+    "viewport": {
+      "width": 375,
+      "height": 1000
+    },
+    "issues": [],
+    "overflow": false
+  }
+]

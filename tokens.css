@@ -1,15 +1,15 @@
 /* Hallmark · existing FerreMax system · pre-emit critique: P4 H4 E4 S4 R4 V4 */
 :root {
-  --color-paper: oklch(96% 0.012 85);
-  --color-surface: oklch(99% 0.006 85);
-  --color-ink: oklch(24% 0.015 155);
-  --color-muted: oklch(44% 0.018 155);
+  --color-paper: #f5f3ed;
+  --color-surface: #ffffff;
+  --color-ink: #19241f;
+  --color-muted: #526057;
   --color-rule: oklch(84% 0.012 85);
-  --color-accent: oklch(59% 0.17 45);
+  --color-accent: #b74412;
   --color-on-dark: oklch(97% 0.01 85);
   --color-dark-muted: oklch(79% 0.015 155);
-  --font-display: 'Manrope', Arial, sans-serif;
-  --font-body: 'DM Sans', Arial, sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  --font-body: 'Source Sans 3', Arial, sans-serif;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2rem;

@@ -22,6 +22,7 @@ test('Catálogo ampliado: seis referencias por categoría, fotos, precios y carr
         .locator('.product-card')
         .filter({ has: page.getByRole('heading', { name: item.name, exact: true }) });
       await expect(card).toHaveCount(1);
+      await card.scrollIntoViewIfNeeded();
       await card.locator('img').evaluate(async (image: HTMLImageElement) => {
         await image.decode();
         if (!image.naturalWidth) throw new Error('Imagen sin contenido');

@@ -136,6 +136,8 @@ test('Cliente: registro, protección de admin, búsqueda, filtros y carrito pers
   await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
   await expect(page).toHaveURL(/mi-cuenta/);
   await expect(page.getByRole('heading', { name: 'Hola, Cliente Portafolio.' })).toBeVisible();
+  await expect(page.getByRole('complementary', { name: 'Datos de tu cuenta' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Abrir panel', exact: true })).toHaveCount(0);
   await page.goto('/admin/dashboard');
   await expect(page).toHaveURL(/mi-cuenta/);
   await page.goto('/catalogo');

@@ -89,10 +89,15 @@ export function Home() {
             <em>Bien equipado.</em>
           </h1>
           <p>Equipa tu próxima idea con herramientas, materiales y asesoría en un solo lugar.</p>
-          <Link to="/catalogo" className="btn primary">
-            Explorar productos
-            <ArrowUpRight size={20} />
-          </Link>
+          <div className="hero-actions">
+            <Link to="/catalogo" className="btn primary">
+              Explorar productos
+              <ArrowUpRight size={20} />
+            </Link>
+            <a href="#categorias" className="hero-secondary">
+              Elegir categoría <ArrowRight size={18} />
+            </a>
+          </div>
           <div className="hero-service">
             <Truck size={20} />
             <span>Consulta disponibilidad y coordina tu entrega directamente con la tienda.</span>
@@ -100,10 +105,10 @@ export function Home() {
         </div>
         <div className="hero-art">
           <img
-            src="/images/reference/drill-workshop.jpg"
-            alt="Profesional perforando una pared de ladrillo con un taladro Bosch"
-            width={720}
-            height={938}
+            src="/images/reference/grinder-bosch-web-5.jpg"
+            alt="Profesional trabajando metal con una amoladora Bosch y protección personal"
+            width={1000}
+            height={1000}
             fetchPriority="high"
           />
           <Link to="/catalogo?categoria=cat-1" className="hero-product-label">
@@ -115,7 +120,7 @@ export function Home() {
           </Link>
         </div>
       </section>
-      <section className="store-container categories-section">
+      <section id="categorias" className="store-container categories-section">
         <div className="section-heading">
           <h2>¿Qué necesitas para tu proyecto?</h2>
           <Link to="/catalogo">
