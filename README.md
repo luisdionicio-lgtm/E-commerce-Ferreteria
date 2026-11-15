@@ -8,6 +8,34 @@ Material para la entrega: [presentación Semana 16](docs/PRESENTACION_SEMANA_16.
 
 También se incluyen [imágenes PNG/SVG de los diagramas solicitados](docs/diagramas/README.md), listas para la exposición. Se regeneran con `npm run docs:diagrams`.
 
+## Evidencia técnica: diagramas del proyecto
+
+Los siguientes diagramas documentan la implementación de FerreMax para el curso de Desarrollo Web Avanzado. Corresponden al sistema local; el despliegue en nube permanece pendiente.
+
+### Modelo entidad–relación (MER)
+
+Generado desde el esquema Prisma: productos, categorías, proveedores, compras, pedidos, ventas, usuarios, sesiones e inventario por lotes con vencimientos. Incluye claves primarias, foráneas, únicas y campos opcionales.
+
+![Modelo entidad–relación completo de FerreMax](docs/diagramas/01-modelo-er.png)
+
+[Ampliar en SVG](docs/diagramas/01-modelo-er.svg) · [Fuente Mermaid](docs/diagramas/01-modelo-er.mmd) · [Justificación del modelo](docs/MODELO_ER.md)
+
+### Arquitectura Next.js + Express + MySQL
+
+El navegador accede a Next.js, que reenvía las solicitudes `/api` a Express. El backend aplica validaciones y permisos y accede a MySQL mediante Prisma; el repositorio JSON es una alternativa para la demostración local.
+
+![Arquitectura de FerreMax con Next.js, Express, Prisma y MySQL](docs/diagramas/02-arquitectura.png)
+
+[Ampliar en SVG](docs/diagramas/02-arquitectura.svg) · [Fuente Mermaid](docs/diagramas/02-arquitectura.mmd) · [Explicación técnica](docs/ARQUITECTURA_CURSO.md)
+
+### Secuencia cliente–servidor
+
+Consulta del catálogo, registro del pedido y confirmación de la venta por personal autorizado. El pedido no cobra ni reserva stock; la venta valida existencias y utiliza primero los lotes que vencen antes (FEFO).
+
+![Secuencia entre navegador, Next.js, Express y MySQL](docs/diagramas/03-flujo-cliente-servidor.png)
+
+[Ampliar en SVG](docs/diagramas/03-flujo-cliente-servidor.svg) · [Fuente Mermaid](docs/diagramas/03-flujo-cliente-servidor.mmd)
+
 El flujo comercial es **pedido sujeto a confirmación**: permite seleccionar productos y enviar una solicitud; el personal confirma stock, pago y entrega. No incorpora una pasarela de pago, cobros online, recuperación de contraseña ni verificación de correo. Los precios, existencias, proveedores y fotografías son referenciales.
 
 ## Probar el proyecto desde GitHub
