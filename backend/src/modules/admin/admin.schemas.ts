@@ -87,13 +87,15 @@ export const purchaseSchema = z.object({
     .min(1)
     .max(100),
 });
-export const orderSchema = z.object({
-  customerName: text,
-  phone: z.string().regex(/^\+?[0-9 ]{9,16}$/, 'Teléfono inválido'),
-  email: z.union([z.string().email(), z.literal('')]).optional(),
-  address: z.string().max(500).optional(),
-  items,
-});
+export const orderSchema = z
+  .object({
+    customerName: text,
+    phone: z.string().regex(/^\+?[0-9 ]{9,16}$/, 'Teléfono inválido'),
+    email: z.union([z.string().email(), z.literal('')]).optional(),
+    address: z.string().max(500).optional(),
+    items,
+  })
+  .strict();
 export const adjustmentSchema = z.object({
   lotId: text,
   delta: z

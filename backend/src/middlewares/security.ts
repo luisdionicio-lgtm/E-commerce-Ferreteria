@@ -30,6 +30,10 @@ export const admin: RequestHandler = (_req, res, next) =>
   res.locals.user.role === 'ADMIN'
     ? next()
     : next(new AppError(403, 'Esta operación requiere administrador'));
+export const optionalAuthenticate =
+  (repo: Repository): RequestHandler =>
+  (req, res, next) =>
+    req.headers.authorization ? authenticate(repo)(req, res, next) : next();
 export const sameOrigin: RequestHandler = (req, _res, next) => {
   const origin = req.headers.origin;
   if (origin && origin !== env.origin) return next(new AppError(403, 'Origen no autorizado'));

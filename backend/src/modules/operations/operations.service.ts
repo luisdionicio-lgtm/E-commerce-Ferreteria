@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import type { Unit } from '../../shared/types.js';
 import { ensure } from '../../shared/errors.js';
 import { deduct, movement } from '../inventory/inventory.service.js';
-export async function createOrder(u: Unit, input: any) {
+export async function createOrder(u: Unit, input: any, userId: string | null = null) {
   const quantities = new Map<string, number>();
   for (const item of input.items)
     quantities.set(item.productId, (quantities.get(item.productId) || 0) + item.quantity);
@@ -28,16 +28,20 @@ export async function createOrder(u: Unit, input: any) {
       productId: p.id,
       quantity: item.quantity,
       price: p.price,
+      productName: p.name,
+      productImage: p.image,
     });
   }
   ensure(Number.isSafeInteger(total) && total <= 2000000000, 'El total supera el límite permitido');
   const order = await u.create('orders', {
     id,
+    userId,
     customerName: input.customerName,
     phone: input.phone,
     email: input.email || '',
     address: input.address || '',
     status: 'PENDIENTE',
+    fulfillmentStatus: 'POR_PREPARAR',
     total,
     createdAt: new Date().toISOString(),
   });

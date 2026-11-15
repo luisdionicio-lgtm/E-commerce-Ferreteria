@@ -7,7 +7,8 @@ import { z, ZodError } from 'zod';
 import type { Repository } from './shared/types.js';
 import { env } from './config/env.js';
 import { AppError, ensure } from './shared/errors.js';
-import { sameOrigin } from './middlewares/security.js';
+import { sameOrigin, optionalAuthenticate } from './middlewares/security.js';
+import { customerOrderRoutes } from './modules/orders/orders.routes.js';
 import { adminRoutes, wrap } from './modules/admin/admin.routes.js';
 import { catalog } from './modules/catalog/catalog.service.js';
 import { createOrder } from './modules/operations/operations.service.js';
@@ -125,15 +126,23 @@ export function createApp(repo: Repository) {
   );
   app.post(
     '/api/orders',
+    optionalAuthenticate(repo),
     rateLimit({
       windowMs: 60000,
       limit: 10,
       message: { message: 'Espera un minuto para enviar otro pedido' },
     }),
     wrap(async (q: any, s: any) =>
-      s.status(201).json(await repo.transaction((u) => createOrder(u, orderSchema.parse(q.body)))),
+      s
+        .status(201)
+        .json(
+          await repo.transaction((u) =>
+            createOrder(u, orderSchema.parse(q.body), s.locals.user?.id || null),
+          ),
+        ),
     ),
   );
+  app.use('/api/me/orders', customerOrderRoutes(repo));
   app.use('/api/admin', adminRoutes(repo));
   app.use('/api', (_q, s) => s.status(404).json({ message: 'Ruta no encontrada' }));
   app.use((err: any, _q: any, s: any, _n: any) => {
