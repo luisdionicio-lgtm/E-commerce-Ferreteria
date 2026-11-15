@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from '../app/navigation';
 import {
   ShoppingBag,
   Search,
@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../app/context';
-export default function PublicLayout() {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { cart, settings, user } = useApp();
   const [term, setTerm] = useState('');
   const [open, setOpen] = useState(false);
@@ -81,9 +81,7 @@ export default function PublicLayout() {
           </button>
         </div>
       </header>
-      <main>
-        <Outlet />
-      </main>
+      <main>{children}</main>
       <section className="trust-strip">
         <div>
           <ShieldCheck />

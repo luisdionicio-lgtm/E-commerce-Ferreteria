@@ -1,6 +1,6 @@
 let accessToken = '';
 let refreshPromise: Promise<any> | null = null;
-const base = import.meta.env.VITE_API_URL || '/api';
+const base = '/api';
 export const setToken = (token: string) => {
   accessToken = token;
 };

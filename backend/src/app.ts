@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { rateLimit } from 'express-rate-limit';
 import { z, ZodError } from 'zod';
-import { resolve } from 'node:path';
 import type { Repository } from './shared/types.js';
 import { env } from './config/env.js';
 import { AppError, ensure } from './shared/errors.js';
@@ -17,6 +16,7 @@ import { login, refresh, logout, register } from './modules/auth/auth.service.js
 export function createApp(repo: Repository) {
   const app = express();
   app.disable('x-powered-by');
+  if (process.env.TRUST_PROXY === '1') app.set('trust proxy', 1);
   app.use(
     helmet({
       contentSecurityPolicy: {
@@ -136,10 +136,6 @@ export function createApp(repo: Repository) {
   );
   app.use('/api/admin', adminRoutes(repo));
   app.use('/api', (_q, s) => s.status(404).json({ message: 'Ruta no encontrada' }));
-  if (env.production) {
-    app.use(express.static(resolve('../frontend/dist')));
-    app.get('*', (_q, s) => s.sendFile(resolve('../frontend/dist/index.html')));
-  }
   app.use((err: any, _q: any, s: any, _n: any) => {
     if (err instanceof ZodError)
       return s

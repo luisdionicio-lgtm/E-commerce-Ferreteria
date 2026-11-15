@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, Outlet, Link, useNavigate, Navigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, Navigate } from '../app/navigation';
 import {
   LayoutDashboard,
   Package,
@@ -56,7 +56,7 @@ const groups = [
     ],
   },
 ];
-export default function AdminLayout() {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, ready, signOut } = useApp();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -166,9 +166,7 @@ export default function AdminLayout() {
             <span className="avatar small">{user.name.slice(0, 1)}</span>
           </div>
         </header>
-        <main className="admin-content">
-          <Outlet />
-        </main>
+        <main className="admin-content">{children}</main>
         <footer className="admin-footer">
           FerreMax · Cada producto, bajo control.<span>Moneda: PEN · Modo demostración local</span>
         </footer>

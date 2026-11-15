@@ -31,19 +31,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<any>(null);
   const [catalogError, setCatalogError] = useState('');
   const [version, setVersion] = useState(0);
-  const [cart, setCart] = useState<CartItem[]>(() => {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartReady, setCartReady] = useState(false);
+  useEffect(() => {
     try {
       const raw = JSON.parse(localStorage.getItem('ferremax-cart') || '[]');
-      return Array.isArray(raw)
-        ? raw.filter(
+      if (Array.isArray(raw))
+        setCart(
+          raw.filter(
             (x) =>
               typeof x.productId === 'string' && Number.isInteger(x.quantity) && x.quantity > 0,
-          )
-        : [];
+          ),
+        );
     } catch {
-      return [];
+      /* Invalid local data starts an empty cart. */
     }
-  });
+    setCartReady(true);
+  }, []);
   const reload = useCallback(() => setVersion((v) => v + 1), []);
   useEffect(() => {
     let live = true;
@@ -84,8 +88,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
   }, [version]);
   useEffect(() => {
-    localStorage.setItem('ferremax-cart', JSON.stringify(cart));
-  }, [cart]);
+    if (cartReady)
+      try {
+        localStorage.setItem('ferremax-cart', JSON.stringify(cart));
+      } catch {
+        /* Private browsing can disable storage. */
+      }
+  }, [cart, cartReady]);
   const addToCart = (p: Product) => {
     const current = cart.find((c) => c.productId === p.id)?.quantity || 0;
     if (current >= p.availableStock) {

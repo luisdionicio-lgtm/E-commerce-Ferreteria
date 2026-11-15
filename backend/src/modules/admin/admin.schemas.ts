@@ -67,7 +67,7 @@ export const items = z
   .max(100);
 export const saleSchema = z
   .object({
-    items: items.min(0).default([]),
+    items: z.array(items.element).max(100).default([]),
     customerId: z.string().optional(),
     orderId: z.string().optional(),
     payment: z.enum(['EFECTIVO', 'YAPE', 'TARJETA']).default('EFECTIVO'),

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from '../../app/navigation';
 import { ArrowRight, LockKeyhole, Eye, EyeOff, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { useApp } from '../../app/context';
 export default function Login() {

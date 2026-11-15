@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useSearchParams, useNavigate } from '../../app/navigation';
 import { useState, useMemo } from 'react';
 import {
   ArrowUpRight,

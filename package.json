@@ -17,6 +17,8 @@
     "format:check": "prettier --check frontend/src backend/src backend/tests tests playwright.config.ts tokens.css",
     "db:generate": "npm run db:generate -w backend",
     "db:push": "npm run db:push -w backend",
+    "db:migrate": "npm run db:migrate -w backend",
+    "start:web": "npm run start -w frontend",
     "db:seed": "npm run db:seed -w backend"
   },
   "overrides": {
