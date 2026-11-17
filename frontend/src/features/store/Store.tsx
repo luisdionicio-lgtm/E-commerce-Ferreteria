@@ -18,6 +18,7 @@ import {
   Zap,
   HardHat,
   Wrench,
+  FileText,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
@@ -71,6 +72,36 @@ const categoryPhotos: Record<string, string> = {
   'cat-5': 'cement-sol.jpg',
   'cat-6': 'helmet-steelpro.jpg',
 };
+function HomeProductCard({ p }: { p: Product }) {
+  const { addToCart } = useApp();
+  return (
+    <article className="home-product-card">
+      <Link to={'/productos/' + p.slug} className="home-product-image">
+        <img src={p.image} alt={p.name} loading="lazy" />
+      </Link>
+      <div className="home-product-copy">
+        <div className="home-product-meta">
+          <strong>{p.brand}</strong>
+          <span>{p.category}</span>
+        </div>
+        <Link to={'/productos/' + p.slug} className="home-product-name">
+          {p.name}
+        </Link>
+        <span className={'home-product-stock ' + (!p.availableStock ? 'out' : '')}>
+          <i />
+          {p.availableStock ? `${p.availableStock} disponibles` : 'Sin stock'}
+        </span>
+        <div className="home-product-buy">
+          <b>{money(p.price)}</b>
+          <button disabled={!p.availableStock} onClick={() => addToCart(p)}>
+            <ShoppingBag size={16} />
+            Agregar
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
 export function Home() {
   const { products, categories, catalogError } = useApp();
   if (catalogError)
@@ -80,55 +111,41 @@ export function Home() {
       </div>
     );
   return (
-    <>
-      <section className="hero">
-        <div className="hero-copy">
+    <div className="store-home">
+      <section className="home-hero">
+        <div className="home-hero-copy">
           <h1>
-            Tu proyecto.
+            Todo para
             <br />
-            <em>Bien equipado.</em>
+            <em>construir mejor</em>
           </h1>
-          <p>Equipa tu próxima idea con herramientas, materiales y asesoría en un solo lugar.</p>
-          <div className="hero-actions">
-            <Link to="/catalogo" className="btn primary">
+          <p>Encuentra herramientas y materiales para cada proyecto.</p>
+          <div className="home-hero-actions">
+            <Link to="/catalogo" className="home-primary-action">
               Explorar productos
-              <ArrowUpRight size={20} />
+              <ArrowRight size={20} />
             </Link>
-            <a href="#categorias" className="hero-secondary">
-              Elegir categoría <ArrowRight size={18} />
-            </a>
-          </div>
-          <div className="hero-service">
-            <Truck size={20} />
-            <span>Consulta disponibilidad y coordina tu entrega directamente con la tienda.</span>
+            <Link to="/carrito" className="home-secondary-action">
+              <FileText size={20} />
+              Solicitar cotización
+            </Link>
           </div>
         </div>
-        <div className="hero-art">
-          <img
-            src="/images/reference/grinder-bosch-web-5.jpg"
-            alt="Profesional trabajando metal con una amoladora Bosch y protección personal"
-            width={1000}
-            height={1000}
-            fetchPriority="high"
-          />
-          <Link to="/catalogo?categoria=cat-1" className="hero-product-label">
-            <strong>Herramientas para el trabajo real.</strong>
-            <span>
-              Ver herramientas
-              <ArrowRight size={16} />
-            </span>
-          </Link>
+        <div className="home-hero-dots" aria-hidden="true">
+          <i className="active" />
+          <i />
+          <i />
         </div>
       </section>
-      <section id="categorias" className="store-container categories-section">
-        <div className="section-heading">
+      <section id="categorias" className="home-section home-categories-section">
+        <div className="home-section-heading">
           <h2>¿Qué necesitas para tu proyecto?</h2>
           <Link to="/catalogo">
-            Ver todo
-            <ArrowUpRight size={18} />
+            Ver todas las categorías
+            <ArrowRight size={18} />
           </Link>
         </div>
-        <div className="category-grid">
+        <div className="home-category-grid">
           {categories.map((c: any, i: number) => {
             const Icon = icons[i % icons.length];
             return (
@@ -143,67 +160,37 @@ export function Home() {
                     loading="lazy"
                   />
                 ) : (
-                  <span className="category-icon">
+                  <span className="home-category-icon">
                     <Icon size={27} />
                   </span>
                 )}
-                <strong>{c.name}</strong>
-                <small>
-                  Explorar
-                  <ArrowUpRight size={14} />
-                </small>
+                <span className="home-category-label">
+                  <strong>{c.name}</strong>
+                  <ArrowRight size={18} />
+                </span>
               </Link>
             );
           })}
         </div>
       </section>
-      <section className="store-container featured-section">
-        <div className="section-heading">
-          <div>
-            <h2>Los esenciales de cada obra.</h2>
-            <p>Una selección referencial para renovar, reparar y construir.</p>
-          </div>
+      <section className="home-section home-featured-section">
+        <div className="home-section-heading">
+          <h2>Productos destacados</h2>
           <Link to="/catalogo">
-            Todo el catálogo
-            <ArrowUpRight size={18} />
+            Ver todo el catálogo
+            <ArrowRight size={18} />
           </Link>
         </div>
-        <div className="product-grid">
+        <div className="home-product-grid">
           {products
             .filter((p: Product) => p.featured)
-            .slice(0, 8)
+            .slice(0, 4)
             .map((p: Product) => (
-              <ProductCard p={p} key={p.id} />
+              <HomeProductCard p={p} key={p.id} />
             ))}
         </div>
       </section>
-      <section className="project-banner store-container">
-        <div>
-          <h2>
-            Del primer ajuste
-            <br />
-            al último detalle.
-          </h2>
-          <p>
-            Prepara tu proyecto con herramientas y materiales. Explora el catálogo y envía tu
-            selección para confirmar disponibilidad.
-          </p>
-          <Link to="/catalogo" className="btn light">
-            Preparar mi pedido
-            <ArrowUpRight size={19} />
-          </Link>
-        </div>
-        <div className="project-photo">
-          <img
-            src="/images/reference/drill-masonry.jpg"
-            alt="Profesional instalando una estructura metálica con un taladro"
-            width={720}
-            height={938}
-            loading="lazy"
-          />
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
 export function Catalog() {
