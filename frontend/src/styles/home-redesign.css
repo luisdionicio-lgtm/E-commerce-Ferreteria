@@ -1,4 +1,22 @@
 /* Portada FerreMax: composición comercial inspirada en la referencia del usuario. */
+.public-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f5f2;
+}
+
+.public-shell > main {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+.public-shell > .public-footer {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
 .announcement {
   min-height: 34px;
   padding: 0 5vw;
