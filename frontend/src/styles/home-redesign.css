@@ -288,16 +288,39 @@
   align-items: center;
   overflow: hidden;
   isolation: isolate;
-  background-image: url('/images/home/ferremax-hero-construction.png');
-  background-size: cover;
+  background: #071c21;
+}
+
+.home-hero-media,
+.home-hero-slide {
+  position: absolute;
+  inset: 0;
+}
+
+.home-hero-media {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home-hero-slide {
   background-position: center 55%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0;
+  transform: scale(1.018);
+  transition: opacity 800ms ease, transform 5.8s ease;
+}
+
+.home-hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .home-hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   background:
     linear-gradient(90deg, rgba(5, 24, 30, 0.32) 0%, rgba(5, 24, 30, 0.02) 49%, transparent 67%),
     repeating-linear-gradient(115deg, transparent 0 16px, rgba(255, 107, 0, 0.13) 17px 19px, transparent 20px 37px);
@@ -308,10 +331,25 @@
 }
 
 .home-hero-copy {
+  position: relative;
+  z-index: 2;
   width: min(1540px, 90%);
   margin: 0 auto;
   padding: 62px 0 66px;
   color: #fff;
+  animation: home-hero-copy-in 560ms ease both;
+}
+
+@keyframes home-hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .home-hero h1 {
@@ -388,24 +426,41 @@
 
 .home-hero-dots {
   position: absolute;
+  z-index: 3;
   left: 50%;
   bottom: 14px;
   display: flex;
-  gap: 9px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(5, 24, 30, 0.42);
+  backdrop-filter: blur(8px);
   transform: translateX(-50%);
 }
 
-.home-hero-dots i {
+.home-hero-dots button {
   width: 10px;
   height: 10px;
-  display: block;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: width 180ms ease, border-radius 180ms ease, background 180ms ease;
 }
 
-.home-hero-dots i.active {
+.home-hero-dots button.active {
+  width: 26px;
+  border-radius: 999px;
   background: #ff6b00;
+}
+
+.home-hero-dots button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .home-section {
@@ -905,7 +960,9 @@
   .home-hero {
     min-height: 535px;
     align-items: flex-start;
-    background-size: auto 100%;
+  }
+
+  .home-hero-slide {
     background-position: 64% center;
   }
 
@@ -1038,7 +1095,13 @@
   .home-product-card,
   .home-product-image img,
   .home-primary-action,
-  .home-secondary-action {
+  .home-secondary-action,
+  .home-hero-slide,
+  .home-hero-dots button {
     transition: none;
+  }
+
+  .home-hero-copy {
+    animation: none;
   }
 }

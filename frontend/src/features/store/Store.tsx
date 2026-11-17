@@ -1,5 +1,5 @@
 import { Link, useParams, useSearchParams, useNavigate } from '../../state/navigation';
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
   ArrowUpRight,
   ArrowRight,
@@ -72,6 +72,28 @@ const categoryPhotos: Record<string, string> = {
   'cat-5': 'cement-sol.jpg',
   'cat-6': 'helmet-steelpro.jpg',
 };
+
+const homeHeroSlides = [
+  {
+    image: '/images/home/ferremax-hero-construction.png',
+    lead: 'Todo para',
+    accent: 'construir mejor',
+    description: 'Encuentra herramientas y materiales para cada proyecto.',
+  },
+  {
+    image: '/images/home/ferremax-hero-pinturas.png',
+    lead: 'Dale vida a',
+    accent: 'cada espacio',
+    description: 'Pinturas y acabados profesionales para transformar tus ambientes.',
+  },
+  {
+    image: '/images/home/ferremax-hero-instalaciones.png',
+    lead: 'Soluciones para',
+    accent: 'cada instalación',
+    description: 'Todo para electricidad, gasfitería y trabajos profesionales.',
+  },
+] as const;
+
 function HomeProductCard({ p }: { p: Product }) {
   const { addToCart } = useApp();
   return (
@@ -104,6 +126,18 @@ function HomeProductCard({ p }: { p: Product }) {
 }
 export function Home() {
   const { products, categories, catalogError } = useApp();
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length);
+    }, 5500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const activeSlide = homeHeroSlides[activeHeroSlide];
+
   if (catalogError)
     return (
       <div className="store-container">
@@ -112,14 +146,31 @@ export function Home() {
     );
   return (
     <div className="store-home">
-      <section className="home-hero">
-        <div className="home-hero-copy">
+      <section
+        className="home-hero"
+        aria-label="Promociones destacadas de FerreMax"
+        aria-roledescription="carrusel"
+      >
+        <div className="home-hero-media" aria-hidden="true">
+          {homeHeroSlides.map((slide, index) => (
+            <div
+              key={slide.image}
+              className={'home-hero-slide ' + (index === activeHeroSlide ? 'active' : '')}
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
+          ))}
+        </div>
+        <div
+          key={activeSlide.image}
+          className="home-hero-copy"
+          aria-live="off"
+        >
           <h1>
-            Todo para
+            {activeSlide.lead}
             <br />
-            <em>construir mejor</em>
+            <em>{activeSlide.accent}</em>
           </h1>
-          <p>Encuentra herramientas y materiales para cada proyecto.</p>
+          <p>{activeSlide.description}</p>
           <div className="home-hero-actions">
             <Link to="/catalogo" className="home-primary-action">
               Explorar productos
@@ -131,10 +182,17 @@ export function Home() {
             </Link>
           </div>
         </div>
-        <div className="home-hero-dots" aria-hidden="true">
-          <i className="active" />
-          <i />
-          <i />
+        <div className="home-hero-dots" aria-label="Seleccionar promoción">
+          {homeHeroSlides.map((slide, index) => (
+            <button
+              key={slide.image}
+              type="button"
+              className={index === activeHeroSlide ? 'active' : ''}
+              aria-label={`Mostrar promoción ${index + 1}: ${slide.lead} ${slide.accent}`}
+              aria-current={index === activeHeroSlide ? 'true' : undefined}
+              onClick={() => setActiveHeroSlide(index)}
+            />
+          ))}
         </div>
       </section>
       <section id="categorias" className="home-section home-categories-section">
