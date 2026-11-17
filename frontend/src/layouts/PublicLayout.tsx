@@ -1,13 +1,15 @@
 import { Link, NavLink, useNavigate } from '../state/navigation';
 import {
-  ShoppingBag,
+  ShoppingCart,
   Search,
   ArrowUpRight,
   Phone,
   MapPin,
   ShieldCheck,
   Truck,
+  Store,
   Headphones,
+  Mail,
   Menu,
   X,
   UserRound,
@@ -25,14 +27,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         Saltar al contenido
       </a>
       <div className="announcement">
-        <span>Herramientas para grandes ideas.</span>
-        <span>
-          <MapPin size={13} />
-          {settings?.address || 'Lima, Perú'}
-          <span className="divider">|</span>
-          <Phone size={13} />
-          {settings?.phone || '999123456'}
-        </span>
+        <div className="announcement-inner">
+          <div className="announcement-benefits">
+            <span><Truck size={16} /> Envíos a todo Lima</span>
+            <span><ShieldCheck size={16} /> Compra segura</span>
+            <span><Store size={16} /> Retiro coordinado</span>
+          </div>
+          <div className="announcement-contact">
+            <span><MapPin size={15} /> {settings?.address || 'Lima, Perú'}</span>
+            <span><Phone size={15} /> {settings?.phone || '999123456'}</span>
+          </div>
+        </div>
       </div>
       <header className="public-header">
         <Link to="/" className="brand">
@@ -50,11 +55,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <NavLink to="/catalogo" onClick={() => setOpen(false)}>
             Productos
           </NavLink>
-          <Link to="/catalogo?categoria=cat-1" onClick={() => setOpen(false)}>
-            Herramientas
+          <Link to="/#categorias" onClick={() => setOpen(false)}>
+            Categorías
           </Link>
-          <Link to="/catalogo?categoria=cat-2" onClick={() => setOpen(false)}>
-            Pinturas
+          <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+            Ofertas
           </Link>
         </nav>
         <div className="public-tools">
@@ -68,7 +73,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <Search size={17} />
             <input
               aria-label="Buscar en el catálogo"
-              placeholder="¿Qué necesitas?"
+              placeholder="¿Qué necesitas para tu proyecto?"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
             />
@@ -78,7 +83,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <span>{user ? 'Mi cuenta' : 'Ingresar'}</span>
           </NavLink>
           <Link className="cart-link" to="/carrito" aria-label="Ver carrito">
-            <ShoppingBag size={22} />
+            <ShoppingCart size={24} />
             <span>{cart.reduce((n: number, c: any) => n + c.quantity, 0)}</span>
           </Link>
           <button
@@ -119,39 +124,23 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </div>
       </section>
       <footer className="public-footer">
-        <div>
+        <div className="footer-brand-block">
           <Link to="/" className="brand light">
             <span className="brand-icon">F</span>Ferre<span>Max</span>.
           </Link>
-          <p>
-            Todo empieza con una buena herramienta.
-            <br />
-            Nosotros te ayudamos a encontrarla.
-          </p>
         </div>
-        <div>
-          <span className="eyebrow">ENCUÉNTRANOS</span>
-          <p>
-            {settings?.address}
-            <br />
-            {settings?.email}
-            <br />
-            {settings?.phone}
-          </p>
+        <div className="footer-contact-row">
+          <span><MapPin size={17} /> {settings?.address || 'Lima, Perú'}</span>
+          <span><Phone size={17} /> {settings?.phone || '999123456'}</span>
+          <span><Mail size={17} /> {settings?.email || 'hola@ferremax.pe'}</span>
         </div>
-        <div>
-          <span className="eyebrow">TU PRÓXIMO PROYECTO</span>
-          <Link to="/catalogo" className="footer-cta">
-            Explorar el catálogo
-            <ArrowUpRight />
-          </Link>
-          <Link to="/login" className="admin-entry">
-            Acceso de administración
-          </Link>
+        <div className="footer-links-row">
+          <Link to="/catalogo">Productos</Link>
+          <Link to="/#categorias">Categorías</Link>
+          <Link to="/login">Administración</Link>
         </div>
         <div className="footer-bottom">
-          © {new Date().getFullYear()} FerreMax. Proyecto de demostración.
-          <span>Pedidos sujetos a confirmación · Sin cobros online</span>
+          © {new Date().getFullYear()} FerreMax · Proyecto académico
         </div>
       </footer>
     </div>
