@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../state/context';
+import BrandLogo from '../components/BrandLogo';
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { cart, settings, user } = useApp();
   const [term, setTerm] = useState('');
@@ -40,9 +41,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </div>
       </div>
       <header className="public-header">
-        <Link to="/" className="brand">
-          <span className="brand-icon">F</span>Ferre<span>Max</span>
-          <span className="brand-period">.</span>
+        <Link to="/" className="brand" aria-label="FerreMax - Inicio">
+          <BrandLogo />
         </Link>
         <nav
           id="store-navigation"
@@ -125,8 +125,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </section>
       <footer className="public-footer">
         <div className="footer-brand-block">
-          <Link to="/" className="brand light">
-            <span className="brand-icon">F</span>Ferre<span>Max</span>.
+          <Link to="/" className="brand light" aria-label="FerreMax - Inicio">
+            <BrandLogo />
           </Link>
         </div>
         <div className="footer-contact-row">
