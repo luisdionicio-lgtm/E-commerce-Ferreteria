@@ -109,6 +109,30 @@
   overflow: visible;
 }
 
+.brand-shield-outer {
+  fill: #0d2025;
+}
+
+.brand-shield-inner {
+  fill: #fff;
+}
+
+.brand-shield-letter {
+  fill: #ff6b00;
+}
+
+.brand.light .brand-shield-outer {
+  fill: #fff;
+}
+
+.brand.light .brand-shield-inner {
+  fill: #0d2025;
+}
+
+.brand.light .brand-mark {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.3));
+}
+
 .brand-wordmark {
   display: inline-flex;
   align-items: baseline;
