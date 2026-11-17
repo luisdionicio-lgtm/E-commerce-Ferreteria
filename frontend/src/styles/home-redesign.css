@@ -283,7 +283,7 @@
 
 .home-hero {
   position: relative;
-  min-height: 320px;
+  min-height: clamp(430px, 31vw, 540px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -310,15 +310,15 @@
 .home-hero-copy {
   width: min(1540px, 90%);
   margin: 0 auto;
-  padding: 36px 0 38px;
+  padding: 62px 0 66px;
   color: #fff;
 }
 
 .home-hero h1 {
-  max-width: 650px;
+  max-width: 700px;
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(50px, 4.4vw, 74px);
+  font-size: clamp(56px, 4.7vw, 80px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.055em;
@@ -331,10 +331,10 @@
 }
 
 .home-hero-copy > p {
-  max-width: 470px;
-  margin: 18px 0 20px;
+  max-width: 500px;
+  margin: 22px 0 26px;
   color: #f1f4f3;
-  font-size: 21px;
+  font-size: 22px;
   line-height: 1.2;
 }
 
