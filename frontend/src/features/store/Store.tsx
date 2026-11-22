@@ -11,6 +11,7 @@ import {
   Trash2,
   ShieldCheck,
   Truck,
+  ChevronLeft,
   ChevronRight,
   Drill,
   PaintBucket,
@@ -25,6 +26,7 @@ import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
 import { send } from '../../services/api';
 import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
+import BrandLogo from '../../components/BrandLogo';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
 export function ProductCard({ p }: { p: Product }) {
   const { addToCart } = useApp();
@@ -75,22 +77,19 @@ const categoryPhotos: Record<string, string> = {
 
 const homeHeroSlides = [
   {
-    image: '/images/home/ferremax-hero-construction.png',
-    lead: 'Todo para',
-    accent: 'construir mejor',
-    description: 'Encuentra herramientas y materiales para cada proyecto.',
+    image: '/images/home/ferremax-hero-yellow-branded.png',
+    kicker: 'Todo para tu obra y proyecto',
+    description: 'Herramientas, electricidad, gasfitería, construcción, pinturas y seguridad, en un solo lugar.',
   },
   {
-    image: '/images/home/ferremax-hero-pinturas.png',
-    lead: 'Dale vida a',
-    accent: 'cada espacio',
-    description: 'Pinturas y acabados profesionales para transformar tus ambientes.',
+    image: '/images/home/ferremax-hero-yellow-pinturas-branded.png',
+    kicker: 'Renueva cada ambiente',
+    description: 'Pinturas, acabados y herramientas profesionales para transformar tus espacios.',
   },
   {
-    image: '/images/home/ferremax-hero-instalaciones.png',
-    lead: 'Soluciones para',
-    accent: 'cada instalación',
-    description: 'Todo para electricidad, gasfitería y trabajos profesionales.',
+    image: '/images/home/ferremax-hero-yellow-instalaciones-branded.png',
+    kicker: 'Instala con confianza',
+    description: 'Soluciones confiables para electricidad, gasfitería y construcción profesional.',
   },
 ] as const;
 
@@ -147,6 +146,7 @@ export function Home() {
   return (
     <div className="store-home">
       <section
+        id="inicio"
         className="home-hero"
         aria-label="Promociones destacadas de FerreMax"
         aria-roledescription="carrusel"
@@ -165,10 +165,9 @@ export function Home() {
           className="home-hero-copy"
           aria-live="off"
         >
-          <h1>
-            {activeSlide.lead}
-            <br />
-            <em>{activeSlide.accent}</em>
+          <p className="home-hero-kicker">{activeSlide.kicker}</p>
+          <h1 className="home-hero-brand" aria-label="FerreMax">
+            <BrandLogo />
           </h1>
           <p>{activeSlide.description}</p>
           <div className="home-hero-actions">
@@ -176,19 +175,37 @@ export function Home() {
               Explorar productos
               <ArrowRight size={20} />
             </Link>
-            <Link to="/carrito" className="home-secondary-action">
-              <FileText size={20} />
-              Solicitar cotización
-            </Link>
           </div>
         </div>
+        <button
+          className="home-hero-arrow previous"
+          type="button"
+          aria-label="Promoción anterior"
+          onClick={() =>
+            setActiveHeroSlide((current) =>
+              current === 0 ? homeHeroSlides.length - 1 : current - 1,
+            )
+          }
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          className="home-hero-arrow next"
+          type="button"
+          aria-label="Siguiente promoción"
+          onClick={() =>
+            setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length)
+          }
+        >
+          <ChevronRight />
+        </button>
         <div className="home-hero-dots" aria-label="Seleccionar promoción">
           {homeHeroSlides.map((slide, index) => (
             <button
               key={slide.image}
               type="button"
               className={index === activeHeroSlide ? 'active' : ''}
-              aria-label={`Mostrar promoción ${index + 1}: ${slide.lead} ${slide.accent}`}
+              aria-label={`Mostrar promoción ${index + 1}: ${slide.kicker}`}
               aria-current={index === activeHeroSlide ? 'true' : undefined}
               onClick={() => setActiveHeroSlide(index)}
             />
@@ -231,7 +248,7 @@ export function Home() {
           })}
         </div>
       </section>
-      <section className="home-section home-featured-section">
+      <section id="blog" className="home-section home-featured-section">
         <div className="home-section-heading">
           <h2>Productos destacados</h2>
           <Link to="/catalogo">

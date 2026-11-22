@@ -2,17 +2,18 @@ import { Link, NavLink, useNavigate } from '../state/navigation';
 import {
   ShoppingCart,
   Search,
-  ArrowUpRight,
   Phone,
   MapPin,
   ShieldCheck,
   Truck,
-  Store,
   Headphones,
   Mail,
   Menu,
   X,
   UserRound,
+  Heart,
+  RotateCcw,
+  ChevronDown,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../state/context';
@@ -27,19 +28,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <a className="skip-content" href="#store-content">
         Saltar al contenido
       </a>
-      <div className="announcement">
-        <div className="announcement-inner">
-          <div className="announcement-benefits">
-            <span><Truck size={16} /> Envíos a todo Lima</span>
-            <span><ShieldCheck size={16} /> Compra segura</span>
-            <span><Store size={16} /> Retiro coordinado</span>
-          </div>
-          <div className="announcement-contact">
-            <span><MapPin size={15} /> {settings?.address || 'Lima, Perú'}</span>
-            <span><Phone size={15} /> {settings?.phone || '999123456'}</span>
-          </div>
-        </div>
-      </div>
       <header className="public-header">
         <Link to="/" className="brand" aria-label="FerreMax - Inicio">
           <BrandLogo />
@@ -53,13 +41,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             Inicio
           </NavLink>
           <NavLink to="/catalogo" onClick={() => setOpen(false)}>
-            Productos
+            Productos <ChevronDown size={15} aria-hidden="true" />
           </NavLink>
           <Link to="/#categorias" onClick={() => setOpen(false)}>
-            Categorías
+            Categorías <ChevronDown size={15} aria-hidden="true" />
           </Link>
           <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
             Ofertas
+          </Link>
+          <Link to="/#blog" onClick={() => setOpen(false)}>
+            Blog
+          </Link>
+          <Link to="/#contacto" onClick={() => setOpen(false)}>
+            Contacto
           </Link>
         </nav>
         <div className="public-tools">
@@ -73,7 +67,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <Search size={17} />
             <input
               aria-label="Buscar en el catálogo"
-              placeholder="¿Qué necesitas para tu proyecto?"
+              placeholder="Buscar productos, marcas o categorías..."
               value={term}
               onChange={(e) => setTerm(e.target.value)}
             />
@@ -82,6 +76,13 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <UserRound size={18} aria-hidden="true" />
             <span>{user ? 'Mi cuenta' : 'Ingresar'}</span>
           </NavLink>
+          <Link
+            className="favorites-link"
+            to="/catalogo?orden=destacados"
+            aria-label="Ver productos favoritos"
+          >
+            <Heart size={25} />
+          </Link>
           <Link className="cart-link" to="/carrito" aria-label="Ver carrito">
             <ShoppingCart size={24} />
             <span>{cart.reduce((n: number, c: any) => n + c.quantity, 0)}</span>
@@ -97,33 +98,30 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </button>
         </div>
       </header>
+      <section className="announcement" aria-label="Beneficios de compra">
+        <div className="announcement-inner">
+          <div className="announcement-benefit">
+            <Truck />
+            <span><strong>Envíos a todo Lima</strong><small>Rápido y seguro</small></span>
+          </div>
+          <div className="announcement-benefit">
+            <ShieldCheck />
+            <span><strong>Compra segura</strong><small>Tus datos protegidos</small></span>
+          </div>
+          <div className="announcement-benefit">
+            <Headphones />
+            <span><strong>Soporte 24/7</strong><small>Contáctanos y te ayudamos</small></span>
+          </div>
+          <div className="announcement-benefit">
+            <RotateCcw />
+            <span><strong>30 días de devolución</strong><small>Compra sin complicaciones</small></span>
+          </div>
+        </div>
+      </section>
       <main id="store-content" tabIndex={-1}>
         {children}
       </main>
-      <section className="trust-strip">
-        <div>
-          <ShieldCheck />
-          <span>
-            <strong>Compra con confianza</strong>
-            <small>Precios claros y stock disponible</small>
-          </span>
-        </div>
-        <div>
-          <Truck />
-          <span>
-            <strong>Coordina tu entrega</strong>
-            <small>Atención directa con nuestra tienda</small>
-          </span>
-        </div>
-        <div>
-          <Headphones />
-          <span>
-            <strong>Te ayudamos a elegir</strong>
-            <small>Asesoría para cada proyecto</small>
-          </span>
-        </div>
-      </section>
-      <footer className="public-footer">
+      <footer id="contacto" className="public-footer">
         <div className="footer-brand-block">
           <Link to="/" className="brand light" aria-label="FerreMax - Inicio">
             <BrandLogo />
