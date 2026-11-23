@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { useApp } from '../state/context';
 import BrandLogo from '../components/BrandLogo';
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-  const { cart, settings, user } = useApp();
+  const { cart, settings, user, categories } = useApp();
   const [term, setTerm] = useState('');
   const [open, setOpen] = useState(false);
   const go = useNavigate();
@@ -40,17 +40,46 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <NavLink to="/" end onClick={() => setOpen(false)}>
             Inicio
           </NavLink>
-          <NavLink to="/catalogo" onClick={() => setOpen(false)}>
-            Productos <ChevronDown size={15} aria-hidden="true" />
-          </NavLink>
-          <Link to="/#categorias" onClick={() => setOpen(false)}>
-            Categorías <ChevronDown size={15} aria-hidden="true" />
-          </Link>
+          <details className="nav-dropdown">
+            <summary>
+              Productos <ChevronDown size={15} aria-hidden="true" />
+            </summary>
+            <div className="nav-dropdown-menu">
+              <Link to="/catalogo" onClick={() => setOpen(false)}>
+                Ver todos los productos
+              </Link>
+              <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+                Productos destacados
+              </Link>
+              <Link to="/catalogo?categoria=cat-1" onClick={() => setOpen(false)}>
+                Herramientas
+              </Link>
+              <Link to="/catalogo?categoria=cat-2" onClick={() => setOpen(false)}>
+                Pinturas
+              </Link>
+            </div>
+          </details>
+          <details className="nav-dropdown">
+            <summary>
+              Categorías <ChevronDown size={15} aria-hidden="true" />
+            </summary>
+            <div className="nav-dropdown-menu categories-menu">
+              <Link to="/#categorias" onClick={() => setOpen(false)}>
+                Ver todas las categorías
+              </Link>
+              {categories.map((category: any) => (
+                <Link
+                  key={category.id}
+                  to={`/catalogo?categoria=${category.id}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </details>
           <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
             Ofertas
-          </Link>
-          <Link to="/#blog" onClick={() => setOpen(false)}>
-            Blog
           </Link>
           <Link to="/#contacto" onClick={() => setOpen(false)}>
             Contacto

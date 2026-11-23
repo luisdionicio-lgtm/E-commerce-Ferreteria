@@ -248,7 +248,7 @@ export function Home() {
           })}
         </div>
       </section>
-      <section id="blog" className="home-section home-featured-section">
+      <section className="home-section home-featured-section">
         <div className="home-section-heading">
           <h2>Productos destacados</h2>
           <Link to="/catalogo">

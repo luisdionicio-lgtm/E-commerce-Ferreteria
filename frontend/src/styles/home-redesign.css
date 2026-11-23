@@ -189,7 +189,8 @@
   padding: 0;
 }
 
-.public-header nav a {
+.public-header nav > a,
+.nav-dropdown > summary {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -203,11 +204,78 @@
   white-space: nowrap;
 }
 
-.public-header nav a:hover,
-.public-header nav a.active {
+.nav-dropdown {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-dropdown > summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-dropdown > summary svg {
+  transition: transform 180ms ease;
+}
+
+.nav-dropdown[open] > summary svg {
+  transform: rotate(180deg);
+}
+
+.public-header nav > a:hover,
+.public-header nav > a.active,
+.nav-dropdown > summary:hover,
+.nav-dropdown[open] > summary {
   color: #fff;
   background: #111;
   box-shadow: 0 7px 16px rgba(0, 0, 0, 0.16);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% - 7px);
+  left: 0;
+  width: 250px;
+  padding: 10px;
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(20, 20, 20, 0.16);
+  border-top: 4px solid #111;
+  border-radius: 0 0 12px 12px;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(25, 20, 0, 0.22);
+}
+
+.nav-dropdown-menu.categories-menu {
+  width: 265px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.public-header .nav-dropdown-menu a {
+  min-height: 42px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  color: #161616;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+.public-header .nav-dropdown-menu a:hover {
+  color: #111;
+  background: #ffe462;
+  box-shadow: none;
 }
 
 .public-tools {
@@ -907,7 +975,11 @@
     padding-inline: 0;
   }
 
-  .public-header nav a {
+  .public-header nav > a {
+    padding-inline: 10px;
+  }
+
+  .nav-dropdown > summary {
     padding-inline: 10px;
   }
 
@@ -972,14 +1044,42 @@
     display: flex;
   }
 
-  .public-header nav a {
+  .public-header nav > a {
     min-height: 44px;
     padding: 0 14px;
     border-radius: 8px;
   }
 
-  .public-header nav a:hover,
-  .public-header nav a.active {
+  .nav-dropdown {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .nav-dropdown > summary {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    justify-content: space-between;
+    border-radius: 8px;
+  }
+
+  .nav-dropdown-menu,
+  .nav-dropdown-menu.categories-menu {
+    position: static;
+    width: 100%;
+    margin: 4px 0 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 0;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: none;
+  }
+
+  .public-header nav > a:hover,
+  .public-header nav > a.active,
+  .nav-dropdown > summary:hover,
+  .nav-dropdown[open] > summary {
     color: #fff;
     background: #111;
   }
