@@ -1,21 +1,25 @@
 import { Link, NavLink, useNavigate } from '../state/navigation';
 import {
-  ShoppingBag,
+  ShoppingCart,
   Search,
-  ArrowUpRight,
   Phone,
   MapPin,
   ShieldCheck,
   Truck,
   Headphones,
+  Mail,
   Menu,
   X,
   UserRound,
+  Heart,
+  RotateCcw,
+  ChevronDown,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../state/context';
+import BrandLogo from '../components/BrandLogo';
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-  const { cart, settings, user } = useApp();
+  const { cart, settings, user, categories } = useApp();
   const [term, setTerm] = useState('');
   const [open, setOpen] = useState(false);
   const go = useNavigate();
@@ -24,20 +28,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <a className="skip-content" href="#store-content">
         Saltar al contenido
       </a>
-      <div className="announcement">
-        <span>Herramientas para grandes ideas.</span>
-        <span>
-          <MapPin size={13} />
-          {settings?.address || 'Lima, Perú'}
-          <span className="divider">|</span>
-          <Phone size={13} />
-          {settings?.phone || '999123456'}
-        </span>
-      </div>
       <header className="public-header">
-        <Link to="/" className="brand">
-          <span className="brand-icon">F</span>Ferre<span>Max</span>
-          <span className="brand-period">.</span>
+        <Link to="/" className="brand" aria-label="FerreMax - Inicio">
+          <BrandLogo />
         </Link>
         <nav
           id="store-navigation"
@@ -47,14 +40,49 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <NavLink to="/" end onClick={() => setOpen(false)}>
             Inicio
           </NavLink>
-          <NavLink to="/catalogo" onClick={() => setOpen(false)}>
-            Productos
-          </NavLink>
-          <Link to="/catalogo?categoria=cat-1" onClick={() => setOpen(false)}>
-            Herramientas
+          <details className="nav-dropdown">
+            <summary>
+              Productos <ChevronDown size={15} aria-hidden="true" />
+            </summary>
+            <div className="nav-dropdown-menu">
+              <Link to="/catalogo" onClick={() => setOpen(false)}>
+                Ver todos los productos
+              </Link>
+              <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+                Productos destacados
+              </Link>
+              <Link to="/catalogo?categoria=cat-1" onClick={() => setOpen(false)}>
+                Herramientas
+              </Link>
+              <Link to="/catalogo?categoria=cat-2" onClick={() => setOpen(false)}>
+                Pinturas
+              </Link>
+            </div>
+          </details>
+          <details className="nav-dropdown">
+            <summary>
+              Categorías <ChevronDown size={15} aria-hidden="true" />
+            </summary>
+            <div className="nav-dropdown-menu categories-menu">
+              <Link to="/#categorias" onClick={() => setOpen(false)}>
+                Ver todas las categorías
+              </Link>
+              {categories.map((category: any) => (
+                <Link
+                  key={category.id}
+                  to={`/catalogo?categoria=${category.id}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </details>
+          <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+            Ofertas
           </Link>
-          <Link to="/catalogo?categoria=cat-2" onClick={() => setOpen(false)}>
-            Pinturas
+          <Link to="/#contacto" onClick={() => setOpen(false)}>
+            Contacto
           </Link>
         </nav>
         <div className="public-tools">
@@ -68,7 +96,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <Search size={17} />
             <input
               aria-label="Buscar en el catálogo"
-              placeholder="¿Qué necesitas?"
+              placeholder="Buscar productos, marcas o categorías..."
               value={term}
               onChange={(e) => setTerm(e.target.value)}
             />
@@ -77,8 +105,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <UserRound size={18} aria-hidden="true" />
             <span>{user ? 'Mi cuenta' : 'Ingresar'}</span>
           </NavLink>
+          <Link
+            className="favorites-link"
+            to="/catalogo?orden=destacados"
+            aria-label="Ver productos favoritos"
+          >
+            <Heart size={25} />
+          </Link>
           <Link className="cart-link" to="/carrito" aria-label="Ver carrito">
-            <ShoppingBag size={22} />
+            <ShoppingCart size={24} />
             <span>{cart.reduce((n: number, c: any) => n + c.quantity, 0)}</span>
           </Link>
           <button
@@ -92,66 +127,66 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </button>
         </div>
       </header>
+      <section className="announcement" aria-label="Beneficios de compra">
+        <div className="announcement-inner">
+          <div className="announcement-benefit">
+            <Truck />
+            <span>
+              <strong>Envíos a todo Lima</strong>
+              <small>Rápido y seguro</small>
+            </span>
+          </div>
+          <div className="announcement-benefit">
+            <ShieldCheck />
+            <span>
+              <strong>Compra segura</strong>
+              <small>Tus datos protegidos</small>
+            </span>
+          </div>
+          <div className="announcement-benefit">
+            <Headphones />
+            <span>
+              <strong>Soporte 24/7</strong>
+              <small>Contáctanos y te ayudamos</small>
+            </span>
+          </div>
+          <div className="announcement-benefit">
+            <RotateCcw />
+            <span>
+              <strong>30 días de devolución</strong>
+              <small>Compra sin complicaciones</small>
+            </span>
+          </div>
+        </div>
+      </section>
       <main id="store-content" tabIndex={-1}>
         {children}
       </main>
-      <section className="trust-strip">
-        <div>
-          <ShieldCheck />
+      <footer id="contacto" className="public-footer">
+        <div className="footer-brand-block">
+          <Link to="/" className="brand light" aria-label="FerreMax - Inicio">
+            <BrandLogo />
+          </Link>
+        </div>
+        <div className="footer-contact-row">
           <span>
-            <strong>Compra con confianza</strong>
-            <small>Precios claros y stock disponible</small>
+            <MapPin size={17} /> {settings?.address || 'Lima, Perú'}
+          </span>
+          <span>
+            <Phone size={17} /> {settings?.phone || '999123456'}
+          </span>
+          <span>
+            <Mail size={17} /> {settings?.email || 'hola@ferremax.pe'}
           </span>
         </div>
-        <div>
-          <Truck />
-          <span>
-            <strong>Coordina tu entrega</strong>
-            <small>Atención directa con nuestra tienda</small>
-          </span>
-        </div>
-        <div>
-          <Headphones />
-          <span>
-            <strong>Te ayudamos a elegir</strong>
-            <small>Asesoría para cada proyecto</small>
-          </span>
-        </div>
-      </section>
-      <footer className="public-footer">
-        <div>
-          <Link to="/" className="brand light">
-            <span className="brand-icon">F</span>Ferre<span>Max</span>.
-          </Link>
-          <p>
-            Todo empieza con una buena herramienta.
-            <br />
-            Nosotros te ayudamos a encontrarla.
-          </p>
-        </div>
-        <div>
-          <span className="eyebrow">ENCUÉNTRANOS</span>
-          <p>
-            {settings?.address}
-            <br />
-            {settings?.email}
-            <br />
-            {settings?.phone}
-          </p>
-        </div>
-        <div>
-          <span className="eyebrow">TU PRÓXIMO PROYECTO</span>
-          <Link to="/catalogo" className="footer-cta">
-            Explorar el catálogo
-            <ArrowUpRight />
-          </Link>
-          <Link to="/login" className="admin-entry">
-            Acceso de administración
-          </Link>
+        <div className="footer-links-row">
+          <Link to="/catalogo">Productos</Link>
+          <Link to="/#categorias">Categorías</Link>
+          <Link to="/catalogo?orden=destacados">Ofertas</Link>
+          <Link to="/login">Administración</Link>
         </div>
         <div className="footer-bottom">
-          © {new Date().getFullYear()} FerreMax. Proyecto de demostración.
-          <span>Pedidos sujetos a confirmación · Sin cobros online</span>
+          © {new Date().getFullYear()} FerreMax · Proyecto académico
         </div>
       </footer>
     </div>

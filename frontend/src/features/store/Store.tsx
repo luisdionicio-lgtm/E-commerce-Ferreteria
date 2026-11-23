@@ -1,5 +1,5 @@
 import { Link, useParams, useSearchParams, useNavigate } from '../../state/navigation';
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
   ArrowUpRight,
   ArrowRight,
@@ -11,6 +11,7 @@ import {
   Trash2,
   ShieldCheck,
   Truck,
+  ChevronLeft,
   ChevronRight,
   Drill,
   PaintBucket,
@@ -18,12 +19,15 @@ import {
   Zap,
   HardHat,
   Wrench,
+  FileText,
+  Tag,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
 import { send } from '../../services/api';
 import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
+import BrandLogo from '../../components/BrandLogo';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
 export function ProductCard({ p }: { p: Product }) {
   const { addToCart } = useApp();
@@ -71,8 +75,82 @@ const categoryPhotos: Record<string, string> = {
   'cat-5': 'cement-sol.jpg',
   'cat-6': 'helmet-steelpro.jpg',
 };
+
+const homeHeroSlides = [
+  {
+    image: '/images/home/ferremax-hero-yellow-branded.png',
+    kicker: 'Todo para tu obra y proyecto',
+    description:
+      'Herramientas, electricidad, gasfitería, construcción, pinturas y seguridad, en un solo lugar.',
+  },
+  {
+    image: '/images/home/ferremax-hero-yellow-pinturas-branded.png',
+    kicker: 'Renueva cada ambiente',
+    description: 'Pinturas, acabados y herramientas profesionales para transformar tus espacios.',
+  },
+  {
+    image: '/images/home/ferremax-hero-yellow-instalaciones-branded.png',
+    kicker: 'Instala con confianza',
+    description: 'Soluciones confiables para electricidad, gasfitería y construcción profesional.',
+  },
+] as const;
+
+function HomeProductCard({ p }: { p: Product }) {
+  const { addToCart } = useApp();
+  return (
+    <article className="home-product-card">
+      <Link to={'/productos/' + p.slug} className="home-product-image">
+        <img src={p.image} alt={p.name} loading="lazy" />
+      </Link>
+      <div className="home-product-copy">
+        <div className="home-product-meta">
+          <strong>{p.brand}</strong>
+          <span>{p.category}</span>
+        </div>
+        <Link to={'/productos/' + p.slug} className="home-product-name">
+          {p.name}
+        </Link>
+        <span className={'home-product-stock ' + (!p.availableStock ? 'out' : '')}>
+          <i />
+          {p.availableStock ? `${p.availableStock} disponibles` : 'Sin stock'}
+        </span>
+        <div className="home-product-buy">
+          <b>{money(p.price)}</b>
+          <button disabled={!p.availableStock} onClick={() => addToCart(p)}>
+            <ShoppingBag size={16} />
+            Agregar
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
 export function Home() {
   const { products, categories, catalogError } = useApp();
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length);
+    }, 5500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const activeSlide = homeHeroSlides[activeHeroSlide];
+  const sortedFeaturedProducts = [...products].sort(
+    (a: Product, b: Product) => Number(b.featured) - Number(a.featured),
+  );
+  const safetyProduct =
+    sortedFeaturedProducts.find(
+      (product: Product) => product.categoryId === 'cat-6' && /casco/i.test(product.name),
+    ) || sortedFeaturedProducts.find((product: Product) => product.categoryId === 'cat-6');
+  const featuredProducts = sortedFeaturedProducts
+    .filter((product: Product) => product.id !== safetyProduct?.id)
+    .slice(0, 4);
+
+  if (safetyProduct) featuredProducts.push(safetyProduct);
+
   if (catalogError)
     return (
       <div className="store-container">
@@ -80,55 +158,77 @@ export function Home() {
       </div>
     );
   return (
-    <>
-      <section className="hero">
-        <div className="hero-copy">
-          <h1>
-            Tu proyecto.
-            <br />
-            <em>Bien equipado.</em>
+    <div className="store-home">
+      <section
+        id="inicio"
+        className="home-hero"
+        aria-label="Promociones destacadas de FerreMax"
+        aria-roledescription="carrusel"
+      >
+        <div className="home-hero-media" aria-hidden="true">
+          {homeHeroSlides.map((slide, index) => (
+            <div
+              key={slide.image}
+              className={'home-hero-slide ' + (index === activeHeroSlide ? 'active' : '')}
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
+          ))}
+        </div>
+        <div key={activeSlide.image} className="home-hero-copy" aria-live="off">
+          <p className="home-hero-kicker">{activeSlide.kicker}</p>
+          <h1 className="home-hero-brand" aria-label="FerreMax">
+            <BrandLogo />
           </h1>
-          <p>Equipa tu próxima idea con herramientas, materiales y asesoría en un solo lugar.</p>
-          <div className="hero-actions">
-            <Link to="/catalogo" className="btn primary">
+          <p>{activeSlide.description}</p>
+          <div className="home-hero-actions">
+            <Link to="/catalogo" className="home-primary-action">
               Explorar productos
-              <ArrowUpRight size={20} />
+              <ArrowRight size={20} />
             </Link>
-            <a href="#categorias" className="hero-secondary">
-              Elegir categoría <ArrowRight size={18} />
-            </a>
-          </div>
-          <div className="hero-service">
-            <Truck size={20} />
-            <span>Consulta disponibilidad y coordina tu entrega directamente con la tienda.</span>
           </div>
         </div>
-        <div className="hero-art">
-          <img
-            src="/images/reference/grinder-bosch-web-5.jpg"
-            alt="Profesional trabajando metal con una amoladora Bosch y protección personal"
-            width={1000}
-            height={1000}
-            fetchPriority="high"
-          />
-          <Link to="/catalogo?categoria=cat-1" className="hero-product-label">
-            <strong>Herramientas para el trabajo real.</strong>
-            <span>
-              Ver herramientas
-              <ArrowRight size={16} />
-            </span>
-          </Link>
+        <button
+          className="home-hero-arrow previous"
+          type="button"
+          aria-label="Promoción anterior"
+          onClick={() =>
+            setActiveHeroSlide((current) =>
+              current === 0 ? homeHeroSlides.length - 1 : current - 1,
+            )
+          }
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          className="home-hero-arrow next"
+          type="button"
+          aria-label="Siguiente promoción"
+          onClick={() => setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length)}
+        >
+          <ChevronRight />
+        </button>
+        <div className="home-hero-dots" aria-label="Seleccionar promoción">
+          {homeHeroSlides.map((slide, index) => (
+            <button
+              key={slide.image}
+              type="button"
+              className={index === activeHeroSlide ? 'active' : ''}
+              aria-label={`Mostrar promoción ${index + 1}: ${slide.kicker}`}
+              aria-current={index === activeHeroSlide ? 'true' : undefined}
+              onClick={() => setActiveHeroSlide(index)}
+            />
+          ))}
         </div>
       </section>
-      <section id="categorias" className="store-container categories-section">
-        <div className="section-heading">
+      <section id="categorias" className="home-section home-categories-section">
+        <div className="home-section-heading">
           <h2>¿Qué necesitas para tu proyecto?</h2>
           <Link to="/catalogo">
-            Ver todo
-            <ArrowUpRight size={18} />
+            Ver todas las categorías
+            <ArrowRight size={18} />
           </Link>
         </div>
-        <div className="category-grid">
+        <div className="home-category-grid">
           {categories.map((c: any, i: number) => {
             const Icon = icons[i % icons.length];
             return (
@@ -143,67 +243,60 @@ export function Home() {
                     loading="lazy"
                   />
                 ) : (
-                  <span className="category-icon">
+                  <span className="home-category-icon">
                     <Icon size={27} />
                   </span>
                 )}
-                <strong>{c.name}</strong>
-                <small>
-                  Explorar
-                  <ArrowUpRight size={14} />
-                </small>
+                <span className="home-category-label">
+                  <strong>{c.name}</strong>
+                  <ArrowRight size={18} />
+                </span>
               </Link>
             );
           })}
         </div>
       </section>
-      <section className="store-container featured-section">
-        <div className="section-heading">
-          <div>
-            <h2>Los esenciales de cada obra.</h2>
-            <p>Una selección referencial para renovar, reparar y construir.</p>
-          </div>
+      <section className="home-section home-featured-section">
+        <div className="home-section-heading">
+          <h2>Productos destacados</h2>
           <Link to="/catalogo">
-            Todo el catálogo
-            <ArrowUpRight size={18} />
+            Ver todo el catálogo
+            <ArrowRight size={18} />
           </Link>
         </div>
-        <div className="product-grid">
-          {products
-            .filter((p: Product) => p.featured)
-            .slice(0, 8)
-            .map((p: Product) => (
-              <ProductCard p={p} key={p.id} />
-            ))}
+        <div className="home-product-grid">
+          {featuredProducts.map((p: Product) => (
+            <HomeProductCard p={p} key={p.id} />
+          ))}
         </div>
       </section>
-      <section className="project-banner store-container">
-        <div>
-          <h2>
-            Del primer ajuste
-            <br />
-            al último detalle.
-          </h2>
-          <p>
-            Prepara tu proyecto con herramientas y materiales. Explora el catálogo y envía tu
-            selección para confirmar disponibilidad.
-          </p>
-          <Link to="/catalogo" className="btn light">
-            Preparar mi pedido
-            <ArrowUpRight size={19} />
-          </Link>
+      <section className="home-section home-offer-banner" aria-label="Ofertas de la semana">
+        <div className="home-offer-title">
+          <Tag aria-hidden="true" />
+          <strong>
+            <em>Ofertas</em> de la semana
+          </strong>
         </div>
-        <div className="project-photo">
-          <img
-            src="/images/reference/drill-masonry.jpg"
-            alt="Profesional instalando una estructura metálica con un taladro"
-            width={720}
-            height={938}
-            loading="lazy"
-          />
-        </div>
+        <p>Aprovecha precios especiales en herramientas, construcción, electricidad y más.</p>
+        <Link to="/catalogo?orden=destacados">
+          Ver ofertas
+          <ArrowRight size={18} />
+        </Link>
       </section>
-    </>
+      <section className="home-brands" aria-label="Nuestras marcas aliadas">
+        <strong className="home-brands-label">
+          Nuestras
+          <br />
+          marcas aliadas
+        </strong>
+        <span className="partner-bosch">BOSCH</span>
+        <span className="partner-dewalt">DEWALT</span>
+        <span className="partner-cpp">CPP</span>
+        <span className="partner-vainsa">VAINSA</span>
+        <span className="partner-indeco">INDECO</span>
+        <span className="partner-stanley">STANLEY</span>
+      </section>
+    </div>
   );
 }
 export function Catalog() {
