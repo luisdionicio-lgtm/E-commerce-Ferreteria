@@ -317,7 +317,7 @@
 .catalog-page .product-picture {
   min-height: 210px;
   border: 0;
-  background: linear-gradient(145deg, #fff, #f8f8f5);
+  background: #fff;
 }
 
 .catalog-page .product-picture::after {
@@ -329,7 +329,8 @@
   aspect-ratio: auto;
   padding: 16px 14px 7px;
   background: transparent;
-  filter: drop-shadow(0 15px 12px #1d231d1f);
+  filter: none;
+  mix-blend-mode: multiply;
 }
 
 .catalog-page .product-tag {
@@ -401,6 +402,7 @@
 
 .catalog-page .product-info {
   padding: 10px 16px 15px;
+  background: #fff;
 }
 
 .catalog-page .product-info > small {
