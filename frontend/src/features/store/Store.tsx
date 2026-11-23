@@ -80,7 +80,8 @@ const homeHeroSlides = [
   {
     image: '/images/home/ferremax-hero-yellow-branded.png',
     kicker: 'Todo para tu obra y proyecto',
-    description: 'Herramientas, electricidad, gasfitería, construcción, pinturas y seguridad, en un solo lugar.',
+    description:
+      'Herramientas, electricidad, gasfitería, construcción, pinturas y seguridad, en un solo lugar.',
   },
   {
     image: '/images/home/ferremax-hero-yellow-pinturas-branded.png',
@@ -137,11 +138,13 @@ export function Home() {
   }, []);
 
   const activeSlide = homeHeroSlides[activeHeroSlide];
-  const sortedFeaturedProducts = [...products]
-    .sort((a: Product, b: Product) => Number(b.featured) - Number(a.featured))
-  const safetyProduct = sortedFeaturedProducts.find(
-    (product: Product) => product.categoryId === 'cat-6' && /casco/i.test(product.name),
-  ) || sortedFeaturedProducts.find((product: Product) => product.categoryId === 'cat-6');
+  const sortedFeaturedProducts = [...products].sort(
+    (a: Product, b: Product) => Number(b.featured) - Number(a.featured),
+  );
+  const safetyProduct =
+    sortedFeaturedProducts.find(
+      (product: Product) => product.categoryId === 'cat-6' && /casco/i.test(product.name),
+    ) || sortedFeaturedProducts.find((product: Product) => product.categoryId === 'cat-6');
   const featuredProducts = sortedFeaturedProducts
     .filter((product: Product) => product.id !== safetyProduct?.id)
     .slice(0, 4);
@@ -171,11 +174,7 @@ export function Home() {
             />
           ))}
         </div>
-        <div
-          key={activeSlide.image}
-          className="home-hero-copy"
-          aria-live="off"
-        >
+        <div key={activeSlide.image} className="home-hero-copy" aria-live="off">
           <p className="home-hero-kicker">{activeSlide.kicker}</p>
           <h1 className="home-hero-brand" aria-label="FerreMax">
             <BrandLogo />
@@ -204,9 +203,7 @@ export function Home() {
           className="home-hero-arrow next"
           type="button"
           aria-label="Siguiente promoción"
-          onClick={() =>
-            setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length)
-          }
+          onClick={() => setActiveHeroSlide((current) => (current + 1) % homeHeroSlides.length)}
         >
           <ChevronRight />
         </button>
@@ -276,7 +273,9 @@ export function Home() {
       <section className="home-section home-offer-banner" aria-label="Ofertas de la semana">
         <div className="home-offer-title">
           <Tag aria-hidden="true" />
-          <strong><em>Ofertas</em> de la semana</strong>
+          <strong>
+            <em>Ofertas</em> de la semana
+          </strong>
         </div>
         <p>Aprovecha precios especiales en herramientas, construcción, electricidad y más.</p>
         <Link to="/catalogo?orden=destacados">
@@ -285,7 +284,11 @@ export function Home() {
         </Link>
       </section>
       <section className="home-brands" aria-label="Nuestras marcas aliadas">
-        <strong className="home-brands-label">Nuestras<br />marcas aliadas</strong>
+        <strong className="home-brands-label">
+          Nuestras
+          <br />
+          marcas aliadas
+        </strong>
         <span className="partner-bosch">BOSCH</span>
         <span className="partner-dewalt">DEWALT</span>
         <span className="partner-cpp">CPP</span>

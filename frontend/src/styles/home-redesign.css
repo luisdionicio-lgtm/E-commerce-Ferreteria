@@ -377,9 +377,7 @@
 
 .store-home {
   min-height: 70vh;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 107, 0, 0.04), transparent 38%),
-    #f7f5f2;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 107, 0, 0.04), transparent 38%), #f7f5f2;
 }
 
 .home-hero {
@@ -410,7 +408,9 @@
   background-size: cover;
   opacity: 0;
   transform: scale(1.018);
-  transition: opacity 800ms ease, transform 5.8s ease;
+  transition:
+    opacity 800ms ease,
+    transform 5.8s ease;
 }
 
 .home-hero-slide.active {
@@ -524,7 +524,10 @@
   border-radius: 9px;
   font-size: 16px;
   font-weight: 700;
-  transition: transform 170ms ease, background 170ms ease, border-color 170ms ease;
+  transition:
+    transform 170ms ease,
+    background 170ms ease,
+    border-color 170ms ease;
 }
 
 .home-primary-action {
@@ -579,7 +582,10 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
   cursor: pointer;
-  transition: width 180ms ease, border-radius 180ms ease, background 180ms ease;
+  transition:
+    width 180ms ease,
+    border-radius 180ms ease,
+    background 180ms ease;
 }
 
 .home-hero-dots button.active {
@@ -604,7 +610,9 @@
   backdrop-filter: blur(6px);
   cursor: pointer;
   transform: translateY(-50%);
-  transition: background 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
 }
 
 .home-hero-arrow:hover {
@@ -726,7 +734,10 @@
   border-radius: 14px;
   background: linear-gradient(145deg, #fff 0%, #f3f1ef 100%);
   box-shadow: 0 6px 16px rgba(34, 30, 27, 0.08);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .home-category-grid > a:hover {
@@ -791,7 +802,10 @@
   border-radius: 14px;
   background: #fff;
   box-shadow: 0 6px 16px rgba(34, 30, 27, 0.08);
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .home-product-card:hover {
@@ -938,7 +952,13 @@
   overflow: hidden;
   border-radius: 14px;
   background-image:
-    linear-gradient(90deg, rgba(14, 16, 16, 0.25) 0%, #171918 32%, #171918 70%, rgba(16, 17, 16, 0.16) 100%),
+    linear-gradient(
+      90deg,
+      rgba(14, 16, 16, 0.25) 0%,
+      #171918 32%,
+      #171918 70%,
+      rgba(16, 17, 16, 0.16) 100%
+    ),
     url('/images/home/ferremax-hero-yellow-branded.png');
   background-position: center;
   background-size: cover;
@@ -991,7 +1011,9 @@
   color: #111;
   font-size: 14px;
   font-weight: 900;
-  transition: transform 180ms ease, background 180ms ease;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
 }
 
 .home-offer-banner > a:hover {
@@ -1035,7 +1057,9 @@
   letter-spacing: -0.02em;
 }
 
-.partner-bosch { color: #df1825; }
+.partner-bosch {
+  color: #df1825;
+}
 .partner-dewalt,
 .partner-stanley {
   color: #111;
@@ -1044,9 +1068,16 @@
   text-decoration-thickness: 10px;
   text-underline-offset: -7px;
 }
-.partner-cpp { color: #d91f2b; font-style: italic; }
-.partner-vainsa { color: #14234a; }
-.partner-indeco { color: #ef5c22; }
+.partner-cpp {
+  color: #d91f2b;
+  font-style: italic;
+}
+.partner-vainsa {
+  color: #14234a;
+}
+.partner-indeco {
+  color: #ef5c22;
+}
 
 .public-shell:has(.store-home) > .trust-strip {
   display: none;
@@ -1406,7 +1437,13 @@
   }
 
   .home-hero::before {
-    background: linear-gradient(180deg, rgba(255, 215, 0, 0.98) 0%, rgba(255, 215, 0, 0.92) 55%, rgba(255, 215, 0, 0.18) 86%, transparent 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 215, 0, 0.98) 0%,
+      rgba(255, 215, 0, 0.92) 55%,
+      rgba(255, 215, 0, 0.18) 86%,
+      transparent 100%
+    );
   }
 
   .home-hero-copy {

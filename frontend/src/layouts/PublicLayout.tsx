@@ -131,19 +131,31 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="announcement-inner">
           <div className="announcement-benefit">
             <Truck />
-            <span><strong>Envíos a todo Lima</strong><small>Rápido y seguro</small></span>
+            <span>
+              <strong>Envíos a todo Lima</strong>
+              <small>Rápido y seguro</small>
+            </span>
           </div>
           <div className="announcement-benefit">
             <ShieldCheck />
-            <span><strong>Compra segura</strong><small>Tus datos protegidos</small></span>
+            <span>
+              <strong>Compra segura</strong>
+              <small>Tus datos protegidos</small>
+            </span>
           </div>
           <div className="announcement-benefit">
             <Headphones />
-            <span><strong>Soporte 24/7</strong><small>Contáctanos y te ayudamos</small></span>
+            <span>
+              <strong>Soporte 24/7</strong>
+              <small>Contáctanos y te ayudamos</small>
+            </span>
           </div>
           <div className="announcement-benefit">
             <RotateCcw />
-            <span><strong>30 días de devolución</strong><small>Compra sin complicaciones</small></span>
+            <span>
+              <strong>30 días de devolución</strong>
+              <small>Compra sin complicaciones</small>
+            </span>
           </div>
         </div>
       </section>
@@ -157,9 +169,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </Link>
         </div>
         <div className="footer-contact-row">
-          <span><MapPin size={17} /> {settings?.address || 'Lima, Perú'}</span>
-          <span><Phone size={17} /> {settings?.phone || '999123456'}</span>
-          <span><Mail size={17} /> {settings?.email || 'hola@ferremax.pe'}</span>
+          <span>
+            <MapPin size={17} /> {settings?.address || 'Lima, Perú'}
+          </span>
+          <span>
+            <Phone size={17} /> {settings?.phone || '999123456'}
+          </span>
+          <span>
+            <Mail size={17} /> {settings?.email || 'hola@ferremax.pe'}
+          </span>
         </div>
         <div className="footer-links-row">
           <Link to="/catalogo">Productos</Link>
