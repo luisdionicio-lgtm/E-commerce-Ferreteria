@@ -15,12 +15,15 @@ import {
   ChevronRight,
   Drill,
   PaintBucket,
-  Plug,
   Zap,
   HardHat,
   Wrench,
   FileText,
   Tag,
+  Heart,
+  Grid3X3,
+  List,
+  ShoppingCart,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
@@ -29,17 +32,34 @@ import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
 import BrandLogo from '../../components/BrandLogo';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
-export function ProductCard({ p }: { p: Product }) {
+export function ProductCard({
+  p,
+  catalogVariant = false,
+}: {
+  p: Product;
+  catalogVariant?: boolean;
+}) {
   const { addToCart } = useApp();
   return (
     <article className="product-card">
       <Link to={'/productos/' + p.slug} className="product-picture">
+        {catalogVariant && p.featured && <span className="catalog-card-badge">Destacado</span>}
         <span className="product-tag">{p.brand}</span>
         <img src={p.image} alt={p.name} loading="lazy" />
         {p.availableStock <= p.minStock && p.availableStock > 0 && (
           <span className="limited">Últimas unidades</span>
         )}
       </Link>
+      {catalogVariant && (
+        <button
+          type="button"
+          className="catalog-favorite"
+          aria-label={'Guardar ' + p.name + ' en favoritos'}
+          onClick={() => toast.success('Producto guardado para revisar después')}
+        >
+          <Heart size={20} />
+        </button>
+      )}
       <div className="product-info">
         <small>{p.category}</small>
         <Link to={'/productos/' + p.slug}>
@@ -56,7 +76,7 @@ export function ProductCard({ p }: { p: Product }) {
             disabled={p.availableStock === 0}
             onClick={() => addToCart(p)}
           >
-            <Plus size={20} />
+            {catalogVariant ? <ShoppingCart size={19} /> : <Plus size={20} />}
           </button>
         </div>
         <span className={'stock-line ' + (!p.availableStock ? 'out' : '')}>
@@ -305,6 +325,9 @@ export function Catalog() {
   const [sort, setSort] = useState('featured');
   const [onlyStock, setOnlyStock] = useState(false);
   const [filters, setFilters] = useState(false);
+  const [view, setView] = useState<'grid' | 'list'>('grid');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const term = params.get('q') || '',
     category = params.get('categoria') || '';
   const filtered = useMemo(() => {
@@ -312,7 +335,9 @@ export function Catalog() {
       (p: Product) =>
         (!category || p.categoryId === category) &&
         (!term || `${p.name} ${p.brand} ${p.sku}`.toLowerCase().includes(term.toLowerCase())) &&
-        (!onlyStock || p.availableStock > 0),
+        (!onlyStock || p.availableStock > 0) &&
+        (!minPrice || p.price >= Number(minPrice) * 100) &&
+        (!maxPrice || p.price <= Number(maxPrice) * 100),
     );
     return rows.sort((a: Product, b: Product) =>
       sort === 'low'
@@ -323,7 +348,7 @@ export function Catalog() {
             ? a.name.localeCompare(b.name)
             : Number(b.featured) - Number(a.featured),
     );
-  }, [products, term, category, sort, onlyStock]);
+  }, [products, term, category, sort, onlyStock, minPrice, maxPrice]);
   const update = (k: string, v: string) => {
     const next = new URLSearchParams(params);
     v ? next.set(k, v) : next.delete(k);
@@ -334,45 +359,37 @@ export function Catalog() {
       <div className="store-breadcrumb">
         <Link to="/">Inicio</Link>
         <ChevronRight size={14} />
-        Catálogo
+        Productos
       </div>
-      <div className="catalog-title">
-        <div>
-          <span className="eyebrow">ELIGE. EQUIPA. CONSTRUYE.</span>
-          <h1>Todo para hacerlo posible.</h1>
-          <p>Herramientas y materiales seleccionados para tu próximo proyecto.</p>
+      <div className="catalog-intro">
+        <div className="catalog-title">
+          <div>
+            <h1>Productos</h1>
+            <p>Explora nuestro catálogo y encuentra todo para tu obra y proyecto.</p>
+          </div>
         </div>
-        <span className="catalog-count">
-          {filtered.length}
-          <small>productos</small>
-        </span>
+        <aside className="catalog-banner" aria-label="Herramientas y materiales para tu proyecto">
+          <strong>
+            Herramientas y materiales
+            <span>para todo tipo de proyectos</span>
+          </strong>
+        </aside>
       </div>
       {catalogError ? (
         <ErrorBox message={catalogError} />
       ) : (
         <>
-          <div className="catalog-toolbar">
-            <SearchInput
-              value={term}
-              onChange={(v) => update('q', v)}
-              placeholder="Buscar producto, marca o código"
-            />
-            <button className="btn secondary filter-toggle" onClick={() => setFilters(!filters)}>
-              <SlidersHorizontal size={17} />
-              Filtros
-            </button>
-            <label className="sort-label">
-              Ordenar por
-              <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value="featured">Destacados</option>
-                <option value="low">Menor precio</option>
-                <option value="high">Mayor precio</option>
-                <option value="name">Nombre</option>
-              </select>
-            </label>
-          </div>
           <div className="catalog-layout">
             <aside className={'catalog-filters ' + (filters ? 'open' : '')}>
+              <div className="catalog-filter-heading">
+                <SlidersHorizontal size={21} />
+                <strong>Filtrar productos</strong>
+              </div>
+              <SearchInput
+                value={term}
+                onChange={(v) => update('q', v)}
+                placeholder="Buscar producto, marca o código"
+              />
               <h3>Categorías</h3>
               <button
                 className={!category ? 'selected' : ''}
@@ -380,16 +397,22 @@ export function Catalog() {
               >
                 Todos los productos <span>{products.length}</span>
               </button>
-              {categories.map((c: any) => (
-                <button
-                  className={category === c.id ? 'selected' : ''}
-                  key={c.id}
-                  onClick={() => update('categoria', c.id)}
-                >
-                  {c.name}
-                  <span>{products.filter((p: Product) => p.categoryId === c.id).length}</span>
-                </button>
-              ))}
+              {categories.map((c: any, index: number) => {
+                const CategoryIcon = icons[index] || Tag;
+                return (
+                  <button
+                    className={category === c.id ? 'selected' : ''}
+                    key={c.id}
+                    onClick={() => update('categoria', c.id)}
+                  >
+                    <span className="catalog-category-name">
+                      <CategoryIcon size={17} />
+                      {c.name}
+                    </span>
+                    <span>{products.filter((p: Product) => p.categoryId === c.id).length}</span>
+                  </button>
+                );
+              })}
               <div className="filter-divider" />
               <h3>Disponibilidad</h3>
               <label className="checkbox">
@@ -400,17 +423,88 @@ export function Catalog() {
                 />
                 Solo productos con stock
               </label>
-              <div className="filter-help">
-                <Plug size={25} />
-                <h4>¿Una mano con tu proyecto?</h4>
-                <p>Consulta el catálogo y envía tu pedido. Te ayudamos a confirmar los detalles.</p>
+              <div className="filter-divider" />
+              <h3>Rango de precios</h3>
+              <div className="catalog-price-range">
+                <input
+                  type="number"
+                  min="0"
+                  inputMode="decimal"
+                  aria-label="Precio mínimo"
+                  placeholder="S/ Mín."
+                  value={minPrice}
+                  onChange={(event) => setMinPrice(event.target.value)}
+                />
+                <span>–</span>
+                <input
+                  type="number"
+                  min="0"
+                  inputMode="decimal"
+                  aria-label="Precio máximo"
+                  placeholder="S/ Máx."
+                  value={maxPrice}
+                  onChange={(event) => setMaxPrice(event.target.value)}
+                />
               </div>
+              <button
+                type="button"
+                className="catalog-clear-filters"
+                onClick={() => {
+                  setParams(new URLSearchParams());
+                  setOnlyStock(false);
+                  setMinPrice('');
+                  setMaxPrice('');
+                }}
+              >
+                <SlidersHorizontal size={17} />
+                Limpiar filtros
+              </button>
             </aside>
             <div className="catalog-results">
+              <div className="catalog-toolbar">
+                <button
+                  className="btn secondary filter-toggle"
+                  onClick={() => setFilters(!filters)}
+                >
+                  <SlidersHorizontal size={17} />
+                  Filtros
+                </button>
+                <p>
+                  Mostrando <strong>{filtered.length ? `1 – ${filtered.length}` : '0'}</strong> de{' '}
+                  <strong>{products.length}</strong> productos
+                </p>
+                <div className="catalog-view-tools">
+                  <label className="sort-label">
+                    Ordenar por:
+                    <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                      <option value="featured">Destacados</option>
+                      <option value="low">Menor precio</option>
+                      <option value="high">Mayor precio</option>
+                      <option value="name">Nombre</option>
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    className={view === 'grid' ? 'active' : ''}
+                    aria-label="Vista en cuadrícula"
+                    onClick={() => setView('grid')}
+                  >
+                    <Grid3X3 size={19} />
+                  </button>
+                  <button
+                    type="button"
+                    className={view === 'list' ? 'active' : ''}
+                    aria-label="Vista en lista"
+                    onClick={() => setView('list')}
+                  >
+                    <List size={21} />
+                  </button>
+                </div>
+              </div>
               {filtered.length ? (
-                <div className="product-grid">
+                <div className={'product-grid catalog-product-grid ' + view}>
                   {filtered.map((p: Product) => (
-                    <ProductCard key={p.id} p={p} />
+                    <ProductCard key={p.id} p={p} catalogVariant />
                   ))}
                 </div>
               ) : (
