@@ -7,6 +7,7 @@ import '../styles/ui-refinement.css';
 import '../styles/orders.css';
 import '../styles/home-redesign.css';
 import '../styles/staff-access.css';
+import '../styles/store-footer.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

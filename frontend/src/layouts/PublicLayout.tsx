@@ -14,6 +14,8 @@ import {
   Heart,
   RotateCcw,
   ChevronDown,
+  ArrowRight,
+  ArrowUp,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../state/context';
@@ -162,31 +164,50 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <main id="store-content" tabIndex={-1}>
         {children}
       </main>
-      <footer id="contacto" className="public-footer">
+      <footer id="contacto" className="public-footer ecommerce-footer">
         <div className="footer-brand-block">
           <Link to="/" className="brand light" aria-label="FerreMax - Inicio">
             <BrandLogo />
           </Link>
+          <p>Herramientas y materiales para tu próximo proyecto.</p>
+          <Link to="/catalogo" className="footer-catalog-link">
+            Explorar el catálogo <ArrowRight size={18} aria-hidden="true" />
+          </Link>
         </div>
+        <nav className="footer-column" aria-label="Categorías del catálogo">
+          <h2>Compra por categoría</h2>
+          {categories.map((category: any) => (
+            <Link key={category.id} to={`/catalogo?categoria=${category.id}`}>
+              {category.name}
+            </Link>
+          ))}
+        </nav>
+        <nav className="footer-column" aria-label="Tu cuenta y compras">
+          <h2>Tu cuenta</h2>
+          <Link to={user ? '/mi-cuenta' : '/ingresar'}>Mi cuenta</Link>
+          <Link to="/mis-pedidos">Mis pedidos</Link>
+          <Link to="/carrito">Mi carrito</Link>
+          <Link to="/catalogo?orden=destacados">Productos destacados</Link>
+          <Link to="/login">Acceso del personal</Link>
+        </nav>
         <div className="footer-contact-row">
+          <h2>Conversemos</h2>
           <span>
             <MapPin size={17} /> {settings?.address || 'Lima, Perú'}
           </span>
-          <span>
+          <a href={`tel:${(settings?.phone || '999123456').replace(/[^+\d]/g, '')}`}>
             <Phone size={17} /> {settings?.phone || '999123456'}
-          </span>
-          <span>
+          </a>
+          <a href={`mailto:${settings?.email || 'hola@ferremax.pe'}`}>
             <Mail size={17} /> {settings?.email || 'hola@ferremax.pe'}
-          </span>
-        </div>
-        <div className="footer-links-row">
-          <Link to="/catalogo">Productos</Link>
-          <Link to="/#categorias">Categorías</Link>
-          <Link to="/catalogo?orden=destacados">Ofertas</Link>
-          <Link to="/login">Administración</Link>
+          </a>
         </div>
         <div className="footer-bottom">
-          © {new Date().getFullYear()} FerreMax · Proyecto académico
+          <span>© {new Date().getFullYear()} FerreMax · Proyecto académico de e-commerce</span>
+          <span>Imágenes y precios referenciales · Pagos en modo demostración</span>
+          <a href="#store-content">
+            Volver al contenido <ArrowUp size={16} aria-hidden="true" />
+          </a>
         </div>
       </footer>
     </div>

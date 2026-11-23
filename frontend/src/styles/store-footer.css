@@ -1,0 +1,116 @@
+.public-footer.ecommerce-footer {
+  grid-template-columns: minmax(220px, 1.2fr) repeat(3, minmax(0, 1fr));
+  align-items: start;
+  padding: 64px max(5vw, calc((100vw - 1540px) / 2)) 24px;
+  gap: 40px;
+  background: #141414;
+  border-top: 6px solid #ffd400;
+}
+.ecommerce-footer .footer-brand-block p {
+  color: #c5c5c5;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 26ch;
+  margin: 20px 0 12px;
+}
+.ecommerce-footer .footer-catalog-link {
+  color: #ffd400;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 600;
+}
+.ecommerce-footer .footer-column,
+.ecommerce-footer .footer-contact-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  min-width: 0;
+}
+.ecommerce-footer h2 {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: #fff;
+  margin: 0 0 16px;
+}
+.ecommerce-footer .footer-column > a,
+.ecommerce-footer .footer-contact-row > a,
+.ecommerce-footer .footer-contact-row > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  min-height: 40px;
+  border: 0;
+  color: #c5c5c5;
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.ecommerce-footer .footer-contact-row svg {
+  color: #ffd400;
+  flex-shrink: 0;
+}
+.ecommerce-footer .footer-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 24px 0 0;
+  color: #bdbdbd;
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.5;
+}
+.ecommerce-footer .footer-bottom a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #ffd400;
+}
+.ecommerce-footer a:focus-visible {
+  outline: 2px solid #ffd400;
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ecommerce-footer a:hover {
+    color: #ffd400;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+@media (max-width: 1000px) {
+  .public-footer.ecommerce-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+@media (max-width: 540px) {
+  .public-footer.ecommerce-footer {
+    grid-template-columns: 1fr;
+    padding: 40px 24px 20px;
+    gap: 28px;
+  }
+  .ecommerce-footer .footer-brand-block p {
+    max-width: 34ch;
+    margin-top: 14px;
+  }
+  .ecommerce-footer h2 {
+    margin-bottom: 8px;
+  }
+  .ecommerce-footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
