@@ -164,6 +164,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="footer-links-row">
           <Link to="/catalogo">Productos</Link>
           <Link to="/#categorias">Categorías</Link>
+          <Link to="/catalogo?orden=destacados">Ofertas</Link>
           <Link to="/login">Administración</Link>
         </div>
         <div className="footer-bottom">

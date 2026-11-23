@@ -20,6 +20,7 @@ import {
   HardHat,
   Wrench,
   FileText,
+  Tag,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
@@ -136,6 +137,9 @@ export function Home() {
   }, []);
 
   const activeSlide = homeHeroSlides[activeHeroSlide];
+  const featuredProducts = [...products]
+    .sort((a: Product, b: Product) => Number(b.featured) - Number(a.featured))
+    .slice(0, 5);
 
   if (catalogError)
     return (
@@ -257,13 +261,30 @@ export function Home() {
           </Link>
         </div>
         <div className="home-product-grid">
-          {products
-            .filter((p: Product) => p.featured)
-            .slice(0, 4)
-            .map((p: Product) => (
-              <HomeProductCard p={p} key={p.id} />
-            ))}
+          {featuredProducts.map((p: Product) => (
+            <HomeProductCard p={p} key={p.id} />
+          ))}
         </div>
+      </section>
+      <section className="home-section home-offer-banner" aria-label="Ofertas de la semana">
+        <div className="home-offer-title">
+          <Tag aria-hidden="true" />
+          <strong><em>Ofertas</em> de la semana</strong>
+        </div>
+        <p>Aprovecha precios especiales en herramientas, construcción, electricidad y más.</p>
+        <Link to="/catalogo?orden=destacados">
+          Ver ofertas
+          <ArrowRight size={18} />
+        </Link>
+      </section>
+      <section className="home-brands" aria-label="Nuestras marcas aliadas">
+        <strong className="home-brands-label">Nuestras<br />marcas aliadas</strong>
+        <span className="partner-bosch">BOSCH</span>
+        <span className="partner-dewalt">DEWALT</span>
+        <span className="partner-cpp">CPP</span>
+        <span className="partner-vainsa">VAINSA</span>
+        <span className="partner-indeco">INDECO</span>
+        <span className="partner-stanley">STANLEY</span>
       </section>
     </div>
   );
