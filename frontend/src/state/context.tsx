@@ -18,6 +18,7 @@ export type Product = {
   description: string;
   active: boolean;
   featured: boolean;
+  discount: number;
 };
 type User = { id: string; name: string; email: string; role: string };
 type CartItem = { productId: string; quantity: number };

@@ -50,6 +50,7 @@ const configs: Record<string, any> = {
       ['description', 'Descripción'],
       ['active', 'Producto activo', 'checkbox'],
       ['featured', 'Destacar en tienda', 'checkbox'],
+      ['discount', 'Descuento de oferta (%)', 'number'],
     ],
     defaults: {
       name: '',
@@ -63,6 +64,7 @@ const configs: Record<string, any> = {
       description: '',
       active: true,
       featured: false,
+      discount: 0,
     },
   },
   categorias: {
@@ -304,6 +306,7 @@ export default function Entities({ module }: { module: string }) {
       if (module === 'productos') {
         body.price = Math.round(Number(form.price) * 100);
         body.minStock = Number(form.minStock);
+        body.discount = Number(form.discount || 0);
       }
       if (module === 'usuarios' && !body.password) delete body.password;
       await send(

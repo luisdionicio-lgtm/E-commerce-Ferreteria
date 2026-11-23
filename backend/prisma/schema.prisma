@@ -43,6 +43,7 @@ model Product {
  description String @db.Text
  active Boolean @default(true)
  featured Boolean @default(false)
+ discount Int @default(0)
  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
  @@index([categoryId])
  lots InventoryLot[]

@@ -41,6 +41,11 @@ export class JsonRepository implements Repository {
       data = JSON.parse(await readFile(path, 'utf8'));
       // Nuevas tablas se incorporan sin borrar demos JSON anteriores.
       for (const table of tables) data[table] ??= [];
+      const demoDiscounts = [40, 30, 25, 20, 15, 12, 10];
+      data.products.forEach((product, index) => {
+        if (product.discount === undefined)
+          product.discount = index < 12 ? demoDiscounts[index % demoDiscounts.length] : 0;
+      });
     } catch (e: any) {
       if (e.code !== 'ENOENT') throw e;
       data = await seedData();

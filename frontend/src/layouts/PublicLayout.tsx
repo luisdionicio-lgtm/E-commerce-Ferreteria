@@ -50,7 +50,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <Link to="/catalogo" onClick={() => setOpen(false)}>
                 Ver todos los productos
               </Link>
-              <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+              <Link to="/ofertas" onClick={() => setOpen(false)}>
                 Productos destacados
               </Link>
               <Link to="/catalogo?categoria=cat-1" onClick={() => setOpen(false)}>
@@ -80,9 +80,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               ))}
             </div>
           </details>
-          <Link to="/catalogo?orden=destacados" onClick={() => setOpen(false)}>
+          <NavLink to="/ofertas" onClick={() => setOpen(false)}>
             Ofertas
-          </Link>
+          </NavLink>
           <Link to="/#contacto" onClick={() => setOpen(false)}>
             Contacto
           </Link>
@@ -187,7 +187,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <Link to={user ? '/mi-cuenta' : '/ingresar'}>Mi cuenta</Link>
           <Link to="/mis-pedidos">Mis pedidos</Link>
           <Link to="/carrito">Mi carrito</Link>
-          <Link to="/catalogo?orden=destacados">Productos destacados</Link>
+          <Link to="/ofertas">Productos destacados</Link>
           <Link to="/login">Acceso del personal</Link>
         </nav>
         <div className="footer-contact-row">

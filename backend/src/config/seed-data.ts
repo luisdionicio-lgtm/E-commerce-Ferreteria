@@ -235,6 +235,7 @@ export async function seedData(): Promise<Record<Table, Row[]>> {
       description: `${description} Imagen y datos referenciales para demostración; confirma la ficha técnica antes de comprar.`,
       active: true,
       featured: i < 8,
+      discount: i < 12 ? [40, 30, 25, 20, 15, 12, 10][i % 7] : 0,
     });
     const expiresAt = i === 1 ? '2026-11-18' : i === 8 ? '2026-10-28' : null;
     data.lots.push({

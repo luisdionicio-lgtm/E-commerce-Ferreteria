@@ -22,6 +22,7 @@ export const schemas = {
     description: z.string().max(2000),
     active: z.boolean().default(true),
     featured: z.boolean().default(false),
+    discount: z.number().int().min(0).max(80).default(0),
   }),
   categories: z.object({ name: text, active: z.boolean().default(true) }),
   suppliers: z.object({

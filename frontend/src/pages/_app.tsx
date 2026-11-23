@@ -9,6 +9,8 @@ import '../styles/home-redesign.css';
 import '../styles/staff-access.css';
 import '../styles/store-footer.css';
 import '../styles/catalog-redesign.css';
+import '../styles/offers-redesign.css';
+import '../styles/admin-offers.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

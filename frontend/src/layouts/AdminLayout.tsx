@@ -23,6 +23,7 @@ import {
   Bell,
   X,
   WalletCards,
+  BadgePercent,
 } from 'lucide-react';
 import { useApp } from '../state/context';
 import { Loading } from '../components/ui';
@@ -32,6 +33,7 @@ const groups = [
     items: [
       ['dashboard', 'Vista general', LayoutDashboard],
       ['productos', 'Productos', Package],
+      ['ofertas', 'Ofertas', BadgePercent],
       ['categorias', 'Categorías', Tags],
       ['inventario', 'Inventario', Boxes],
     ],

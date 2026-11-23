@@ -24,6 +24,7 @@ import {
   Grid3X3,
   List,
   ShoppingCart,
+  BadgePercent,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
@@ -298,7 +299,7 @@ export function Home() {
           </strong>
         </div>
         <p>Aprovecha precios especiales en herramientas, construcción, electricidad y más.</p>
-        <Link to="/catalogo?orden=destacados">
+        <Link to="/ofertas">
           Ver ofertas
           <ArrowRight size={18} />
         </Link>
@@ -520,6 +521,262 @@ export function Catalog() {
     </div>
   );
 }
+
+type OfferRow = { product: Product; discount: number };
+
+function OfferCard({ p, discount }: { p: Product; discount: number }) {
+  const { addToCart } = useApp();
+  const originalPrice = Math.round(p.price / (1 - discount / 100));
+  return (
+    <article className="offer-card">
+      <Link to={'/productos/' + p.slug} className="offer-card-picture">
+        <span className="offer-discount">-{discount}%</span>
+        <span className="offer-brand">{p.brand}</span>
+        <img src={p.image} alt={p.name} loading="lazy" />
+      </Link>
+      <button
+        type="button"
+        className="offer-favorite"
+        aria-label={'Guardar ' + p.name + ' en favoritos'}
+        onClick={() => toast.success('Oferta guardada para revisar después')}
+      >
+        <Heart size={21} />
+      </button>
+      <div className="offer-card-copy">
+        <Link to={'/productos/' + p.slug}>
+          <h3>{p.name}</h3>
+        </Link>
+        <div className="offer-card-buy">
+          <div>
+            <strong>{money(p.price)}</strong>
+            <del>{money(originalPrice)}</del>
+          </div>
+          <button
+            type="button"
+            aria-label={'Agregar ' + p.name}
+            disabled={!p.availableStock}
+            onClick={() => addToCart(p)}
+          >
+            <ShoppingCart size={19} />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function Offers() {
+  const { products, categories, catalogError } = useApp();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [discountRange, setDiscountRange] = useState('');
+  const [sort, setSort] = useState('discount');
+  const [view, setView] = useState<'grid' | 'list'>('grid');
+  const [filters, setFilters] = useState(false);
+
+  const offers = useMemo<OfferRow[]>(
+    () => products
+      .filter((product: Product) => product.active && product.discount > 0)
+      .map((product: Product) => ({ product, discount: product.discount })),
+    [products],
+  );
+
+  const filtered = useMemo(() => {
+    const rows = offers.filter(({ product, discount }) => {
+      const matchesCategory =
+        !selectedCategories.length || selectedCategories.includes(product.categoryId);
+      const matchesDiscount =
+        !discountRange ||
+        (discountRange === '10-20' && discount >= 10 && discount <= 20) ||
+        (discountRange === '21-30' && discount >= 21 && discount <= 30) ||
+        (discountRange === '31-40' && discount >= 31 && discount <= 40);
+      return matchesCategory && matchesDiscount;
+    });
+    return rows.sort((a, b) =>
+      sort === 'low'
+        ? a.product.price - b.product.price
+        : sort === 'high'
+          ? b.product.price - a.product.price
+          : b.discount - a.discount,
+    );
+  }, [offers, selectedCategories, discountRange, sort]);
+
+  const toggleCategory = (id: string) =>
+    setSelectedCategories((current) =>
+      current.includes(id) ? current.filter((value) => value !== id) : [...current, id],
+    );
+
+  return (
+    <div className="store-container offers-page">
+      <div className="store-breadcrumb">
+        <Link to="/">Inicio</Link>
+        <ChevronRight size={14} />
+        Ofertas
+      </div>
+
+      <div className="offers-intro">
+        <div className="offers-title">
+          <h1>Ofertas</h1>
+          <p>Aprovecha descuentos exclusivos en herramientas, materiales y más.</p>
+        </div>
+        <aside className="offers-banner" aria-label="Ofertas especiales con descuentos">
+          <span>
+            <BadgePercent size={27} /> OFERTAS ESPECIALES
+          </span>
+          <strong>
+            Descuentos hasta <b>−40%</b>
+          </strong>
+        </aside>
+      </div>
+
+      {catalogError ? (
+        <ErrorBox message={catalogError} />
+      ) : (
+        <>
+          <nav className="offer-category-tabs" aria-label="Categorías de ofertas">
+            <button
+              type="button"
+              className={!selectedCategories.length ? 'active' : ''}
+              onClick={() => setSelectedCategories([])}
+            >
+              <Grid3X3 size={19} /> Todas
+            </button>
+            {categories.map((category: any, index: number) => {
+              const CategoryIcon = icons[index] || Tag;
+              return (
+                <button
+                  type="button"
+                  key={category.id}
+                  className={selectedCategories.includes(category.id) ? 'active' : ''}
+                  onClick={() => setSelectedCategories([category.id])}
+                >
+                  <CategoryIcon size={19} /> {category.name}
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="offers-layout">
+            <aside className={'offer-filters ' + (filters ? 'open' : '')}>
+              <div className="offer-filter-heading">
+                <SlidersHorizontal size={21} />
+                <strong>Filtrar ofertas</strong>
+              </div>
+              <h3>Categoría</h3>
+              {categories.map((category: any) => (
+                <label key={category.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(category.id)}
+                    onChange={() => toggleCategory(category.id)}
+                  />
+                  <span>{category.name}</span>
+                  <b>
+                    ({offers.filter(({ product }) => product.categoryId === category.id).length})
+                  </b>
+                </label>
+              ))}
+              <div className="offer-filter-divider" />
+              <h3>Rango de descuento</h3>
+              {[
+                ['10-20', '10% – 20%'],
+                ['21-30', '21% – 30%'],
+                ['31-40', '31% – 40%'],
+              ].map(([value, label]) => (
+                <label key={value}>
+                  <input
+                    type="radio"
+                    name="discount-range"
+                    checked={discountRange === value}
+                    onChange={() => setDiscountRange(value)}
+                  />
+                  <span>{label}</span>
+                  <b>
+                    (
+                    {
+                      offers.filter(({ discount }) =>
+                        value === '10-20'
+                          ? discount >= 10 && discount <= 20
+                          : value === '21-30'
+                            ? discount >= 21 && discount <= 30
+                            : discount >= 31 && discount <= 40,
+                      ).length
+                    }
+                    )
+                  </b>
+                </label>
+              ))}
+              <button
+                type="button"
+                className="offer-clear-filters"
+                onClick={() => {
+                  setSelectedCategories([]);
+                  setDiscountRange('');
+                }}
+              >
+                <SlidersHorizontal size={18} /> Limpiar filtros
+              </button>
+            </aside>
+
+            <section className="offer-results">
+              <div className="offer-toolbar">
+                <button
+                  type="button"
+                  className="offer-filter-toggle"
+                  onClick={() => setFilters(!filters)}
+                >
+                  <SlidersHorizontal size={18} /> Filtros
+                </button>
+                <p>
+                  Mostrando <strong>{filtered.length ? `1 – ${filtered.length}` : '0'}</strong> de{' '}
+                  <strong>{offers.length}</strong> ofertas
+                </p>
+                <div className="offer-view-tools">
+                  <label>
+                    Ordenar por:
+                    <select value={sort} onChange={(event) => setSort(event.target.value)}>
+                      <option value="discount">Mayor descuento</option>
+                      <option value="low">Menor precio</option>
+                      <option value="high">Mayor precio</option>
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    className={view === 'grid' ? 'active' : ''}
+                    aria-label="Vista de ofertas en cuadrícula"
+                    onClick={() => setView('grid')}
+                  >
+                    <Grid3X3 size={19} />
+                  </button>
+                  <button
+                    type="button"
+                    className={view === 'list' ? 'active' : ''}
+                    aria-label="Vista de ofertas en lista"
+                    onClick={() => setView('list')}
+                  >
+                    <List size={21} />
+                  </button>
+                </div>
+              </div>
+              {filtered.length ? (
+                <div className={'offer-grid ' + view}>
+                  {filtered.map(({ product, discount }) => (
+                    <OfferCard key={product.id} p={product} discount={discount} />
+                  ))}
+                </div>
+              ) : (
+                <Empty
+                  title="No encontramos ofertas"
+                  description="Prueba con otra categoría o rango de descuento."
+                />
+              )}
+            </section>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export function ProductDetail() {
   const { slug } = useParams();
   const { products, addToCart, catalogError, catalogLoading } = useApp();

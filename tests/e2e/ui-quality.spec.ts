@@ -2,10 +2,11 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 test('UI pública: fuentes locales y contraste en portada, catálogo e ingreso', async ({ page }) => {
-  for (const route of ['/', '/catalogo', '/ingresar']) {
+  for (const route of ['/', '/catalogo', '/ofertas', '/ingresar']) {
     await page.goto(route);
     if (route === '/') await expect(page.locator('.home-hero h1')).toBeVisible();
     if (route === '/catalogo') await expect(page.locator('.product-card').first()).toBeVisible();
+    if (route === '/ofertas') await expect(page.locator('.offer-card').first()).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
     const audit = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
     expect(audit.violations, `${route}: contraste de texto`).toEqual([]);
@@ -59,6 +60,12 @@ test('Mi cuenta: perfil, compra y administración separados y cabecera sin recor
   await expect(page.locator('.recent-sales small')).toHaveCount(2);
   const dashboard = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
   expect(dashboard.violations).toEqual([]);
+  await page.goto('/admin/ofertas');
+  await expect(page.getByRole('heading', { name: 'Gestión de ofertas' })).toBeVisible();
+  await expect(page.locator('.admin-offer-row').first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Ofertas', exact: true })).toHaveClass(/active/);
+  const offersAdmin = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
+  expect(offersAdmin.violations).toEqual([]);
   for (const width of [1440, 768, 375, 320]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/mi-cuenta');
