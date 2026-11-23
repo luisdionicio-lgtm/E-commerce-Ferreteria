@@ -649,12 +649,12 @@
 
 .home-categories-section::before {
   top: 0;
-  left: -7vw;
+  left: calc((100vw - 100%) / -2);
 }
 
 .home-categories-section::after {
   top: 126px;
-  right: -7vw;
+  right: calc((100vw - 100%) / -2);
   transform: rotate(180deg);
 }
 
