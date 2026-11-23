@@ -1,0 +1,255 @@
+/* Acceso del personal: misma identidad comercial que la portada. */
+.staff-access {
+  grid-template-columns: 1.08fr 1fr;
+  background: #f7f5f2;
+  color: #171717;
+}
+.staff-access .login-art {
+  background: #ffd400;
+  color: #171717;
+  padding: clamp(28px, 4vw, 64px);
+  min-height: 800px;
+  isolation: isolate;
+}
+.staff-access .login-art > .brand {
+  color: #171717;
+  font-size: 32px;
+  align-self: flex-start;
+}
+.staff-access .brand .brand-ferre,
+.staff-access .brand .brand-max {
+  color: #171717;
+}
+.staff-access .login-art > div:not(.login-art-object) {
+  margin: 56px 0 auto;
+}
+.staff-access .login-art h1 {
+  color: #171717;
+  font-family: 'Manrope', var(--font-body);
+  font-size: clamp(32px, 3.2vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+.staff-access .login-art h1 em {
+  color: #171717;
+}
+.staff-access .login-art p {
+  color: #363018;
+  font-size: 17px;
+  line-height: 1.55;
+  margin-top: 24px;
+}
+.staff-access .login-art > small {
+  background: #ffd400;
+  padding: 6px 10px;
+  align-self: flex-start;
+  color: #171717;
+  font-size: 13px;
+  margin-top: 300px;
+  font-weight: 600;
+}
+.staff-access .login-art-object {
+  inset: auto 0 0;
+  width: 100%;
+  height: 44%;
+  transform: none;
+  z-index: -1;
+}
+.staff-access .login-art-object::before {
+  content: none;
+}
+.staff-access .login-art-object img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  filter: none;
+}
+.staff-access .login-form-side {
+  padding: 32px clamp(24px, 5vw, 80px);
+  gap: 36px;
+}
+.staff-access .back-store {
+  min-height: 44px;
+  font-size: 15px;
+  color: #343434;
+}
+.staff-access .login-form-side form {
+  max-width: 420px;
+}
+.staff-access .login-lock {
+  background: #ffd400;
+  color: #171717;
+  border: 0;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+.staff-access .login-form-side h2 {
+  font-family: 'Manrope', var(--font-body);
+  color: #171717;
+  font-size: clamp(26px, 2.4vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  margin-bottom: 12px;
+}
+.staff-access .login-form-side form > p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #55534d;
+  margin-bottom: 32px;
+}
+.staff-access .login-form-side label {
+  display: block;
+  color: #262626;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+.staff-access .login-form-side input {
+  width: 100%;
+  min-height: 52px;
+  font-size: 16px;
+  padding: 13px 16px;
+  border-color: #bdbab1;
+  border-radius: 8px;
+  color: #171717;
+  caret-color: #171717;
+  margin-top: 8px;
+}
+.staff-access .password-input {
+  margin-top: 8px;
+  border-color: #bdbab1;
+}
+.staff-access .password-input input {
+  margin-top: 0;
+}
+.staff-access .password-input button {
+  color: #45423b;
+  min-width: 48px;
+  justify-content: center;
+}
+.staff-access .login-form-side form > .btn {
+  background: #171717;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  min-height: 54px;
+  font-size: 16px;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+.staff-access .login-form-side form > .btn:active {
+  transform: scale(0.98);
+}
+.staff-access .login-form-side form > .btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.staff-access .demo-access {
+  background: #eeeae1;
+  color: #514b3d;
+  border: 0;
+  border-radius: 12px;
+  padding: 18px;
+  gap: 12px;
+}
+.staff-access .demo-access strong {
+  color: #262626;
+  font-size: 14px;
+}
+.staff-access .demo-access span {
+  color: #514b3d;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.staff-access .demo-access code {
+  color: #262626;
+  background: #e0dacb;
+  font-size: 13px;
+}
+.staff-access .demo-access small {
+  color: #514b3d;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.staff-access .login-footer {
+  font-size: 13px;
+  color: #55534d;
+  text-align: center;
+}
+.staff-access :focus-visible {
+  outline: 3px solid #806000;
+  outline-offset: 3px;
+}
+.staff-access .password-input:focus-within {
+  outline: 3px solid #806000;
+  outline-offset: 3px;
+}
+.staff-access .password-input input:focus-visible {
+  outline: none;
+}
+.staff-access ::selection {
+  background: #ffd400;
+  color: #171717;
+}
+@media (hover: hover) and (pointer: fine) {
+  .staff-access .login-form-side form > .btn:hover {
+    background: #383838;
+  }
+  .staff-access .back-store:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+@media (max-width: 900px) {
+  .staff-access {
+    grid-template-columns: 0.9fr 1fr;
+  }
+  .staff-access .login-art {
+    padding: 32px;
+  }
+  .staff-access .login-art h1 {
+    font-size: 34px;
+  }
+}
+@media (max-width: 680px) {
+  .staff-access {
+    grid-template-columns: 1fr;
+  }
+  .staff-access .login-art {
+    display: flex;
+    min-height: 0;
+    padding: 24px;
+  }
+  .staff-access .login-art > div:not(.login-art-object) {
+    margin: 28px 0 0;
+  }
+  .staff-access .login-art h1 {
+    font-size: 30px;
+  }
+  .staff-access .login-art h1 br {
+    display: none;
+  }
+  .staff-access .login-art p,
+  .staff-access .login-art-object,
+  .staff-access .login-art > small {
+    display: none;
+  }
+  .staff-access .login-form-side {
+    min-height: 0;
+    padding: 16px 24px 28px;
+    gap: 24px;
+  }
+  .staff-access .login-form-side form {
+    padding: 0;
+  }
+  .staff-access .login-form-side h2 {
+    font-size: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .staff-access .login-form-side form > .btn {
+    transition: none;
+  }
+}

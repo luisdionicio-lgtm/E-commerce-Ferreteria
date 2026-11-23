@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, Navigate } from '../../state/navigation';
 import { ArrowRight, LockKeyhole, Eye, EyeOff, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { useApp } from '../../state/context';
+import BrandLogo from '../../components/BrandLogo';
 export default function Login() {
   const { user, signIn } = useApp();
   const [email, setEmail] = useState('admin@ferremax.pe');
@@ -13,18 +14,15 @@ export default function Login() {
   if (user)
     return <Navigate to={user.role === 'CUSTOMER' ? '/mi-cuenta' : '/admin/dashboard'} replace />;
   return (
-    <div className="login-page">
+    <div className="login-page staff-access">
       <div className="login-art">
-        <Link to="/" className="brand light">
-          <span className="brand-icon">F</span>Ferre<span>Max</span>.
+        <Link to="/" className="brand" aria-label="FerreMax - Inicio">
+          <BrandLogo />
         </Link>
         <div>
-          <span className="eyebrow">MENOS DESORDEN. MÁS CONTROL.</span>
           <h1>
-            Una ferretería
-            <br />
-            bien organizada
-            <br />
+            Una ferretería <br />
+            bien organizada <br />
             <em>construye más.</em>
           </h1>
           <p>
@@ -34,8 +32,10 @@ export default function Login() {
           </p>
         </div>
         <div className="login-art-object">
-          <img src="/images/reference/tools-stanley.jpg" alt="Set de herramientas Stanley" />
-          <span>GESTIONA CON CONFIANZA</span>
+          <img
+            src="/images/home/ferremax-hero-construction.png"
+            alt="Herramientas y materiales de FerreMax"
+          />
         </div>
         <small>FerreMax · Administración</small>
       </div>
@@ -62,9 +62,8 @@ export default function Login() {
           <span className="login-lock">
             <LockKeyhole size={25} />
           </span>
-          <span className="eyebrow">TU ESPACIO DE TRABAJO</span>
           <h2>Bienvenido de nuevo.</h2>
-          <p>Ingresa para tener todo bajo control.</p>
+          <p>Acceso del personal. Ingresa para tener todo bajo control.</p>
           <label>
             Correo electrónico
             <input
@@ -88,6 +87,7 @@ export default function Login() {
               <button
                 type="button"
                 aria-label={show ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                aria-pressed={show}
                 onClick={() => setShow(!show)}
               >
                 {show ? <EyeOff size={18} /> : <Eye size={18} />}
