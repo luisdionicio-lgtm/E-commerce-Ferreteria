@@ -636,6 +636,33 @@
   padding: 34px 0 22px;
 }
 
+.home-categories-section::before,
+.home-categories-section::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  width: 120px;
+  height: 235px;
+  pointer-events: none;
+  background: linear-gradient(116deg, #ffd000 0 27%, #ffe584 27% 44%, transparent 44%);
+}
+
+.home-categories-section::before {
+  top: 0;
+  left: -7vw;
+}
+
+.home-categories-section::after {
+  top: 126px;
+  right: -7vw;
+  transform: rotate(180deg);
+}
+
+.home-categories-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 .home-featured-section {
   padding: 15px 0 32px;
 }
@@ -897,10 +924,7 @@
 .store-home {
   position: relative;
   overflow: hidden;
-  background:
-    linear-gradient(118deg, rgba(255, 201, 0, 0.2) 0 44px, transparent 44px) top left / 130px 360px no-repeat,
-    linear-gradient(298deg, rgba(255, 201, 0, 0.18) 0 38px, transparent 38px) bottom right / 130px 420px no-repeat,
-    #f8f7f5;
+  background: #f8f7f5;
 }
 
 .home-offer-banner {
@@ -1051,6 +1075,23 @@
 
 .public-footer .brand-ferre {
   color: #fff;
+}
+
+.public-footer .brand-max {
+  color: #ffd200;
+}
+
+.public-footer .brand-shield-outer,
+.public-footer .brand-shield-letter {
+  fill: #ffd200;
+}
+
+.public-footer .brand-shield-inner {
+  fill: #0d2025;
+}
+
+.public-footer .brand-shield-accent {
+  stroke: #ffd200;
 }
 
 .footer-contact-row,

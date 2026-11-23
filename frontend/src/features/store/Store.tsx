@@ -137,9 +137,16 @@ export function Home() {
   }, []);
 
   const activeSlide = homeHeroSlides[activeHeroSlide];
-  const featuredProducts = [...products]
+  const sortedFeaturedProducts = [...products]
     .sort((a: Product, b: Product) => Number(b.featured) - Number(a.featured))
-    .slice(0, 5);
+  const safetyProduct = sortedFeaturedProducts.find(
+    (product: Product) => product.categoryId === 'cat-6' && /casco/i.test(product.name),
+  ) || sortedFeaturedProducts.find((product: Product) => product.categoryId === 'cat-6');
+  const featuredProducts = sortedFeaturedProducts
+    .filter((product: Product) => product.id !== safetyProduct?.id)
+    .slice(0, 4);
+
+  if (safetyProduct) featuredProducts.push(safetyProduct);
 
   if (catalogError)
     return (
