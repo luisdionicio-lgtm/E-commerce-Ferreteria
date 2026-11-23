@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-12",
+  "framework": "React 19 + TypeScript + Vite 7",
+  "designAuthority": "docs/DESIGN.md",
+  "fonts": ["Manrope", "DM Sans"],
+  "palette": "Incumbent FerreMax: graphite, warm white, orange",
+  "motion": "CSS feedback only; reduced-motion supported",
+  "scope": "refinement of existing store and shared readability"
+}

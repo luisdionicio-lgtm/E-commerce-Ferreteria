@@ -1,0 +1,100 @@
+# Verificación de esta entrega
+
+## Mis pedidos, Yape demo y preparación — 15/11/2026
+
+- Historial y detalle privados vinculados a la sesión. La prueba verifica aislamiento entre cuentas, rechazo de propiedad enviada por el cliente y conservación de nombre/precio tras editar el catálogo.
+- QR demo descargable, rechazo/reintento, reporte sin aprobación automática, revisión de administrador y devoluciones simuladas. El logo de Yape procede de su web oficial.
+- Aprobación, venta y stock en una transacción; pruebas de repetición/concurrencia, referencias duplicadas y rollback por falta de stock. El modo demo está bloqueado en producción.
+- Prueba MySQL real aprobada en base aislada: nuevas migraciones, pago concurrente, una sola venta y restauración de inventario tras anular.
+- Diez recorridos de navegador, incluidos dos nuevos: pago–entrega–devolución y reporte–rechazo–reintento–aprobación. Quince pruebas backend aprobadas; una integración MySQL se omite en el comando genérico y se ejecuta aparte.
+- Nueve capturas de pedidos y pagos inspeccionadas en escritorio/móvil, con informe de contraste sin incidencias en `docs/previews/orders-contrast-report.json`. Los mensajes Sonner forman parte de la comprobación.
+- MER actualizado con propietario y pago; cuarto diagrama dedicado al flujo de pago demo. La base local existente se comparó con el esquema inicial antes de registrar su baseline y aplicar las migraciones, sin borrar datos.
+
+## Corrección del contraste detectado por GitHub Actions
+
+La ejecución de CI del commit `f2a3c5f` detectó contraste insuficiente (2,43:1) en las fechas y medios de pago de «Últimas ventas». El modo JSON de CI incluía ventas históricas; MySQL local tenía esa lista vacía. Se corrigió el texto a `#4d5c50` con tamaño de 13 px y la prueba de UI ahora garantiza dos ventas visibles mediante una respuesta interceptada solo en el navegador de prueba, sin modificar datos de la base. Se conserva la comprobación de contraste completa.
+
+La siguiente ejecución superó ese contraste y detectó una carrera en la comprobación de fuentes después de volver a la portada. La prueba espera ahora el estilo del título y `document.fonts.load()` para ambas familias, y verifica que se hayan cargado archivos reales; no sustituye la comprobación por una espera fija ni acepta solo la fuente alternativa.
+
+## Contraste, tipografía y organización de Mi cuenta
+
+- Fuentes locales Barlow Condensed y Source Sans 3 con sus licencias OFL; portada, catálogo y panel comparten criterios de lectura y acciones.
+- Cuenta dividida en perfil, acciones de compra y acceso administrativo según rol. Cierre de sesión separado, con estado de salida que evita redirecciones simultáneas.
+- Cabecera comprobada en 320, 375, 768 y 1440 px; cuenta móvil sin recortes de controles ni palabras forzadas en la fila administrativa.
+- Regla axe `color-contrast` sin incidencias en las siete vistas del informe `docs/previews/ui-contrast-report.json`; esto no certifica todos los criterios WCAG.
+- Naranja de acción sobre blanco: 5,46:1; texto secundario sobre fondo claro: 5,97:1; acento claro sobre grafito: 8,74:1.
+- Ocho recorridos E2E cubren los flujos existentes y las pruebas nuevas de contraste, fuentes, cuenta, roles y salida. Capturas y fuentes en `docs/UI_REFINAMIENTO.md`.
+
+## Catálogo ampliado: seis referencias por categoría
+
+- 36 imágenes nuevas descargadas de Promart e inspeccionadas en seis hojas visuales; catálogo base de 48 productos.
+- Seis pruebas E2E aprobadas: la nueva verifica las 36 imágenes en filtros de categoría, precios contra la referencia guardada, detalle, enlaces de fuente y carrito persistente con un producto de cada categoría en móvil.
+- Diez pruebas de backend aprobadas; la prueba MySQL del comando genérico se omite sin MYSQL_TEST_URL. Compilación backend y Next.js correcta.
+- La importación MySQL crea productos, lotes y movimientos en una transacción; no modifica los productos existentes. Las nuevas imágenes están disponibles en el selector del panel administrativo.
+- Precios publicados consultados el 14/11/2026; stock y costos ficticios, sin fechas de vencimiento inventadas para estas referencias.
+
+## Pulido funcional y diagramas exportados
+
+- Se evita el estado de carga indefinido en fichas cuando el catálogo está vacío.
+- El carrito espera a que se restauren sus datos y termine la consulta del catálogo; la cantidad añadida se limita al stock.
+- Enlace para saltar al contenido, navegación móvil con aria-expanded y datos de pedido autocompletados desde la cuenta.
+- Cinco recorridos E2E aprobados, incluyendo teclado, menú móvil y catálogo vacío, además de los flujos anteriores.
+- Tres diagramas exportados a PNG y SVG, inspeccionados visualmente; E-R generado desde el esquema Prisma y arquitectura compuesta para diapositiva 16:9.
+
+## Versión del curso — 14 de noviembre de 2026
+
+- Frontend Next.js 16.4.6 con Pages Router real; React Router y Vite retirados.
+- Backend Express separado y proxy `/api` desde Next, con variables de servidor.
+- Compilación Next y TypeScript correcta; rutas públicas y administrativas generadas.
+- 10 pruebas de API/dominio/CRUD aprobadas; la prueba de MySQL se omite en el comando genérico si falta MYSQL_TEST_URL.
+- Prueba MySQL real aprobada por separado en `ferremax_course_verify_20261114`: migración versionada, seed, recepción de compra, venta, rollback, anulación y roles.
+- 4 recorridos Playwright aprobados en Edge/Chromium: filtros por URL, galería, registro/login, carrito persistente, pedido-confirmación-anulación, panel y 404. Comprobación responsive a 320, 375, 414, 768 y 1280px sin desbordamiento; sin errores de hidratación en el recorrido instrumentado.
+- Los cuatro recorridos también se repitieron con la API local conectada a MySQL; resultado 4/4. `/api/health` devolvió `driver: mysql`. Para repetir la prueba aislada usar `npm run test:mysql` con MYSQL_TEST_URL; las pruebas conservan sus registros ficticios y restauran el stock de sus ventas.
+- Auditoría npm: cero vulnerabilidades al verificar. Formato Prettier y detector Impeccable sin incidencias.
+- Capturas actuales Next: `docs/previews/07-next-tienda.png` y `08-next-movil.png`. Las anteriores corresponden a versiones históricas.
+- Material del curso: E-R, arquitectura, secuencia Next–Express, justificación de MySQL, guía de exposición y configuración de despliegue.
+- Nube pospuesta expresamente por el estudiante; no se afirma una URL pública ni una prueba cloud.
+
+Se probaron los flujos descritos; esto no constituye una auditoría exhaustiva de seguridad, prueba de carga o certificación. Los pagos online, correos de recuperación y comprobantes fiscales no forman parte del alcance implementado.
+
+## Actualización del 18 de octubre de 2026
+
+- Registro e inicio de sesión de clientes, cuenta y cierre de sesión.
+- Roles de cliente y personal separados en frontend y backend.
+- 9 pruebas de API/inventario/registro y 2 recorridos E2E con Playwright.
+- Guía de comprobación humana en `PRUEBA_MANUAL.md`.
+- Compilación TypeScript y Vite; formato reproducible con Prettier.
+- MySQL 8.4 levantado localmente con Docker en puerto 3307; esquema Prisma sincronizado y seed ejecutado. El README explica el puerto alternativo.
+- La conexión Docker dejó de estar disponible después del seed. La entrega local queda ejecutándose en modo JSON persistente; no se declara completada una prueba E2E contra MySQL.
+- `.env`, archivos JSON locales, sesiones, dependencias y salidas de prueba excluidos de Git.
+- Fotografías y datos comerciales identificados como referenciales.
+
+Las verificaciones históricas siguientes corresponden a la entrega original.
+
+- Compilación frontend y backend: correcta.
+- Prisma Client generado: correcto.
+- 8 pruebas automatizadas de API/inventario: correctas.
+- 20 comprobaciones de interfaz en Chromium: correctas.
+- Capturas reales de la aplicación en docs/previews.
+- Driver MySQL: esquema generado/validado; conexión a servidor MySQL no ejecutada en este entorno.
+
+- Portada y catálogo conectados
+- Login admin y dashboard
+- Sesión conservada al recargar
+- Vista Productos
+- Vista Categorías
+- Vista Inventario
+- Vista Compras
+- Vista Ventas
+- Vista Pedidos web
+- Vista Proveedores
+- Vista Clientes
+- Vista Vencimientos
+- Vista Renovaciones
+- Vista Reportes
+- Vista Usuarios
+- Vista Configuración
+- Formulario producto guarda y muestra resultado
+- Carrito y pedido público
+- Confirmar pedido crea venta
+- Responsive 390 px y navegación móvil

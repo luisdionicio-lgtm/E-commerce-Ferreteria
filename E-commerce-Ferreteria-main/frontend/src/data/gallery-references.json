@@ -1,0 +1,113 @@
+[
+  {
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/9375895/98535_11.jpg?v=638941690058530000",
+      "https://promart.vteximg.com.br/arquivos/ids/9375896/98535.jpg?v=638941690058930000",
+      "https://promart.vteximg.com.br/arquivos/ids/9375897/98535_10.jpg?v=638941690058930000"
+    ],
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/juego-de-herramientas-mecanicas-x120-piezas-98535/p",
+    "images": [
+      "/images/reference/tools-stanley-extra-1.jpg",
+      "/images/reference/tools-stanley-extra-2.jpg",
+      "/images/reference/tools-stanley-extra-3.jpg"
+    ],
+    "note": "Vistas del producto; accesorios a confirmar.",
+    "name": "Juego de Herramientas Mecánicas Stanley Modelo 91931 de Acero",
+    "image": "/images/reference/tools-stanley.jpg"
+  },
+  {
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/6891891/118197.jpg?v=638160943992600000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891892/118197_1.jpg?v=638160943996670000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891893/118197_10.jpg?v=638160943999930000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891894/118197_11.jpg?v=638160944003230000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891895/118197_20.jpg?v=638160944007600000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891896/118197_21.jpg?v=638160944011600000",
+      "https://promart.vteximg.com.br/arquivos/ids/6891897/118197_22.jpg?v=638160944015370000"
+    ],
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/amoladora-gws-850-850w-4-1-2-/p",
+    "images": [
+      "/images/reference/grinder-bosch-extra-1.jpg",
+      "/images/reference/grinder-bosch-extra-2.jpg",
+      "/images/reference/grinder-bosch-extra-3.jpg",
+      "/images/reference/grinder-bosch-web-4.jpg",
+      "/images/reference/grinder-bosch-web-5.jpg",
+      "/images/reference/grinder-bosch-web-6.jpg",
+      "/images/reference/grinder-bosch-web-7.jpg"
+    ],
+    "note": "Vistas del producto; accesorios a confirmar.",
+    "name": "Amoladora Angular Bosch GWS 850 M14 850W",
+    "image": "/images/reference/grinder-bosch.jpg"
+  },
+  {
+    "imageSources": [
+      "https://promart.vteximg.com.br/arquivos/ids/7821879/155699.jpg?v=638423055602200000",
+      "https://promart.vteximg.com.br/arquivos/ids/7821880/155699_10.jpg?v=638423055605570000"
+    ],
+    "store": "Promart Perú",
+    "source": "https://www.promart.pe/cable-freetox-pc-nh90-450-750v-2-5mm2-a-v-r100-indeco/p",
+    "images": [
+      "/images/reference/cable-indeco-extra-1.jpg",
+      "/images/reference/cable-indeco-extra-2.jpg"
+    ],
+    "note": "Variante amarillo/verde de la misma sección y longitud; color a confirmar.",
+    "name": "Cable Freetox-pc Nh90 450/750v 2.5mm2 A/v R100 Indeco",
+    "image": "/images/reference/cable-indeco.jpg"
+  },
+  {
+    "imageSources": [
+      "https://media.falabella.com/sodimacPE/2522721_01/public",
+      "https://media.falabella.com/sodimacPE/2522721_21/public"
+    ],
+    "store": "Sodimac Perú",
+    "source": "https://www.sodimac.com.pe/sodimac-pe/articulo/113521543/Llave-para-Lavatorio-al-Mueble-Especializada/113521545",
+    "images": [
+      "/images/reference/faucet-vainsa-extra-1.jpg",
+      "/images/reference/faucet-vainsa-extra-2.jpg"
+    ],
+    "note": "Vistas referenciales de la ficha comercial; presentación a confirmar.",
+    "name": "faucet-vainsa",
+    "image": "/images/reference/faucet-vainsa.jpg"
+  },
+  {
+    "imageSources": [
+      "https://media.falabella.com/sodimacPE/308765_01/public",
+      "https://media.falabella.com/sodimacPE/308765_12/public"
+    ],
+    "store": "Sodimac Perú",
+    "source": "https://www.sodimac.com.pe/sodimac-pe/articulo/113531542/Tubo-PVC-1-2-SP-Agua-Fria/113531547",
+    "images": [
+      "/images/reference/pipe-pavco-extra-1.jpg",
+      "/images/reference/pipe-pavco-extra-2.jpg"
+    ],
+    "note": "Vistas referenciales de la ficha comercial; presentación a confirmar.",
+    "name": "pipe-pavco",
+    "image": "/images/reference/pipe-pavco.jpg"
+  },
+  {
+    "imageSources": ["https://media.falabella.com/falabellaPE/153863727_01/public"],
+    "store": "Sodimac Perú",
+    "source": "https://www.sodimac.com.pe/sodimac-pe/articulo/153863726/guante-de-nitrilo-puno-tejido-talla-l-steelpro/153863727",
+    "images": ["/images/reference/gloves-steelpro-extra-1.jpg"],
+    "note": "Vistas referenciales de la ficha comercial; presentación a confirmar.",
+    "name": "gloves-steelpro",
+    "image": "/images/reference/gloves-steelpro.jpg"
+  },
+  {
+    "imageSources": [
+      "https://flyup-bucket.s3.us-east-1.amazonaws.com/2d2ccd47-de13-4c9a-9653-a2c506ef4c8b-casco-mountain-mta-steelpro-098deb09-f0da-4f55-98f9-4eb3b92680f8.webp",
+      "https://flyup-bucket.s3.us-east-1.amazonaws.com/2d2ccd47-de13-4c9a-9653-a2c506ef4c8b-casco-mountain-mta-steelpro-3-f5b4abf7-b2ab-4005-a6bf-9eea0d9a9fe0.webp"
+    ],
+    "store": "Rojas Safety",
+    "source": "https://rojassafety.com/productos/casco-mountain-mta-steelpro",
+    "images": [
+      "/images/reference/helmet-steelpro-extra-1.webp",
+      "/images/reference/helmet-steelpro-extra-2.webp"
+    ],
+    "note": "Vistas del casco Mountain; color y certificación a confirmar con la tienda.",
+    "name": "Casco Mountain MTA Steelpro",
+    "image": "/images/reference/helmet-steelpro.jpg"
+  }
+]

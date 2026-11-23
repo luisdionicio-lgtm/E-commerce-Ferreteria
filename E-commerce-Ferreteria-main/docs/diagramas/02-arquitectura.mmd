@@ -1,0 +1,10 @@
+flowchart LR
+    B[Navegador del cliente o personal] -->|HTTPS páginas y navegación| N[Next.js 16 / Pages Router]
+    B -->|fetch /api + cookie o Bearer| N
+    N -->|rewrite /api/*| E[Express / Node.js]
+    E --> A[Validación Zod + JWT + roles]
+    A --> S[Servicios: catálogo, compras, ventas, FEFO]
+    S --> R[Interfaz Repository / Unit]
+    R --> P[Prisma / transacciones]
+    P --> M[(MySQL)]
+    R -. demo local .-> J[(JSON persistente)]

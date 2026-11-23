@@ -1,0 +1,185 @@
+erDiagram
+    User {
+        string id PK
+        string name
+        string email UK
+        string passwordHash
+        string role
+        boolean active
+    }
+    Category {
+        string id PK
+        string name
+        boolean active
+    }
+    Product {
+        string id PK
+        string sku UK
+        string slug UK
+        string name
+        string brand
+        string categoryId FK
+        int price
+        int minStock
+        string unit
+        string image
+        string description
+        boolean active
+        boolean featured
+    }
+    InventoryLot {
+        string id PK
+        string productId FK
+        string code
+        int quantity
+        int cost
+        string expiresAt "nullable"
+    }
+    InventoryMovement {
+        string id PK
+        string productId FK
+        string lotId FK
+        string type
+        int quantity
+        string reason
+        string reference
+        string userId FK
+        string createdAt
+    }
+    Supplier {
+        string id PK
+        string name
+        string ruc
+        string contact
+        string phone
+        string email
+        boolean active
+    }
+    Customer {
+        string id PK
+        string name
+        string document
+        string phone
+        string email
+        boolean active
+    }
+    Purchase {
+        string id PK
+        string supplierId FK
+        string userId FK
+        string status
+        int total
+        string createdAt
+    }
+    PurchaseItem {
+        string id PK
+        string purchaseId FK
+        string productId FK
+        int quantity
+        int cost
+        string expiresAt "nullable"
+    }
+    Sale {
+        string id PK
+        string customerId FK "nullable"
+        string orderId FK, UK "nullable"
+        string userId FK
+        string status
+        int total
+        string payment
+        string createdAt
+    }
+    SaleItem {
+        string id PK
+        string saleId FK
+        string productId FK
+        int quantity
+        int price
+    }
+    Order {
+        string id PK
+        string userId FK "nullable"
+        string customerName
+        string phone
+        string email
+        string address
+        string status
+        int total
+        string createdAt
+        string fulfillmentStatus
+    }
+    Payment {
+        string id PK
+        string orderId FK, UK
+        string method
+        string mode
+        string status
+        int amount
+        string currency
+        string reference "nullable"
+        string refundReference "nullable"
+        string reviewNote
+        string reviewedBy FK "nullable"
+        string createdAt
+        string updatedAt
+    }
+    OrderItem {
+        string id PK
+        string orderId FK
+        string productId FK
+        int quantity
+        int price
+        string productName "nullable"
+        string productImage "nullable"
+    }
+    Renewal {
+        string id PK
+        string name
+        string dueDate
+        string responsible
+        string status
+        string notes
+    }
+    AuditLog {
+        string id PK
+        string userId FK
+        string action
+        string entity
+        string entityId
+        string createdAt
+    }
+    Setting {
+        string id PK
+        string name
+        string phone
+        string address
+        string email
+        string currency
+    }
+    Session {
+        string id PK
+        string userId FK
+        string tokenHash UK
+        string expiresAt
+    }
+    Category ||--o{ Product : categoryId
+    Product ||--o{ InventoryLot : productId
+    Product ||--o{ InventoryMovement : productId
+    InventoryLot ||--o{ InventoryMovement : lotId
+    User ||--o{ InventoryMovement : userId
+    Supplier ||--o{ Purchase : supplierId
+    User ||--o{ Purchase : userId
+    Purchase ||--o{ PurchaseItem : purchaseId
+    Product ||--o{ PurchaseItem : productId
+    Customer o|--o{ Sale : customerId
+    Order o|--o| Sale : orderId
+    User ||--o{ Sale : userId
+    Sale ||--o{ SaleItem : saleId
+    Product ||--o{ SaleItem : productId
+    User o|--o{ Order : userId
+    Order ||--o| Payment : orderId
+    User o|--o{ Payment : reviewedBy
+    Order ||--o{ OrderItem : orderId
+    Product ||--o{ OrderItem : productId
+    User ||--o{ AuditLog : userId
+    User ||--o{ Session : userId

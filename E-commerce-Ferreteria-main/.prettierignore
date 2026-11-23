@@ -1,0 +1,7 @@
+node_modules
+dist
+backend/data
+package-lock.json
+docs/previews
+test-results
+playwright-report
