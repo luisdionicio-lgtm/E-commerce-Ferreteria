@@ -1,6 +1,6 @@
 /* Catálogo comercial FerreMax — página de productos */
 .catalog-page {
-  width: min(94%, 1440px);
+  width: min(97%, 1800px);
   padding: 0 0 72px;
   color: #171b19;
 }
@@ -97,7 +97,7 @@
 }
 
 .catalog-page .catalog-layout {
-  grid-template-columns: 270px minmax(0, 1fr);
+  grid-template-columns: 290px minmax(0, 1fr);
   align-items: start;
   gap: 22px;
 }
@@ -492,6 +492,10 @@
 }
 
 @media (max-width: 1180px) {
+  .catalog-page {
+    width: min(95%, 1180px);
+  }
+
   .catalog-intro {
     grid-template-columns: 0.7fr 1.3fr;
   }
