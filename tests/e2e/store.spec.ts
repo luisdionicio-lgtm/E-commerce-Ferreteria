@@ -61,9 +61,7 @@ test('Next: enlaces directos, filtros por URL, galería y responsive', async ({
   await page.goto('/');
   for (const width of [320, 375, 414, 768, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    await expect(
-      page.getByRole('heading', { name: 'Tu proyecto. Bien equipado.', exact: true }),
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'FerreMax', exact: true })).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       `overflow at ${width}`,

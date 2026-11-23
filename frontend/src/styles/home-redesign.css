@@ -710,7 +710,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #f05f00;
+  color: #b74400;
   font-size: 18px;
   font-weight: 800;
   white-space: nowrap;
@@ -920,14 +920,14 @@
   gap: 6px;
   border: 0;
   border-radius: 7px;
-  background: #ff6b00;
+  background: #b74400;
   color: #fff;
   font-size: 12px;
   font-weight: 800;
 }
 
 .home-product-buy button:hover:not(:disabled) {
-  background: #e85e00;
+  background: #943700;
 }
 
 .home-product-buy button:disabled {
