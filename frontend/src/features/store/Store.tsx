@@ -1,5 +1,5 @@
 import { Link, useParams, useSearchParams, useNavigate } from '../../state/navigation';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   ArrowUpRight,
   ArrowRight,
@@ -18,6 +18,8 @@ import {
   Zap,
   HardHat,
   Wrench,
+  Heart,
+  X,
 } from 'lucide-react';
 import { useApp, useResource, money, type Product } from '../../state/context';
 import { ErrorBox, Empty, Loading, SearchInput } from '../../components/ui';
@@ -25,8 +27,41 @@ import { send } from '../../services/api';
 import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
+const FAVORITES_KEY = 'ferremax:favorites:v1';
+function getFavorites(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+    return Array.isArray(data) ? data.filter((v): v is string => typeof v === 'string') : [];
+  } catch { return []; }
+}
+function useFavorites() {
+  const [favorites, setFavorites] = useState<string[]>([]);
+  ReactUseFavoritesEffect(setFavorites);
+  const toggleFavorite = (id: string) => {
+    const next = getFavorites().includes(id) ? getFavorites().filter(x => x !== id) : [...getFavorites(), id];
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event('ferremax:favorites-updated'));
+    toast.success(next.includes(id) ? 'Agregado a favoritos' : 'Quitado de favoritos');
+  };
+  return { favorites, toggleFavorite };
+}
+function ReactUseFavoritesEffect(setFavorites: (items: string[]) => void) {
+  useEffect(() => {
+    const refresh = () => setFavorites(getFavorites());
+    refresh();
+    window.addEventListener('ferremax:favorites-updated', refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener('ferremax:favorites-updated', refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, [setFavorites]);
+}
+
 export function ProductCard({ p }: { p: Product }) {
   const { addToCart } = useApp();
+  const { favorites, toggleFavorite } = useFavorites();
   return (
     <article className="product-card">
       <Link to={'/productos/' + p.slug} className="product-picture">
@@ -36,6 +71,11 @@ export function ProductCard({ p }: { p: Product }) {
           <span className="limited">Últimas unidades</span>
         )}
       </Link>
+      <button type="button" className={'favorite-button ' + (favorites.includes(p.id) ? 'active' : '')}
+        aria-label={(favorites.includes(p.id) ? 'Quitar de favoritos: ' : 'Guardar en favoritos: ') + p.name}
+        aria-pressed={favorites.includes(p.id)} onClick={() => toggleFavorite(p.id)}>
+        <Heart size={19} fill={favorites.includes(p.id) ? 'currentColor' : 'none'} />
+      </button>
       <div className="product-info">
         <small>{p.category}</small>
         <Link to={'/productos/' + p.slug}>
@@ -212,6 +252,9 @@ export function Catalog() {
   const [sort, setSort] = useState('featured');
   const [onlyStock, setOnlyStock] = useState(false);
   const [filters, setFilters] = useState(false);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
+  const [maxPrice, setMaxPrice] = useState('');
+  const { favorites } = useFavorites();
   const term = params.get('q') || '',
     category = params.get('categoria') || '';
   const filtered = useMemo(() => {
@@ -219,7 +262,9 @@ export function Catalog() {
       (p: Product) =>
         (!category || p.categoryId === category) &&
         (!term || `${p.name} ${p.brand} ${p.sku}`.toLowerCase().includes(term.toLowerCase())) &&
-        (!onlyStock || p.availableStock > 0),
+        (!onlyStock || p.availableStock > 0) &&
+        (!onlyFavorites || favorites.includes(p.id)) &&
+        (!maxPrice || p.price <= Number(maxPrice)),
     );
     return rows.sort((a: Product, b: Product) =>
       sort === 'low'
@@ -228,9 +273,11 @@ export function Catalog() {
           ? b.price - a.price
           : sort === 'name'
             ? a.name.localeCompare(b.name)
-            : Number(b.featured) - Number(a.featured),
+            : sort === 'stock'
+              ? b.availableStock - a.availableStock
+              : Number(b.featured) - Number(a.featured),
     );
-  }, [products, term, category, sort, onlyStock]);
+  }, [products, term, category, sort, onlyStock, onlyFavorites, favorites, maxPrice]);
   const update = (k: string, v: string) => {
     const next = new URLSearchParams(params);
     v ? next.set(k, v) : next.delete(k);
@@ -275,6 +322,7 @@ export function Catalog() {
                 <option value="low">Menor precio</option>
                 <option value="high">Mayor precio</option>
                 <option value="name">Nombre</option>
+                <option value="stock">Mayor disponibilidad</option>
               </select>
             </label>
           </div>
@@ -307,6 +355,22 @@ export function Catalog() {
                 />
                 Solo productos con stock
               </label>
+              <div className="filter-divider" />
+              <h3>Mis favoritos</h3>
+              <label className="checkbox">
+                <input type="checkbox" checked={onlyFavorites} onChange={e => setOnlyFavorites(e.target.checked)} />
+                Solo favoritos ({favorites.length})
+              </label>
+              <div className="filter-divider" />
+              <h3>Presupuesto</h3>
+              <label className="price-filter-label" htmlFor="max-price">Precio máximo (S/)</label>
+              <input id="max-price" className="price-filter-input" type="number" min="0" step="0.01"
+                placeholder="Ej. 150" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} />
+              {(category || term || onlyStock || onlyFavorites || maxPrice) && (
+                <button type="button" className="clear-filters" onClick={() => {
+                  setParams(new URLSearchParams()); setOnlyStock(false); setOnlyFavorites(false); setMaxPrice('');
+                }}><X size={16} /> Limpiar filtros</button>
+              )}
               <div className="filter-help">
                 <Plug size={25} />
                 <h4>¿Una mano con tu proyecto?</h4>

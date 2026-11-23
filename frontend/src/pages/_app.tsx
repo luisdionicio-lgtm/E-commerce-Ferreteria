@@ -5,6 +5,7 @@ import { AppProvider } from '../state/context';
 import '../styles/global.css';
 import '../styles/ui-refinement.css';
 import '../styles/orders.css';
+import '../styles/ferremax-premium.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

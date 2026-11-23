@@ -876,3 +876,14 @@ textarea::placeholder {
     padding-inline: 6px;
   }
 }
+
+/* Mejoras 2026: favoritos, presupuesto y accesibilidad de tarjetas */
+.product-card { position: relative; transition: transform .2s ease, box-shadow .2s ease; }
+.product-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(18,30,23,.12); }
+.favorite-button { position: absolute; top: 48px; right: 12px; z-index: 2; display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; border: 1px solid #d9ded9; background: #fff; color: #48534b; cursor: pointer; box-shadow: 0 2px 10px #00000013; }
+.favorite-button.active { color: #c33138; background: #fff3f3; border-color: #e7b6b8; }
+.favorite-button:hover { transform: scale(1.07); }
+.price-filter-label { display: block; margin: 10px 0 7px; font-size: 14px; }
+.price-filter-input { width: 100%; max-width: 240px; padding: 10px 12px; border: 1px solid #c7cfc8; border-radius: 9px; background: white; color: #17231e; }
+.clear-filters { display: flex; align-items: center; gap: 7px; margin: 18px 0; padding: 9px 12px; border: 1px solid #c7cfc8; border-radius: 8px; background: white; color: #17231e; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .product-card, .favorite-button { transition: none; } .product-card:hover { transform: none; } }
