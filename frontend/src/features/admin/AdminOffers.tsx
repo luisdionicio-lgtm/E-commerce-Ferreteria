@@ -82,29 +82,38 @@ export default function AdminOffers() {
 
       <div className="admin-offer-summary">
         <article>
-          <span><ShoppingBag size={19} /> Ofertas publicadas</span>
+          <span>
+            <ShoppingBag size={19} /> Ofertas publicadas
+          </span>
           <strong>{activeOffers}</strong>
           <small>productos visibles en la tienda</small>
         </article>
         <article>
-          <span><BadgePercent size={19} /> Mayor descuento</span>
+          <span>
+            <BadgePercent size={19} /> Mayor descuento
+          </span>
           <strong>{topDiscount}%</strong>
           <small>promoción más atractiva</small>
         </article>
         <div className="admin-offer-tip">
           <Tag size={22} />
-          <p><strong>Actualización inmediata</strong>Un descuento mayor a 0% publica el producto en Ofertas.</p>
+          <p>
+            <strong>Actualización inmediata</strong>Un descuento mayor a 0% publica el producto en
+            Ofertas.
+          </p>
         </div>
       </div>
 
       <div className="admin-offer-toolbar">
         <SearchInput value={term} onChange={setTerm} placeholder="Buscar producto, marca o SKU…" />
         <div className="admin-offer-tabs" aria-label="Filtrar productos por promoción">
-          {([
-            ['all', 'Todos'],
-            ['active', 'Con oferta'],
-            ['inactive', 'Sin oferta'],
-          ] as const).map(([value, label]) => (
+          {(
+            [
+              ['all', 'Todos'],
+              ['active', 'Con oferta'],
+              ['inactive', 'Sin oferta'],
+            ] as const
+          ).map(([value, label]) => (
             <button
               type="button"
               key={value}
@@ -119,17 +128,28 @@ export default function AdminOffers() {
 
       <div className="admin-offer-list">
         <div className="admin-offer-list-head">
-          <span>Producto</span><span>Precio actual</span><span>Descuento</span><span>Estado</span><span>Acción</span>
+          <span>Producto</span>
+          <span>Precio actual</span>
+          <span>Descuento</span>
+          <span>Estado</span>
+          <span>Acción</span>
         </div>
         {rows.map((product) => {
           const discount = drafts[product.id] ?? product.discount ?? 0;
-          const original = discount ? Math.round(product.price / (1 - discount / 100)) : product.price;
+          const original = discount
+            ? Math.round(product.price / (1 - discount / 100))
+            : product.price;
           const changed = discount !== (product.discount || 0);
           return (
             <article className="admin-offer-row" key={product.id}>
               <div className="admin-offer-product">
                 <img src={product.image} alt="" />
-                <div><strong>{product.name}</strong><small>{product.brand} · {product.sku}</small></div>
+                <div>
+                  <strong>{product.name}</strong>
+                  <small>
+                    {product.brand} · {product.sku}
+                  </small>
+                </div>
               </div>
               <div className="admin-offer-price">
                 <strong>{money(product.price)}</strong>
@@ -141,10 +161,17 @@ export default function AdminOffers() {
                   aria-label={'Descuento para ' + product.name}
                   value={discount}
                   onChange={(event) =>
-                    setDrafts((current) => ({ ...current, [product.id]: Number(event.target.value) }))
+                    setDrafts((current) => ({
+                      ...current,
+                      [product.id]: Number(event.target.value),
+                    }))
                   }
                 >
-                  {discountOptions.map((value) => <option value={value} key={value}>{value}%</option>)}
+                  {discountOptions.map((value) => (
+                    <option value={value} key={value}>
+                      {value}%
+                    </option>
+                  ))}
                 </select>
               </label>
               <span className={'admin-offer-status ' + (discount ? 'published' : '')}>
@@ -163,7 +190,10 @@ export default function AdminOffers() {
           );
         })}
         {!rows.length && (
-          <div className="admin-offer-empty"><Search size={24} />No encontramos productos con esos filtros.</div>
+          <div className="admin-offer-empty">
+            <Search size={24} />
+            No encontramos productos con esos filtros.
+          </div>
         )}
       </div>
     </section>

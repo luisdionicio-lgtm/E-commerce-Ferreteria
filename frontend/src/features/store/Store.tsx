@@ -33,22 +33,16 @@ import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
 import BrandLogo from '../../components/BrandLogo';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
-function FavoriteButton({
-  p,
-  className,
-  size,
-}: {
-  p: Product;
-  className: string;
-  size: number;
-}) {
+function FavoriteButton({ p, className, size }: { p: Product; className: string; size: number }) {
   const { isFavorite, toggleFavorite } = useApp();
   const saved = isFavorite(p.id);
   return (
     <button
       type="button"
       className={className + (saved ? ' is-saved' : '')}
-      aria-label={(saved ? 'Quitar ' : 'Guardar ') + p.name + (saved ? ' de favoritos' : ' en favoritos')}
+      aria-label={
+        (saved ? 'Quitar ' : 'Guardar ') + p.name + (saved ? ' de favoritos' : ' en favoritos')
+      }
       aria-pressed={saved}
       onClick={() => toggleFavorite(p)}
     >
@@ -581,9 +575,10 @@ export function Offers() {
   const [filters, setFilters] = useState(false);
 
   const offers = useMemo<OfferRow[]>(
-    () => products
-      .filter((product: Product) => product.active && product.discount > 0)
-      .map((product: Product) => ({ product, discount: product.discount })),
+    () =>
+      products
+        .filter((product: Product) => product.active && product.discount > 0)
+        .map((product: Product) => ({ product, discount: product.discount })),
     [products],
   );
 
