@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { useApp } from '../state/context';
 import BrandLogo from '../components/BrandLogo';
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-  const { cart, settings, user, categories } = useApp();
+  const { cart, favorites, settings, user, categories } = useApp();
   const [term, setTerm] = useState('');
   const [open, setOpen] = useState(false);
   const go = useNavigate();
@@ -109,10 +109,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </NavLink>
           <Link
             className="favorites-link"
-            to="/catalogo?orden=destacados"
-            aria-label="Ver productos favoritos"
+            to="/favoritos"
+            aria-label={`Ver mis favoritos (${favorites.length})`}
           >
             <Heart size={25} />
+            {favorites.length > 0 && <span>{favorites.length}</span>}
           </Link>
           <Link className="cart-link" to="/carrito" aria-label="Ver carrito">
             <ShoppingCart size={24} />
@@ -187,6 +188,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <Link to={user ? '/mi-cuenta' : '/ingresar'}>Mi cuenta</Link>
           <Link to="/mis-pedidos">Mis pedidos</Link>
           <Link to="/carrito">Mi carrito</Link>
+          <Link to="/favoritos">Mis favoritos</Link>
           <Link to="/ofertas">Productos destacados</Link>
           <Link to="/login">Acceso del personal</Link>
         </nav>

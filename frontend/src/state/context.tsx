@@ -35,6 +35,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [version, setVersion] = useState(0);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartReady, setCartReady] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favoritesReady, setFavoritesReady] = useState(false);
+  useEffect(() => {
+    try {
+      const raw = JSON.parse(localStorage.getItem('ferremax-favorites') || '[]');
+      if (Array.isArray(raw))
+        setFavorites([...new Set(raw.filter((id): id is string => typeof id === 'string'))]);
+    } catch {
+      /* Invalid local data starts an empty favorites list. */
+    }
+    setFavoritesReady(true);
+  }, []);
+  useEffect(() => {
+    if (favoritesReady)
+      try {
+        localStorage.setItem('ferremax-favorites', JSON.stringify(favorites));
+      } catch {
+        /* Private browsing can disable storage. */
+      }
+  }, [favorites, favoritesReady]);
+  const isFavorite = (productId: string) => favorites.includes(productId);
+  const toggleFavorite = (p: Product) => {
+    const saved = favorites.includes(p.id);
+    setFavorites((old) => (saved ? old.filter((id) => id !== p.id) : [...old, p.id]));
+    toast.success(saved ? 'Producto quitado de favoritos' : 'Producto guardado en favoritos');
+  };
   useEffect(() => {
     try {
       const raw = JSON.parse(localStorage.getItem('ferremax-cart') || '[]');
@@ -152,6 +178,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         cart,
         setCart,
         addToCart,
+        favorites,
+        favoritesReady,
+        setFavorites,
+        isFavorite,
+        toggleFavorite,
         signIn,
         signUp,
         signOut,

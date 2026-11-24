@@ -1,0 +1,65 @@
+/* Favoritos: corazón activo, contador del encabezado y página /favoritos */
+
+.product-card {
+  position: relative;
+}
+
+.catalog-favorite.is-saved,
+.offer-favorite.is-saved,
+.detail-favorite.is-saved {
+  color: #c40e0e;
+}
+
+.favorites-link {
+  position: relative;
+}
+
+.favorites-link > span {
+  position: absolute;
+  right: -4px;
+  top: -2px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #c40e0e;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.detail-favorite {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.favorites-page {
+  padding-bottom: 64px;
+}
+
+.favorites-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.favorites-heading .text-link {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.favorites-page .product-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
