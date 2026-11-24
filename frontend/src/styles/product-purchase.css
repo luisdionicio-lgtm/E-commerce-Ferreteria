@@ -1,0 +1,56 @@
+/* Precio anterior, descuento y selector de cantidad */
+
+.product-card .product-price .price-before,
+.detail-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+
+.price-before del,
+.detail-offer del {
+  color: #5f655f;
+  font-size: 13px;
+}
+
+.detail-offer del {
+  font-size: 18px;
+}
+
+.price-before b,
+.detail-offer b {
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #c40e0e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.detail-quantity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  color: #2c332d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.detail-quantity .quantity button {
+  width: 44px;
+  height: 44px;
+  color: #161a17;
+}
+
+.detail-quantity .quantity button:disabled {
+  opacity: 0.35;
+}
+
+.detail-quantity .quantity span {
+  width: 40px;
+  color: #161a17;
+  font-size: 16px;
+}

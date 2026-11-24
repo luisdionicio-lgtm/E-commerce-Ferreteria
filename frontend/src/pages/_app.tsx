@@ -12,6 +12,7 @@ import '../styles/catalog-redesign.css';
 import '../styles/offers-redesign.css';
 import '../styles/admin-offers.css';
 import '../styles/favorites.css';
+import '../styles/product-purchase.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

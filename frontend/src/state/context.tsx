@@ -125,22 +125,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
         /* Private browsing can disable storage. */
       }
   }, [cart, cartReady]);
-  const addToCart = (p: Product) => {
+  const addToCart = (p: Product, quantity = 1) => {
     const current = cart.find((c) => c.productId === p.id)?.quantity || 0;
     if (current >= p.availableStock) {
       toast.error('No hay más stock disponible');
+      return;
+    }
+    if (current + quantity > p.availableStock) {
+      toast.error(
+        `Ya tienes ${current} en el carrito. Solo puedes agregar ${p.availableStock - current} más.`,
+      );
       return;
     }
     setCart((old) =>
       old.some((c) => c.productId === p.id)
         ? old.map((c) =>
             c.productId === p.id
-              ? { ...c, quantity: Math.min(p.availableStock, c.quantity + 1) }
+              ? { ...c, quantity: Math.min(p.availableStock, c.quantity + quantity) }
               : c,
           )
-        : [...old, { productId: p.id, quantity: 1 }],
+        : [...old, { productId: p.id, quantity }],
     );
-    toast.success('Producto agregado al carrito');
+    toast.success(
+      quantity > 1 ? `${quantity} unidades agregadas al carrito` : 'Producto agregado al carrito',
+    );
   };
   const signIn = async (email: string, password: string) => {
     const d = await send('/auth/login', { email, password });

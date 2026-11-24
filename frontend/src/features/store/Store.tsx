@@ -32,6 +32,7 @@ import { send } from '../../services/api';
 import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
 import BrandLogo from '../../components/BrandLogo';
+import { normalizeText, originalPrice } from '../../utils/catalog';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
 function FavoriteButton({ p, className, size }: { p: Product; className: string; size: number }) {
   const { isFavorite, toggleFavorite } = useApp();
@@ -48,6 +49,15 @@ function FavoriteButton({ p, className, size }: { p: Product; className: string;
     >
       <Heart size={size} fill={saved ? 'currentColor' : 'none'} />
     </button>
+  );
+}
+function PriceBefore({ p, className }: { p: Product; className: string }) {
+  if (!(p.discount > 0)) return null;
+  return (
+    <span className={className}>
+      <del>{money(originalPrice(p.price, p.discount))}</del>
+      <b>-{p.discount}%</b>
+    </span>
   );
 }
 export function ProductCard({
@@ -76,6 +86,7 @@ export function ProductCard({
         </Link>
         <div className="product-price">
           <div>
+            <PriceBefore p={p} className="price-before" />
             <strong>{money(p.price)}</strong>
             <span>/ {p.unit}</span>
           </div>
@@ -340,10 +351,11 @@ export function Catalog() {
   const term = params.get('q') || '',
     category = params.get('categoria') || '';
   const filtered = useMemo(() => {
+    const needle = normalizeText(term);
     const rows = products.filter(
       (p: Product) =>
         (!category || p.categoryId === category) &&
-        (!term || `${p.name} ${p.brand} ${p.sku}`.toLowerCase().includes(term.toLowerCase())) &&
+        (!needle || normalizeText(`${p.name} ${p.brand} ${p.sku}`).includes(needle)) &&
         (!onlyStock || p.availableStock > 0) &&
         (!minPrice || p.price >= Number(minPrice) * 100) &&
         (!maxPrice || p.price <= Number(maxPrice) * 100),
@@ -534,7 +546,6 @@ type OfferRow = { product: Product; discount: number };
 
 function OfferCard({ p, discount }: { p: Product; discount: number }) {
   const { addToCart } = useApp();
-  const originalPrice = Math.round(p.price / (1 - discount / 100));
   return (
     <article className="offer-card">
       <Link to={'/productos/' + p.slug} className="offer-card-picture">
@@ -550,7 +561,7 @@ function OfferCard({ p, discount }: { p: Product; discount: number }) {
         <div className="offer-card-buy">
           <div>
             <strong>{money(p.price)}</strong>
-            <del>{money(originalPrice)}</del>
+            <del>{money(originalPrice(p.price, discount))}</del>
           </div>
           <button
             type="button"
@@ -781,7 +792,7 @@ export function Offers() {
 
 export function ProductDetail() {
   const { slug } = useParams();
-  const { products, addToCart, catalogError, catalogLoading } = useApp();
+  const { products, catalogError, catalogLoading } = useApp();
   const p = products.find((x: Product) => x.slug === slug);
   if (catalogError) return <ErrorBox message={catalogError} />;
   if (catalogLoading) return <Loading />;
@@ -805,14 +816,12 @@ export function ProductDetail() {
             {p.availableStock} unidades disponibles
           </span>
           <p>{p.description}</p>
+          <PriceBefore p={p} className="detail-offer" />
           <strong className="detail-price">
             {money(p.price)}
             <small> / {p.unit}</small>
           </strong>
-          <button className="btn primary" disabled={!p.availableStock} onClick={() => addToCart(p)}>
-            <ShoppingBag size={19} />
-            Agregar al carrito
-          </button>
+          <DetailPurchase key={p.id} p={p} />
           <DetailFavorite p={p} />
           <div className="detail-benefits">
             <span>
@@ -852,6 +861,46 @@ export function ProductDetail() {
           ))}
       </div>
     </div>
+  );
+}
+function DetailPurchase({ p }: { p: Product }) {
+  const { addToCart } = useApp();
+  const [quantity, setQuantity] = useState(1);
+  return (
+    <>
+      {p.availableStock > 0 && (
+        <div className="detail-quantity" role="group" aria-label="Cantidad">
+          Cantidad
+          <div className="quantity">
+            <button
+              type="button"
+              aria-label="Disminuir cantidad"
+              disabled={quantity <= 1}
+              onClick={() => setQuantity(quantity - 1)}
+            >
+              <Minus size={16} />
+            </button>
+            <span aria-live="polite">{quantity}</span>
+            <button
+              type="button"
+              aria-label="Aumentar cantidad"
+              disabled={quantity >= p.availableStock}
+              onClick={() => setQuantity(quantity + 1)}
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+        </div>
+      )}
+      <button
+        className="btn primary"
+        disabled={!p.availableStock}
+        onClick={() => addToCart(p, quantity)}
+      >
+        <ShoppingBag size={19} />
+        Agregar al carrito
+      </button>
+    </>
   );
 }
 function DetailFavorite({ p }: { p: Product }) {
