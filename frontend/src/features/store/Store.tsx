@@ -33,6 +33,23 @@ import { toast } from 'sonner';
 import ProductGallery from '../../components/ProductGallery';
 import BrandLogo from '../../components/BrandLogo';
 const icons = [Drill, PaintBucket, Zap, Wrench, HardHat, ShieldCheck];
+function FavoriteButton({ p, className, size }: { p: Product; className: string; size: number }) {
+  const { isFavorite, toggleFavorite } = useApp();
+  const saved = isFavorite(p.id);
+  return (
+    <button
+      type="button"
+      className={className + (saved ? ' is-saved' : '')}
+      aria-label={
+        (saved ? 'Quitar ' : 'Guardar ') + p.name + (saved ? ' de favoritos' : ' en favoritos')
+      }
+      aria-pressed={saved}
+      onClick={() => toggleFavorite(p)}
+    >
+      <Heart size={size} fill={saved ? 'currentColor' : 'none'} />
+    </button>
+  );
+}
 export function ProductCard({
   p,
   catalogVariant = false,
@@ -43,6 +60,7 @@ export function ProductCard({
   const { addToCart } = useApp();
   return (
     <article className="product-card">
+      <FavoriteButton p={p} className="catalog-favorite" size={20} />
       <Link to={'/productos/' + p.slug} className="product-picture">
         {catalogVariant && p.featured && <span className="catalog-card-badge">Destacado</span>}
         <span className="product-tag">{p.brand}</span>
@@ -51,16 +69,6 @@ export function ProductCard({
           <span className="limited">Últimas unidades</span>
         )}
       </Link>
-      {catalogVariant && (
-        <button
-          type="button"
-          className="catalog-favorite"
-          aria-label={'Guardar ' + p.name + ' en favoritos'}
-          onClick={() => toast.success('Producto guardado para revisar después')}
-        >
-          <Heart size={20} />
-        </button>
-      )}
       <div className="product-info">
         <small>{p.category}</small>
         <Link to={'/productos/' + p.slug}>
@@ -534,14 +542,7 @@ function OfferCard({ p, discount }: { p: Product; discount: number }) {
         <span className="offer-brand">{p.brand}</span>
         <img src={p.image} alt={p.name} loading="lazy" />
       </Link>
-      <button
-        type="button"
-        className="offer-favorite"
-        aria-label={'Guardar ' + p.name + ' en favoritos'}
-        onClick={() => toast.success('Oferta guardada para revisar después')}
-      >
-        <Heart size={21} />
-      </button>
+      <FavoriteButton p={p} className="offer-favorite" size={21} />
       <div className="offer-card-copy">
         <Link to={'/productos/' + p.slug}>
           <h3>{p.name}</h3>
@@ -574,9 +575,10 @@ export function Offers() {
   const [filters, setFilters] = useState(false);
 
   const offers = useMemo<OfferRow[]>(
-    () => products
-      .filter((product: Product) => product.active && product.discount > 0)
-      .map((product: Product) => ({ product, discount: product.discount })),
+    () =>
+      products
+        .filter((product: Product) => product.active && product.discount > 0)
+        .map((product: Product) => ({ product, discount: product.discount })),
     [products],
   );
 
@@ -811,6 +813,7 @@ export function ProductDetail() {
             <ShoppingBag size={19} />
             Agregar al carrito
           </button>
+          <DetailFavorite p={p} />
           <div className="detail-benefits">
             <span>
               <ShieldCheck size={18} />
@@ -848,6 +851,66 @@ export function ProductDetail() {
             <ProductCard p={x} key={x.id} />
           ))}
       </div>
+    </div>
+  );
+}
+function DetailFavorite({ p }: { p: Product }) {
+  const { isFavorite, toggleFavorite } = useApp();
+  const saved = isFavorite(p.id);
+  return (
+    <button
+      type="button"
+      className={'btn secondary detail-favorite' + (saved ? ' is-saved' : '')}
+      aria-pressed={saved}
+      onClick={() => toggleFavorite(p)}
+    >
+      <Heart size={19} fill={saved ? 'currentColor' : 'none'} />
+      {saved ? 'Guardado en favoritos' : 'Guardar en favoritos'}
+    </button>
+  );
+}
+export function Favorites() {
+  const { products, favorites, favoritesReady, catalogError, catalogLoading, setFavorites } =
+    useApp();
+  if (catalogError) return <ErrorBox message={catalogError} />;
+  if (!favoritesReady || catalogLoading) return <Loading />;
+  const saved = favorites
+    .map((id: string) => products.find((p: Product) => p.id === id))
+    .filter((p: Product | undefined): p is Product => Boolean(p && p.active));
+  return (
+    <div className="store-container favorites-page">
+      <div className="store-breadcrumb">
+        <Link to="/catalogo">Catálogo</Link>
+        <ChevronRight size={14} />
+        Mis favoritos
+      </div>
+      <span className="eyebrow">LO QUE GUARDASTE PARA DESPUÉS</span>
+      <div className="favorites-heading">
+        <h1>Mis favoritos.</h1>
+        {saved.length > 0 && (
+          <button type="button" className="text-link" onClick={() => setFavorites([])}>
+            Vaciar favoritos
+          </button>
+        )}
+      </div>
+      {!saved.length ? (
+        <>
+          <Empty
+            title="Todavía no guardaste productos"
+            description="Toca el corazón de cualquier producto para tenerlo a mano aquí."
+          />
+          <Link className="btn primary" to="/catalogo">
+            Ver productos
+            <ArrowRight size={18} />
+          </Link>
+        </>
+      ) : (
+        <div className="product-grid catalog-product-grid grid">
+          {saved.map((p: Product) => (
+            <ProductCard key={p.id} p={p} catalogVariant />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
